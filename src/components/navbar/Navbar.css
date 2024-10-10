@@ -1,0 +1,32 @@
+.navbar-container {
+  width: 100%;
+  display: block;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar-wrapper {
+  justify-content: space-between;
+  width: 90%;
+}
+
+.navbar-options {
+  width: 40%;
+  justify-content: space-evenly;
+}
+
+@media (max-width: 1200px) {
+  .navbar-options {
+    width: 60%;
+    justify-content: space-evenly;
+  }
+}

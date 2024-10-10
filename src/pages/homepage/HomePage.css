@@ -1,0 +1,63 @@
+.homepage-wrapper {
+    width: 100vw;
+    height: 98vh;
+    display: flex;
+    justify-content: center;
+}
+
+.homepage-container {
+    width: 90%;
+    display: grid;
+    grid-template-columns: 70% 30%;
+    gap: 10px;
+    margin: 2rem 0;
+}
+
+.title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 2rem 0;
+}
+
+.search-container {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 80% 20%;
+    gap: 5px;
+    margin: 2rem 0;
+}
+
+.predmet {
+    background-color: white;
+    border-radius: 16px;
+    padding: 20px;
+    margin: 20px 0px;
+}
+
+.predmet-text {
+    padding: 0px;
+    margin: 0px;
+}
+
+
+.link-no-style {
+    text-decoration: none;
+    color: inherit;
+}
+
+@media (max-width: 1200px) {
+    .professor-image {
+        height: 5rem;
+        width: 5rem;
+    }
+
+    .professor {
+        flex-direction: column;
+        align-items: baseline;
+    }
+
+    .homepage-container {
+        grid-template-columns: 60% 40%;
+    }
+}

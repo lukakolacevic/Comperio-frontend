@@ -1,0 +1,115 @@
+export async function getProfessors() {
+  try {
+    const response = await fetch(
+      import.meta.env.VITE_REACT_BACKEND_URL + "/professors",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const professors = await response.json();
+    console.log("Professors returned from database!")
+    return professors;
+  } catch (error) {
+    console.error("There has been a problem with your fetch operation:", error);
+  }
+}
+
+export async function sentInstructionDate(selectedDate, professorId, subjectId) {
+
+  try {
+    const response = await fetch(
+      import.meta.env.VITE_REACT_BACKEND_URL + "/sessions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          dateTime: selectedDate,
+          professorId: professorId,
+          subjectId: subjectId
+        })
+      }
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const date = await response.json();
+    return date;
+  } catch (error) {
+    console.error("There has been a problem with your fetch operation:", error);
+  }
+}
+
+export async function getStudentSessions() {
+  const response = await fetch(
+    `${import.meta.env.VITE_REACT_BACKEND_URL}/student/sessions`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    }
+  );
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  const instructions = await response.json();
+  return instructions;
+}
+
+export async function getProfessorSessions() {
+  const response = await fetch(
+    `${import.meta.env.VITE_REACT_BACKEND_URL}/professor/sessions`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const sessions = response.json()
+  return sessions;
+}
+
+export async function manageSessionRequest(sessionId, newStatus) {
+  try {
+    const response = await fetch(
+      import.meta.env.VITE_REACT_BACKEND_URL + "/sessions",
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          sessionId: sessionId,
+          newStatus: newStatus  
+        })
+      }
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const responseJSON = await response.json();
+    return responseJSON;
+  } catch (error) {
+    console.error("There has been a problem with your fetch operation:", error);
+    throw error;
+  }
+}
