@@ -12,7 +12,8 @@ function HomePage() {
   return (
     <>
       <div className="navbar-container">
-        <div className="flex-row navbar-wrapper">
+        {loggedIn ? (
+          <div className="flex-row navbar-wrapper">
           <div>
             <Link to="/">
               <img src="/logo/dotInstrukcije-logo.png" />
@@ -20,35 +21,30 @@ function HomePage() {
           </div>
 
           <div className="flex-row navbar-options">
-            {loggedIn ? (
-              <>
-                <Link to="/">
-                  <Button variant="contained">Pretraži</Button>
+            <>
+              <Link to="/">
+                <Button variant="contained">Pretraži</Button>
+              </Link>
+              <Link to="/profile">
+                <Button variant="contained">Moje instrukcije</Button>
+              </Link>
+              <Link to="/settings">
+                <Button variant="contained">Postavke</Button>
+              </Link>
+              {user.status === "professor" && (
+                <Link to="/new">
+                  <Button variant="contained">Novi predmet</Button>
                 </Link>
-                <Link to="/profile">
-                  <Button variant="contained">Moje instrukcije</Button>
-                </Link>
-                <Link to="/settings">
-                  <Button variant="contained">Postavke</Button>
-                </Link>
-                {user.status === "professor" && (
-                  <Link to="/new">
-                    <Button variant="contained">Novi predmet</Button>
-                  </Link>
-                )}
-                <Button variant="contained" onClick={logout}>
-                  Odjavi se
-                </Button>
-              </>
-            ) : (
-              <>
-                <Link to="/login">
-                  <Button variant="contained">Prijavi se</Button>
-                </Link>
-              </>
-            )}
+              )}
+              <Button variant="contained" onClick={logout}>
+                Odjavi se
+              </Button>
+            </>
           </div>
         </div>
+        ) : (
+          <></>
+        )}
       </div>
     </>
   );
