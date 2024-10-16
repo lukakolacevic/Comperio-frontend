@@ -2,6 +2,7 @@ import { Button, InputLabel } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { handleLogin } from "../../api/AuthApi";
+import { Message } from 'primereact/message';
 
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -17,23 +18,44 @@ function LoginPage() {
   const [professorEmail, setProfessorEmail] = useState("");
   const [professorPassword, setProfessorPassword] = useState("");
 
+  const [errorMessage, setErrorMessage] = useState(null);
+
   function handleStudentSubmit(event) {
     event.preventDefault();
+
     const data = {
       email: studentEmail,
       password: studentPassword,
     };
-    handleLogin(data, "student");
+
+    (async () => {
+      try {
+        await handleLogin(data, "student");
+      } catch (error) {
+        console.error("Error in student login:", error); // Log the actual error
+        setErrorMessage("Krivi e-mail ili lozinka. Molim vas pokušajte ponovno.");
+      }
+    })();
   }
 
   function handleProfessorSubmit(event) {
     event.preventDefault();
+
     const data = {
       email: professorEmail,
       password: professorPassword,
     };
-    handleLogin(data, "professor");
+
+    (async () => {
+      try {
+        await handleLogin(data, "professor");
+      } catch (error) {
+        console.error("Error in professor login:", error); // Log the actual error
+        setErrorMessage("Krivi e-mail ili lozinka. Molim vas pokušajte ponovno.");
+      }
+    })();
   }
+
 
   return (
     <>
@@ -95,6 +117,9 @@ function LoginPage() {
                 Odbaci
               </Button>
             </form>
+            <div className="error-message">
+              {errorMessage && (<Message severity="error" text={errorMessage} />)}
+            </div>
           </div>
         </div>
       ) : (
@@ -155,6 +180,10 @@ function LoginPage() {
                 Odbaci
               </Button>
             </form>
+            <div className="error-message">
+              {errorMessage && (<Message severity="error" text={errorMessage} />)}
+            </div>
+
           </div>
         </div>
       )}
