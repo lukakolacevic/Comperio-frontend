@@ -1,11 +1,7 @@
 import axios from "axios";
 
 export const handleLogin = async (data, user) => {
-  console.log(import.meta.env);
-  console.log("Backend URL:", import.meta.env.VITE_REACT_BACKEND_URL);
-
   try {
-    // Send a POST request to the /login/student endpoint
     const response = await fetch(
       import.meta.env.VITE_REACT_BACKEND_URL + "/login/" + user,
       {
@@ -17,16 +13,12 @@ export const handleLogin = async (data, user) => {
       }
     );
 
-    // Check if the request was successful
     if (response.ok) {
       const result = await response.json();
-      
 
-      // Clear previous token and user data
       localStorage.removeItem("token");
       localStorage.removeItem("user");
 
-      // Save the token to the local storage
       localStorage.setItem("token", result.token);
       if (user === "student") {
         result.student.status = "student";
@@ -40,12 +32,15 @@ export const handleLogin = async (data, user) => {
       );
       window.location.href = "/";
     } else {
-      console.error("Failed to login");
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to login");
     }
   } catch (error) {
-    console.error("An error occurred:", error);
+    console.error("An error occurred in handleLogin:", error);
+    throw error; // Propagate the error to the calling function
   }
 };
+
 
 export const handlerRegister = async (formData, user) => {
   try {
