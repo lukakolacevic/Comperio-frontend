@@ -10,6 +10,7 @@ function ProfilePage() {
   }
   let user = JSON.parse(localStorage.getItem('user'));
   const userType = user.status;
+  console.log(user);
 
   const [pastSessions, setPastSessions] = useState([]);
   const [upcomingSessions, setUpcomingSessions] = useState([]);
@@ -38,7 +39,7 @@ function ProfilePage() {
     };
 
     fetchSessions();
-    
+
   }, [userType]);
 
   return (
@@ -46,7 +47,15 @@ function ProfilePage() {
       <div className="profilepage-wrapper">
         <div className="profilepage-container">
           <div className="student-info">
-            <img src={user.image} className="student-image" />
+            <img
+              src={
+                user.profilePictureBase64String
+                  ? `data:image/jpeg;base64,${user.profilePictureBase64String}`
+                  : "/placeholder.png"
+              }
+              className="professor-image"
+              alt={user.name}
+            />
             <div>
               <h1>{user.name} {user.surname}</h1>
               <p>{user.description}</p>
