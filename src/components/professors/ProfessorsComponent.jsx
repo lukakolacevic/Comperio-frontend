@@ -1,10 +1,10 @@
 import { Button } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./ProfessorsComponent.css";
 import DateTimeDialog from "../dialog/DateTimeDialog";
 import { useParams } from "react-router-dom";
 import { getSubject } from "../../api/SubjectApi";
-import SubjectPage from "../../pages/subject/SubjectPage";
+import { Toast } from 'primereact/toast'; // Import PrimeReact Toast
 
 function ProfessorsComponent({
   professors,      // Used on the home page and subject page
@@ -17,19 +17,16 @@ function ProfessorsComponent({
 }) {
   const [selectedProfessorId, setSelectedProfessorId] = useState(null);
   const [subjectId, setSubjectId] = useState(null);
-
   const { subjectName } = useParams(); // This will be undefined on the main page
+  const successToast = useRef(null);  // Ref for the success toast
 
   useEffect(() => {
     // Fetch the subject ID if we are on the subject page
     if (subjectName) {
-
       const fetchSubjectId = async () => {
         try {
           const subjectOnPage = await getSubject(subjectName);
-
           if (subjectOnPage && subjectOnPage.subject.id) {
-
             setSubjectId(subjectOnPage.subject.id);
           } else {
             console.error("Invalid subject data received.");
@@ -37,14 +34,14 @@ function ProfessorsComponent({
           }
         } catch (error) {
           console.error("Error fetching subject ID:", error);
-          setSubjectId(null); // Reset subjectId if there's an error
+          setSubjectId(null);
         }
       };
       fetchSubjectId();
     } else {
       setSubjectId(null);
     }
-  }, [subjectName]); // Runs whenever the subjectName changes
+  }, [subjectName]); 
 
   const handleButtonClick = (professorId) => {
     setSelectedProfessorId(professorId);
@@ -52,6 +49,17 @@ function ProfessorsComponent({
 
   const handleCloseDialog = () => {
     setSelectedProfessorId(null);
+  };
+
+  const handleSuccess = () => {
+    
+    if (successToast.current) {
+      successToast.current.show({
+        severity: 'success',
+        summary: 'Zahtjev za instrukcije uspješno poslan.',
+        life: 5000
+      });
+    }
   };
 
   const renderProfessorCard = (professor, session, index) => (
@@ -83,7 +91,6 @@ function ProfessorsComponent({
 
         {showTime && session?.dateTime && (
           <div className="instructionsCount-container">
-            {/*<img src="/icons/clock-icon.svg" className="clock-icon" />*/}
             <p>{new Date(session.dateTime).toLocaleString()}</p>
           </div>
         )}
@@ -102,6 +109,7 @@ function ProfessorsComponent({
           professor={professor}
           subjectId={subjectId} // Pass subjectId if available
           isOnSubjectPage={!!subjectName} // Check if on the subject page
+          onSuccess={handleSuccess}  // Handle success toast
         />
       )}
     </div>
@@ -109,6 +117,9 @@ function ProfessorsComponent({
 
   return (
     <div className="professor-container">
+      {/* Toast for showing success messages */}
+      <Toast ref={successToast} position="top-center" />
+
       {/* If sessions exist, render session-based view, otherwise render professors */}
       {sessions?.length > 0
         ? sessions.map((session, index) =>

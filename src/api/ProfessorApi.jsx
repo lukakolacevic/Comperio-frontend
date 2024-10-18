@@ -22,7 +22,6 @@ export async function getProfessors() {
 }
 
 export async function sentInstructionDate(selectedDate, professorId, subjectId) {
-
   try {
     const response = await fetch(
       import.meta.env.VITE_REACT_BACKEND_URL + "/sessions",
@@ -39,15 +38,23 @@ export async function sentInstructionDate(selectedDate, professorId, subjectId) 
         })
       }
     );
+
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorData = await response.json();
+      const error = new Error(errorData.message || "An unknown error occurred.");
+      error.code = errorData.code; // Attach the error code
+      throw error; // Throw the custom error with the code
     }
+
     const date = await response.json();
     return date;
+
   } catch (error) {
-    console.error("There has been a problem with your fetch operation:", error);
+    console.error("Error in sentInstructionDate:", error);
+    throw error;  // Re-throwing the error with code to the caller
   }
 }
+
 
 export async function getStudentSessions() {
   const response = await fetch(
