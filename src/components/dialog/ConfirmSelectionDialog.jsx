@@ -24,6 +24,8 @@ function ConfirmSelectionDialog({
         rejectClassName={rejectClassName}
         accept={onConfirm}
         reject={onCancel}
+        acceptLabel='Da'       
+        rejectLabel='Ne' 
       />
       {/* Optionally include Toast if you need to show messages */}
       {/* <Toast ref={toast} /> */}
