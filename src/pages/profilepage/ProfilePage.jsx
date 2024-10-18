@@ -10,7 +10,7 @@ function ProfilePage() {
   }
   let user = JSON.parse(localStorage.getItem('user'));
   const userType = user.status;
-  console.log(user);
+  
 
   const [pastSessions, setPastSessions] = useState([]);
   const [upcomingSessions, setUpcomingSessions] = useState([]);
@@ -40,7 +40,7 @@ function ProfilePage() {
 
     fetchSessions();
 
-  }, [userType]);
+  }, [userType, pastSessions, upcomingSessions, pendingRequests, cancelledSessions]);
 
   return (
     <>
