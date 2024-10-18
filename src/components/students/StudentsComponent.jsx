@@ -26,19 +26,10 @@ function StudentsComponent({
     const [loading, setLoading] = useState(false);
     const toast = useRef(null);
 
-    // In ProfilePage component
-    
-
-    useEffect(() => {
-        console.log('Sessions Updated:', sessions);
-    }, [sessions]);
-
-
     const handleConfirm = (session) => {
-        console.log("Ovdje sam")
         setSelectedSessionId(session.sessionId);
         setShowAcceptDialog(true);
-        console.log("opet")
+        
     };
 
     const handleCancel = (session) => {
@@ -69,13 +60,12 @@ function StudentsComponent({
 
 
             try {
-                await manageSessionRequest(selectedSessionId, "Accepted");
+                await manageSessionRequest(selectedSessionId, "Confirmed");
                 setShowAcceptDialog(false);
                 if (toast.current) {
                     toast.current.show({
                         severity: 'info',
-                        summary: 'Confirmed',
-                        detail: 'Zahtjev za termin prihvaćen',
+                        summary: 'Zahtjev za termin prihvaćen',
                         life: 3000
                     });
                 }
@@ -87,14 +77,13 @@ function StudentsComponent({
                 if (toast.current) {
                     toast.current.show({
                         severity: 'warn',
-                        summary: 'Neka poruka',
-                        detail: 'Molim vas pokušajte ponovno.',
+                        summary: 'Dogodila se greška. Molim vas pokušajte ponovno.',
                         life: 3000
                     });
                 }
             }
             finally {
-                console.log("dddd")
+                
                 setLoading(false);
             }
         }
@@ -124,8 +113,7 @@ function StudentsComponent({
                 if (toast.current) {
                     toast.current.show({
                         severity: 'info',
-                        summary: 'Cancelled',
-                        detail: toastMessage,
+                        summary: toastMessage,
                         life: 3000
                     });
                 }
@@ -169,14 +157,14 @@ function StudentsComponent({
                     {isForPendingRequests && (
                         <div className="button-wrapper">
                             <PrimeButton
-                                label="Accept"
+                                label="Prihvati"
                                 severity="success"
                                 rounded
                                 onClick={() => handleConfirm(session)}
                                 disabled={loading}
                             />
                             <PrimeButton
-                                label="Reject"
+                                label="Odbij"
                                 severity="danger"
                                 rounded
                                 onClick={() => handleCancel(session)}
@@ -187,8 +175,8 @@ function StudentsComponent({
 
                     {isForUpcomingSessions && (
                         <PrimeButton
-                            label="Cancel Session"
-                            severity="warning"
+                            label="Otkaži"
+                            severity="danger"
                             className="p-button-rounded"
                             onClick={() => handleCancel(session)}
                             disabled={loading}
@@ -211,7 +199,7 @@ function StudentsComponent({
             <ConfirmSelectionDialog
                 visible={showAcceptDialog}
                 message="Jeste li sigurni da želite prihvatiti zahtjev za termin?"
-                header="Confirmation"
+                header="Prihvati zahtjev"
                 icon="pi pi-exclamation-triangle"
                 acceptClassName="p-button-primary"
                 rejectClassName="p-button-secondary"
@@ -223,7 +211,7 @@ function StudentsComponent({
             <ConfirmSelectionDialog
                 visible={showRejectDialog}
                 message={cancelMessage}
-                header="Delete Confirmation"
+                header="Odbij zahtjev"
                 icon="pi pi-info-circle"
                 acceptClassName="p-button-danger"
                 rejectClassName="p-button-secondary"
