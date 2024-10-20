@@ -4,10 +4,11 @@ import Navbar from './components/navbar/Navbar.jsx';
 import LoginPage from './pages/loginpage/LoginPage.jsx';
 import RegisterPage from './pages/registerpage/RegisterPage.jsx';
 import SubjectPage from './pages/subject/SubjectPage.jsx';
-import ProfilePage from './pages/profilepage/ProfilePage.jsx';
+import SessionPage from './pages/sessionpage/SessionPage.jsx';
 import PingPage from './pages/pages/PingPage.jsx';
 import SettingsPage from './pages/settings/SettingsPage.jsx';
 import NewSubject from './pages/newsubjectpage/NewSubjectPage.jsx';
+import ProfilePage from './pages/profilepage/ProfilePage.jsx'
 
 function App() {
   return (
@@ -19,7 +20,8 @@ function App() {
           <Route path="/subject/:subjectName" element={<SubjectPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/my-sessions" element={<SessionPage />} />
+          <Route path="/profile" element={<ProfilePage/>}/>
           <Route path="/ping" element={<PingPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/new" element={<NewSubject />} />

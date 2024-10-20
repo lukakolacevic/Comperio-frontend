@@ -25,11 +25,14 @@ function HomePage() {
               <Link to="/">
                 <Button variant="contained">Pretraži</Button>
               </Link>
-              <Link to="/profile">
+              <Link to="/my-sessions">
                 <Button variant="contained">Moje instrukcije</Button>
               </Link>
               <Link to="/settings">
                 <Button variant="contained">Postavke</Button>
+              </Link>
+              <Link to="/profile">
+                <Button variant="contained">Moj profil</Button>
               </Link>
               {user.status === "professor" && (
                 <Link to="/new">
