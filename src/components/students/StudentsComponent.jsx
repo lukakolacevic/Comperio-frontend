@@ -23,13 +23,11 @@ function StudentsComponent({
     const [showRejectDialog, setShowRejectDialog] = useState(false);
     const [cancelMessage, setCancelMessage] = useState('');
     const [toastMessage, setToastMessage] = useState('');
-    const [loading, setLoading] = useState(false);
     const toast = useRef(null);
 
     const handleConfirm = (session) => {
         setSelectedSessionId(session.sessionId);
         setShowAcceptDialog(true);
-        
     };
 
     const handleCancel = (session) => {
@@ -49,7 +47,7 @@ function StudentsComponent({
         const sessionToProcess = sessions.find(s => s.sessionId === selectedSessionId);
 
         if (sessionToProcess) {
-            setLoading(true);
+            
             // Update session status
             const updatedSession = { ...sessionToProcess, status: "Confirmed" };
 
@@ -74,6 +72,9 @@ function StudentsComponent({
                 // Revert changes on error
                 setPendingRequests(prevPending => [...prevPending, {...sessionToProcess}]);
                 setUpcomingSessions(prevUpcoming => prevUpcoming.filter(s => s.sessionId !== selectedSessionId));
+
+                setSelectedSessionId(null);
+                setShowAcceptDialog(false);
                 if (toast.current) {
                     toast.current.show({
                         severity: 'warn',
@@ -82,10 +83,7 @@ function StudentsComponent({
                     });
                 }
             }
-            finally {
-                
-                setLoading(false);
-            }
+            
         }
     };
 
@@ -93,7 +91,7 @@ function StudentsComponent({
         const sessionToCancel = sessions.find(s => s.sessionId === selectedSessionId);
 
         if (sessionToCancel) {
-            setLoading(true);
+            
             // Update session status
             const updatedSession = { ...sessionToCancel, status: "Cancelled" };
 
@@ -119,6 +117,14 @@ function StudentsComponent({
                 }
             } catch (error) {
                 console.error("Error cancelling session:", error);
+
+                if (toast.current) {
+                    toast.current.show({
+                        severity: 'warn',
+                        summary: 'Dogodila se greška. Molim vas pokušajte ponovno.',
+                        life: 3000
+                    });
+                }
                 // Revert changes on error
                 if (isForUpcomingSessions) {
                     setUpcomingSessions(prevUpcoming => [...prevUpcoming, {...sessionToCancel}]);
@@ -126,12 +132,13 @@ function StudentsComponent({
                     setPendingRequests(prevPending => [...prevPending, {...sessionToCancel}]);
                 }
                 setCancelledSessions(prevCancelled => prevCancelled.filter(s => s.sessionId !== selectedSessionId));
+
+                setShowRejectDialog(false);
+
+                setSelectedSessionId(null);
             }
 
-            finally {
-
-                setLoading(false); // Re-enable buttons after the request completes
-            }
+            
         }
     };
 
@@ -161,14 +168,14 @@ function StudentsComponent({
                                 severity="success"
                                 rounded
                                 onClick={() => handleConfirm(session)}
-                                disabled={loading}
+                                
                             />
                             <PrimeButton
                                 label="Odbij"
                                 severity="danger"
                                 rounded
                                 onClick={() => handleCancel(session)}
-                                disabled={loading}
+                                
                             />
                         </div>
                     )}
@@ -179,7 +186,7 @@ function StudentsComponent({
                             severity="danger"
                             className="p-button-rounded"
                             onClick={() => handleCancel(session)}
-                            disabled={loading}
+                            
                         />
                     )}
                 </div>
