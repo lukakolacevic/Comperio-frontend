@@ -120,3 +120,31 @@ export async function manageSessionRequest(sessionId, newStatus) {
     throw error;
   }
 }
+
+export async function removeProfessorFromSubject(professorId, subjectId){
+  try{
+    const response = await fetch(
+      import.meta.env.VITE_REACT_BACKEND_URL  + "/professor-subjects",
+      {
+        method: "DELETE",
+        headers:{
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token")
+        },
+        body: JSON.stringify({
+          professorId: professorId,
+          subjectId: subjectId
+        })
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return response.json();
+  }catch(error){
+    console.error("There has been an error with removing professor from subject.")
+    throw error;
+  }
+}
