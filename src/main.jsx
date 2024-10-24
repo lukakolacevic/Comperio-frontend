@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 
-import TestPrimeReact from "./components/TestPrimeReact.jsx";
+
 
 // Import PrimeReact stylesheets
 import 'primereact/resources/themes/saga-blue/theme.css'; // Or your chosen theme
