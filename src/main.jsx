@@ -41,7 +41,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     {/* Wrap ThemeProvider inside PrimeReactProvider */}
     <ThemeProvider theme={theme}>
-      <PrimeReactProvider>
+      <PrimeReactProvider value ={{ripple: true}}>
         <App />
       </PrimeReactProvider>
     </ThemeProvider>
