@@ -1,146 +1,17 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Toast } from 'primereact/toast';
+import React from "react";
 import "./StudentsComponent.css";
 import "../professors/ProfessorsComponent.css";
-import { manageSessionRequest } from "../../api/ProfessorApi";
 import { Button as PrimeButton } from 'primereact/button';
-import ConfirmSelectionDialog from '../dialog/ConfirmSelectionDialog';
 
 function StudentsComponent({
     sessions,
-    setSessions,
-    setUpcomingSessions,
-    setPendingRequests,
-    setCancelledSessions,
-    setPastSessions,
-    buttonText,
-    buttonVariant,
     isForPendingRequests,
-    isForUpcomingSessions
+    isForUpcomingSessions,
+    onAccept,
+    onCancel,
+    buttonText,
+    buttonVariant
 }) {
-    const [selectedSessionId, setSelectedSessionId] = useState(null);
-    const [showAcceptDialog, setShowAcceptDialog] = useState(false);
-    const [showRejectDialog, setShowRejectDialog] = useState(false);
-    const [cancelMessage, setCancelMessage] = useState('');
-    const [toastMessage, setToastMessage] = useState('');
-    const toast = useRef(null);
-
-    const handleConfirm = (session) => {
-        setSelectedSessionId(session.sessionId);
-        setShowAcceptDialog(true);
-    };
-
-    const handleCancel = (session) => {
-        setSelectedSessionId(session.sessionId);
-
-        if (session.status === "Confirmed") {
-            setCancelMessage("Jeste li sigurni da želite otkazati termin?");
-            setToastMessage("Termin otkazan.");
-        } else {
-            setCancelMessage("Jeste li sigurni da želite odbiti zahtjev za termin?");
-            setToastMessage("Zahtjev za termin odbijen.");
-        }
-        setShowRejectDialog(true);
-    };
-
-    const confirmAction = async () => {
-        const sessionToProcess = sessions.find(s => s.sessionId === selectedSessionId);
-
-        if (sessionToProcess) {
-            
-            // Update session status
-            const updatedSession = { ...sessionToProcess, status: "Confirmed" };
-
-            // Update session arrays
-            setUpcomingSessions(prevUpcoming => [...prevUpcoming, updatedSession]);
-            setPendingRequests(prevPending => prevPending.filter(s => s.sessionId !== selectedSessionId));
-
-
-
-            try {
-                await manageSessionRequest(selectedSessionId, "Confirmed");
-                setShowAcceptDialog(false);
-                if (toast.current) {
-                    toast.current.show({
-                        severity: 'info',
-                        summary: 'Zahtjev za termin prihvaćen',
-                        life: 3000
-                    });
-                }
-            } catch (error) {
-                console.error("Error accepting session:", error);
-                // Revert changes on error
-                setPendingRequests(prevPending => [...prevPending, {...sessionToProcess}]);
-                setUpcomingSessions(prevUpcoming => prevUpcoming.filter(s => s.sessionId !== selectedSessionId));
-
-                setSelectedSessionId(null);
-                setShowAcceptDialog(false);
-                if (toast.current) {
-                    toast.current.show({
-                        severity: 'warn',
-                        summary: 'Dogodila se greška. Molim vas pokušajte ponovno.',
-                        life: 3000
-                    });
-                }
-            }
-            
-        }
-    };
-
-    const cancelAction = async () => {
-        const sessionToCancel = sessions.find(s => s.sessionId === selectedSessionId);
-
-        if (sessionToCancel) {
-            
-            // Update session status
-            const updatedSession = { ...sessionToCancel, status: "Cancelled" };
-
-            // Update session arrays
-            if (isForUpcomingSessions) {
-                setUpcomingSessions(prevUpcoming => prevUpcoming.filter(s => s.sessionId !== selectedSessionId));
-            } else if (isForPendingRequests) {
-                setPendingRequests(prevPending => prevPending.filter(s => s.sessionId !== selectedSessionId));
-            }
-            setCancelledSessions(prevCancelled => [...prevCancelled, updatedSession]);
-
-
-
-            try {
-                await manageSessionRequest(selectedSessionId, "Cancelled");
-                setShowRejectDialog(false);
-                if (toast.current) {
-                    toast.current.show({
-                        severity: 'info',
-                        summary: toastMessage,
-                        life: 3000
-                    });
-                }
-            } catch (error) {
-                console.error("Error cancelling session:", error);
-
-                if (toast.current) {
-                    toast.current.show({
-                        severity: 'warn',
-                        summary: 'Dogodila se greška. Molim vas pokušajte ponovno.',
-                        life: 3000
-                    });
-                }
-                // Revert changes on error
-                if (isForUpcomingSessions) {
-                    setUpcomingSessions(prevUpcoming => [...prevUpcoming, {...sessionToCancel}]);
-                } else if (isForPendingRequests) {
-                    setPendingRequests(prevPending => [...prevPending, {...sessionToCancel}]);
-                }
-                setCancelledSessions(prevCancelled => prevCancelled.filter(s => s.sessionId !== selectedSessionId));
-
-                setShowRejectDialog(false);
-
-                setSelectedSessionId(null);
-            }
-
-            
-        }
-    };
 
     const renderStudentCard = (student, session, index) => {
         return (
@@ -167,15 +38,13 @@ function StudentsComponent({
                                 label="Prihvati"
                                 severity="success"
                                 rounded
-                                onClick={() => handleConfirm(session)}
-                                
+                                onClick={() => onAccept(session)}
                             />
                             <PrimeButton
                                 label="Odbij"
                                 severity="danger"
                                 rounded
-                                onClick={() => handleCancel(session)}
-                                
+                                onClick={() => onCancel(session)}
                             />
                         </div>
                     )}
@@ -185,8 +54,7 @@ function StudentsComponent({
                             label="Otkaži"
                             severity="danger"
                             className="p-button-rounded"
-                            onClick={() => handleCancel(session)}
-                            
+                            onClick={() => onCancel(session)}
                         />
                     )}
                 </div>
@@ -199,32 +67,6 @@ function StudentsComponent({
             {sessions.map((session, index) =>
                 renderStudentCard(session.student, session, index)
             )}
-
-            <Toast ref={toast} />
-
-            {/* Accept Confirmation Dialog */}
-            <ConfirmSelectionDialog
-                visible={showAcceptDialog}
-                message="Jeste li sigurni da želite prihvatiti zahtjev za termin?"
-                header="Prihvati zahtjev"
-                icon="pi pi-exclamation-triangle"
-                acceptClassName="p-button-primary"
-                rejectClassName="p-button-secondary"
-                onConfirm={confirmAction}
-                onCancel={() => setShowAcceptDialog(false)}
-            />
-
-            {/* Reject Confirmation Dialog */}
-            <ConfirmSelectionDialog
-                visible={showRejectDialog}
-                message={cancelMessage}
-                header="Odbij zahtjev"
-                icon="pi pi-info-circle"
-                acceptClassName="p-button-danger"
-                rejectClassName="p-button-secondary"
-                onConfirm={cancelAction}
-                onCancel={() => setShowRejectDialog(false)}
-            />
         </div>
     );
 }
