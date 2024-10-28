@@ -106,7 +106,7 @@ export async function manageSessionRequest(sessionId, newStatus) {
         },
         body: JSON.stringify({
           sessionId: sessionId,
-          newStatus: newStatus  
+          newStatus: newStatus
         })
       }
     );
@@ -121,13 +121,13 @@ export async function manageSessionRequest(sessionId, newStatus) {
   }
 }
 
-export async function removeProfessorFromSubject(professorId, subjectId){
-  try{
+export async function removeProfessorFromSubject(professorId, subjectId) {
+  try {
     const response = await fetch(
-      import.meta.env.VITE_REACT_BACKEND_URL  + "/professor-subjects",
+      import.meta.env.VITE_REACT_BACKEND_URL + "/professor-subjects",
       {
         method: "DELETE",
-        headers:{
+        headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + localStorage.getItem("token")
         },
@@ -143,8 +143,33 @@ export async function removeProfessorFromSubject(professorId, subjectId){
     }
 
     return response.json();
-  }catch(error){
+  } catch (error) {
     console.error("There has been an error with removing professor from subject.")
+    throw error;
+  }
+}
+
+export async function joinSubject(professorId, subjectId) {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_BACKEND_URL}/professor/${professorId}/subjects/${subjectId}/join`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token")
+        }
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("There has been an error with joining professor to subject.")
     throw error;
   }
 }

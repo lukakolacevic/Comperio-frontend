@@ -1,27 +1,27 @@
-import React, { useEffect, useState, useRef, useOptimistic } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Card } from 'primereact/card';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
-import { Chips } from 'primereact/chips';
-import { InputTextarea } from 'primereact/inputtextarea';
-import './ProfilePage.css'; // For custom styles
-import { getSubjectsForProfessor } from '../../api/SubjectApi';
-import { getTabScrollButtonUtilityClass } from '@mui/material';
+import './ProfilePage.css';
+import { getSubjectsForProfessor, getSubjects } from '../../api/SubjectApi';
 import ConfirmSelectionDialog from '../../components/dialog/ConfirmSelectionDialog';
 import { Toast } from 'primereact/toast';
-import { removeProfessorFromSubject } from '../../api/ProfessorApi';
+import { Accordion, AccordionTab } from 'primereact/accordion';
+import { removeProfessorFromSubject, joinSubject } from '../../api/ProfessorApi';
 
 function ProfilePage() {
-
     const [professorSubjects, setProfessorSubjects] = useState([]);
+    const [allSubjects, setAllSubjects] = useState([]);
+    const [filteredSubjects, setFilteredSubjects] = useState([]);
     const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+    const [showConfirmJoinDialog, setShowConfirmJoinDialog] = useState(false);
     const [selectedSubjectId, setSelectedSubjectId] = useState(null);
-    //const [optimisticProfessorSubjects, setOptimisticProfessorSubjects] = useOptimistic(professorSubjects);
     const toast = useRef(null);
+    const [searchTerm, setSearchTerm] = useState("");
 
     let user = JSON.parse(localStorage.getItem("user"));
-
     useEffect(() => {
+
         if (user.professorId) {
             const fetchProfessorSubjects = async () => {
                 try {
@@ -32,33 +32,45 @@ function ProfilePage() {
                     setProfessorSubjects([]);
                 }
             }
+
+            const fetchAllSubjects = async () => {
+                try {
+                    const fetchedSubjects = await getSubjects();
+                    setAllSubjects(fetchedSubjects.subjects);
+                    setFilteredSubjects(fetchedSubjects.subjects); // Initialize with all subjects
+                } catch (error) {
+                    console.error("Error fetching subjects.")
+                    setAllSubjects([]);
+                }
+            }
+            fetchAllSubjects();
             fetchProfessorSubjects();
-            console.log("DDd")
         }
     }, [user.professorId]);
 
-    const handleRemove = (subjectId) => {
+    useEffect(() => {
+        const filtered = allSubjects.filter(subject =>
+            subject.title.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredSubjects(filtered);
+    }, [searchTerm, allSubjects]);
+
+    const handleRemoveSubject = (subjectId) => {
         setSelectedSubjectId(subjectId);
         setShowConfirmDialog(true);
     }
 
-    const confirmRemove = async (professorId) => {
+    const confirmRemoveSubject = async (professorId) => {
         const subjectToRemove = professorSubjects.find(subject => subject.id === selectedSubjectId);
 
         if (subjectToRemove) {
-            // Copy the current state before making any changes (for rollback purposes)
             const previousProfessorSubjects = [...professorSubjects];
-
-            // Optimistically update the state (remove subject)
             setProfessorSubjects(prevSubjects =>
                 prevSubjects.filter(subject => subject.id !== selectedSubjectId)
             );
 
             try {
-                // Attempt to remove the subject from the backend
-                await removeProfessorFromSubject(professorId, null);
-
-                // Close dialog and show success message
+                await removeProfessorFromSubject(professorId, selectedSubjectId);
                 setShowConfirmDialog(false);
                 if (toast.current) {
                     toast.current.show({
@@ -71,12 +83,9 @@ function ProfilePage() {
                 console.error("Error: " + error);
 
                 setProfessorSubjects(previousProfessorSubjects);
-
                 setShowConfirmDialog(false);
-
                 setSelectedSubjectId(null);
 
-                // Show error message
                 if (toast.current) {
                     toast.current.show({
                         severity: 'warn',
@@ -88,87 +97,139 @@ function ProfilePage() {
         }
     };
 
+    const handleJoinSubject = (subjectId) => {
+        setSelectedSubjectId(subjectId);
+        setShowConfirmJoinDialog(true);
+    }
+
+    const confirmJoinSubject = async (professorId) => {
+        const subjectToJoin = allSubjects.find(subject => subject.id === selectedSubjectId);
+        console.log(professorId, selectedSubjectId);
+        if (subjectToJoin) {
+            const previousProfessorSubjects = [...professorSubjects];
+
+            // Optimistically update the UI by adding the subject
+            setProfessorSubjects(prevSubjects => [...prevSubjects, subjectToJoin]);
+
+            try {
+                await joinSubject(professorId, selectedSubjectId);
+                setShowConfirmJoinDialog(false);
+                if (toast.current) {
+                    toast.current.show({
+                        severity: 'info',
+                        summary: 'Predmet uspješno upisan.',
+                        life: 3000
+                    });
+                }
+            } catch (error) {
+                console.error("Error: " + error);
+
+                if (error.message === "The professor is already teaching this subject.") {
+                    if (toast.current) {
+                        toast.current.show({
+                            severity: 'warn',
+                            summary: 'Već ste upisani na ovaj predmet.',
+                            life: 3000
+                        });
+                    }
+                }
+
+                else {
+                    if (toast.current) {
+                        toast.current.show({
+                            severity: 'warn',
+                            summary: 'Dogodila se greška. Molim vas pokušajte ponovno.',
+                            life: 3000
+                        });
+                    }
+                }
+                // Revert the UI back to the previous state on error
+                setProfessorSubjects(previousProfessorSubjects);
+                setShowConfirmJoinDialog(false);
+                setSelectedSubjectId(null);
+
+
+            }
+        }
+    };
+
 
     return (
         <div className="profile-page-wrapper">
-
             <Toast ref={toast} />
 
             <ConfirmSelectionDialog
-                visible={showConfirmDialog}
-                message="Jeste li sigurni da želite prestati podučavati odabrani predmet? Svi termini instrukcija i zahtjevi za termin za odabrani predmet biti će otkazani."
-                header="Prihvati zahtjev"
+                visible={showConfirmJoinDialog}
+                message="Jeste li sigurni da želite početi podučavati ovaj predmet?"
+                header="Confirm Action"
                 icon="pi pi-exclamation-triangle"
                 acceptClassName="p-button-primary"
                 rejectClassName="p-button-secondary"
-                onConfirm={() => confirmRemove(user.professorId)}
+                onConfirm={() => confirmJoinSubject(user.professorId)}
+                onCancel={() => setShowConfirmJoinDialog(false)}
+            />
+            <ConfirmSelectionDialog
+                visible={showConfirmDialog}
+                message="Are you sure you want to stop teaching this subject? All sessions and requests for this subject will be cancelled."
+                header="Confirm Action"
+                icon="pi pi-exclamation-triangle"
+                acceptClassName="p-button-danger"
+                rejectClassName="p-button-secondary"
+                onConfirm={() => confirmRemoveSubject(user.professorId)}
                 onCancel={() => setShowConfirmDialog(false)}
             />
 
             <div className="profile-header">
                 <img src="/placeholder.png" className="profile-image" alt="User" />
                 <h2 className="profile-name">{user.name} {user.surname}</h2>
-                <p className="profile-description">Obriši ovo.</p>
+                <p className="profile-description">Profile Description Here.</p>
             </div>
 
             <div className="content-wrapper">
                 <div className="side-by-side">
-                    {/* Moji predmeti Section */}
-                    <Card title="Moji predmeti" className="subject-card">
+                    {/* My Subjects Section */}
+                    <Card title="My Subjects" className="subject-card">
                         {professorSubjects.length > 0 ? (
                             professorSubjects.map((subject) => (
                                 <React.Fragment key={subject.id}>
                                     <div className="subject-item">
                                         <h4>{subject.title}</h4>
                                         <p>{subject.description || "No description available."}</p>
-                                        <Button label="Prestani podučavati" className="p-button-danger" rounded onClick={() => handleRemove(subject.id)} />
+                                        <Button label="Prestani predavati" className="p-button-danger" rounded onClick={() => handleRemoveSubject(subject.id)} />
                                     </div>
                                     <hr className="subject-divider" />
                                 </React.Fragment>
                             ))
                         ) : (
                             <div className="subject-placeholder">
-                                <p className="">Trenutno niste upisani ni u jedan predmet.</p>
+                                <p className="">You're not teaching any subjects currently.</p>
                             </div>
-
                         )}
                     </Card>
 
-                    {/* Pridruži se predmetu Section */}
-                    <Card title="Pridruži se predmetu" className="subject-card">
-                        <div className="p-inputgroup">
-                            <span className="p-inputgroup-addon">
-                                <i className="pi pi-search"></i>
-                            </span>
-                            <InputText placeholder="Pretraži po lorem ipsum" />
-                            <Button label="Pretraži" />
-                        </div>
+                    {/* Join a Subject Section */}
+                    <Card title="Join a Subject" className="subject-card join-subject-card">
+                        <InputText
+                            placeholder="Pretraži predmete"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="subject-search"
+                        />
 
-                        <div className="subject-item">
-                            <h4>Title</h4>
-                            <p>Lorem ipsum dolor sit amet consectetur. Eu fermentum posuere porttitor dui erat amet.</p>
-                            <Button label="Odaberi" />
-                        </div>
-                        <hr className="subject-divider" />
-                        <div className="subject-item">
-                            <h4>Title</h4>
-                            <p>Lorem ipsum dolor sit amet consectetur. Eu fermentum posuere porttitor dui erat amet.</p>
-                            <Button label="Odaberi" />
+                        <div className="scrollable-subject-list">
+                            <Accordion activeIndex={0} multiple>
+                                {filteredSubjects.map((subject, index) => (
+                                    <AccordionTab key={subject.id} header={<><h4>{subject.title}</h4></>}>
+                                        <div className="subject-item-content">
+                                            <p>{subject.description || "No description available."}</p>
+                                            <Button label="Pridruži se predmetu" className="p-button-success" rounded onClick={() => handleJoinSubject(subject.id)} />
+                                        </div>
+                                    </AccordionTab>
+                                ))}
+                            </Accordion>
                         </div>
                     </Card>
                 </div>
-
-                {/* Stvori novi predmet Section */}
-                <Card title="Stvori novi predmet" className="create-subject-card">
-                    <InputText placeholder="Upišite naziv predmeta" className="create-subject-input" />
-                    <Chips placeholder="Odaberite kategorije koje opisuju predmet" />
-                    <InputTextarea rows={5} placeholder="Upišite kratki opis predmeta" />
-
-                    <div className="button-group">
-                        <Button label="Stvori predmet" className="p-button-success" />
-                        <Button label="Odbaci" className="p-button-secondary" />
-                    </div>
-                </Card>
             </div>
         </div>
     );
