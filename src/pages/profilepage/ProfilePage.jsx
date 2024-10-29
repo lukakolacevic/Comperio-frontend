@@ -16,6 +16,7 @@ function ProfilePage() {
     const [showConfirmDialog, setShowConfirmDialog] = useState(false);
     const [showConfirmJoinDialog, setShowConfirmJoinDialog] = useState(false);
     const [selectedSubjectId, setSelectedSubjectId] = useState(null);
+    const [selectedSubjectTitle, setSelectedSubjectTitle] = useState('');
     const toast = useRef(null);
     const [searchTerm, setSearchTerm] = useState("");
 
@@ -56,6 +57,8 @@ function ProfilePage() {
     }, [searchTerm, allSubjects]);
 
     const handleRemoveSubject = (subjectId) => {
+        const selectedSubject = allSubjects.find(subject => subject.id === subjectId);
+        setSelectedSubjectTitle(selectedSubject.title);
         setSelectedSubjectId(subjectId);
         setShowConfirmDialog(true);
     }
@@ -85,6 +88,7 @@ function ProfilePage() {
                 setProfessorSubjects(previousProfessorSubjects);
                 setShowConfirmDialog(false);
                 setSelectedSubjectId(null);
+                setSelectedSubjectTitle('');
 
                 if (toast.current) {
                     toast.current.show({
@@ -98,6 +102,8 @@ function ProfilePage() {
     };
 
     const handleJoinSubject = (subjectId) => {
+        const selectedSubject = allSubjects.find(subject => subject.id === subjectId);
+        setSelectedSubjectTitle(selectedSubject.title);
         setSelectedSubjectId(subjectId);
         setShowConfirmJoinDialog(true);
     }
@@ -147,8 +153,7 @@ function ProfilePage() {
                 setProfessorSubjects(previousProfessorSubjects);
                 setShowConfirmJoinDialog(false);
                 setSelectedSubjectId(null);
-
-
+                setSelectedSubjectTitle('');
             }
         }
     };
@@ -160,23 +165,25 @@ function ProfilePage() {
 
             <ConfirmSelectionDialog
                 visible={showConfirmJoinDialog}
-                message="Jeste li sigurni da želite početi podučavati ovaj predmet?"
-                header="Confirm Action"
-                icon="pi pi-exclamation-triangle"
-                acceptClassName="p-button-primary"
-                rejectClassName="p-button-secondary"
+                message={`Jeste li sigurni da želite početi podučavati predmet ${selectedSubjectTitle}?`}
+                header="Počni podučavati"
+                icon="pi pi-check-circle"
+                acceptClassName="p-button-success p-button-rounded"
+                rejectClassName="p-button-secondary p-button-rounded"
                 onConfirm={() => confirmJoinSubject(user.professorId)}
                 onCancel={() => setShowConfirmJoinDialog(false)}
+
             />
             <ConfirmSelectionDialog
                 visible={showConfirmDialog}
-                message="Are you sure you want to stop teaching this subject? All sessions and requests for this subject will be cancelled."
-                header="Confirm Action"
-                icon="pi pi-exclamation-triangle"
-                acceptClassName="p-button-danger"
-                rejectClassName="p-button-secondary"
+                message={`Jeste li sigurni da želite prestati podučavati predmet ${selectedSubjectTitle}? Svi zahtjevi i termini instrukcija za taj predmet bit će otkazani.`}
+                header="Prestani podučavati"
+                icon="pi pi-times-circle"
+                acceptClassName="p-button-danger p-button-rounded"
+                rejectClassName="p-button-secondary p-button-rounded"
                 onConfirm={() => confirmRemoveSubject(user.professorId)}
                 onCancel={() => setShowConfirmDialog(false)}
+
             />
 
             <div className="profile-header">
@@ -186,49 +193,64 @@ function ProfilePage() {
             </div>
 
             <div className="content-wrapper">
-                <div className="side-by-side">
-                    {/* My Subjects Section */}
-                    <Card title="My Subjects" className="subject-card">
-                        {professorSubjects.length > 0 ? (
-                            professorSubjects.map((subject) => (
-                                <React.Fragment key={subject.id}>
-                                    <div className="subject-item">
-                                        <h4>{subject.title}</h4>
-                                        <p>{subject.description || "No description available."}</p>
-                                        <Button label="Prestani predavati" className="p-button-danger" rounded onClick={() => handleRemoveSubject(subject.id)} />
-                                    </div>
-                                    <hr className="subject-divider" />
-                                </React.Fragment>
-                            ))
-                        ) : (
-                            <div className="subject-placeholder">
-                                <p className="">You're not teaching any subjects currently.</p>
-                            </div>
-                        )}
-                    </Card>
+                <div className="content-wrapper">
+                    <div className="side-by-side">
+                        {/* My Subjects Section */}
+                        <Card title="Moji Predmeti" className="subject-card my-subjects">
 
-                    {/* Join a Subject Section */}
-                    <Card title="Join a Subject" className="subject-card join-subject-card">
-                        <InputText
-                            placeholder="Pretraži predmete"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="subject-search"
-                        />
-
-                        <div className="scrollable-subject-list">
-                            <Accordion activeIndex={0} multiple>
-                                {filteredSubjects.map((subject, index) => (
-                                    <AccordionTab key={subject.id} header={<><h4>{subject.title}</h4></>}>
-                                        <div className="subject-item-content">
-                                            <p>{subject.description || "No description available."}</p>
-                                            <Button label="Pridruži se predmetu" className="p-button-success" rounded onClick={() => handleJoinSubject(subject.id)} />
+                            <div className="scrollable-subject-list">
+                                {professorSubjects.length > 0 ? (
+                                    professorSubjects.map((subject) => (
+                                        <div key={`professor-${subject.id}`}>
+                                            <div className="subject-item">
+                                                <h4>{subject.title}</h4>
+                                                <p>{subject.description || "No description available."}</p>
+                                                <Button
+                                                    label="Prestani podučavati"
+                                                    className="p-button-danger"
+                                                    rounded
+                                                    onClick={() => handleRemoveSubject(subject.id, subject.title)}
+                                                />
+                                            </div>
+                                            <hr className="subject-divider" />
                                         </div>
-                                    </AccordionTab>
-                                ))}
-                            </Accordion>
-                        </div>
-                    </Card>
+                                    ))
+                                ) : (
+                                    <div className="subject-placeholder">
+                                        <p>Trenutno ne podučavate nijedan predmet.</p>
+                                    </div>
+                                )}
+                            </div>
+                        </Card>
+
+                        {/* Join a Subject Section */}
+                        <Card title="Pridruži se predmetu" className="subject-card join-subject-card">
+                            <InputText
+                                placeholder="Pretraži predmete"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="subject-search"
+                            />
+
+                            <div className="scrollable-subject-list">
+                                <Accordion multiple>
+                                    {filteredSubjects.map((subject) => (
+                                        <AccordionTab key={`filtered-${subject.id}`} header={<><h4>{subject.title}</h4></>}>
+                                            <div className="subject-item-content">
+                                                <p>{subject.description || "No description available."}</p>
+                                                <Button
+                                                    label="Pridruži se predmetu"
+                                                    className="p-button-success"
+                                                    rounded
+                                                    onClick={() => handleJoinSubject(subject.id, subject.title)}
+                                                />
+                                            </div>
+                                        </AccordionTab>
+                                    ))}
+                                </Accordion>
+                            </div>
+                        </Card>
+                    </div>
                 </div>
             </div>
         </div>
