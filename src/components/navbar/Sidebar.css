@@ -1,0 +1,76 @@
+/* Sidebar container */
+.custom-sidebar {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef); /* Light gray gradient background */
+    width: 280px;
+    z-index: 9999;
+    color: #343a40; /* Dark gray for text */
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* Sidebar item link styling */
+.custom-sidebar a {
+    color: #343a40;
+    font-weight: 500;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+/* Hover effect for sidebar items */
+.custom-sidebar a:hover,
+.custom-sidebar a.active {
+    color: #e63946; /* Red color to match the danger button */
+    background-color: rgba(230, 57, 70, 0.1); /* Light red background */
+    padding: 8px;
+    border-radius: 6px;
+}
+
+/* Sidebar icons */
+.custom-sidebar .pi {
+    color: #343a40; /* Match icon color with text */
+    transition: color 0.3s ease;
+}
+.custom-sidebar a:hover .pi {
+    color: #e63946; /* Change icon color on hover */
+}
+
+/* Sidebar toggle button for small screens */
+.sidebar-toggle-button {
+    background-color: #343a40; /* Dark color for toggle button */
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    padding: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+.sidebar-toggle-button:hover {
+    background-color: #e63946; /* Red hover effect to match theme */
+}
+
+/* Close button in the sidebar for small screens */
+.custom-sidebar .pi-times {
+    color: #e63946;
+    border: 2px solid #e63946;
+    border-radius: 50%;
+    padding: 4px;
+    transition: all 0.3s ease;
+}
+.custom-sidebar .pi-times:hover {
+    background: #e63946;
+    color: #fff;
+}
+
+/* Profile section at the bottom */
+.custom-sidebar .profile-section {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    color: #343a40;
+}
+.custom-sidebar .profile-section:hover {
+    background-color: rgba(230, 57, 70, 0.1); /* Light red background on hover */
+}
