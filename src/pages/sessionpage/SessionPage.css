@@ -1,22 +1,69 @@
-.profilepage-wrapper {
-  width: 100vw;
-  height: 98vh;
-  display: flex;
-  justify-content: center;
+/* Main Wrapper for Session Page */
+.session-page-wrapper {
+  max-width: 900px; /* Make it narrower */
+  margin: 0 auto;
+  padding: 1rem;
+  background-color: #f5f7fa;
 }
 
-.profilepage-container {
-  width: 90%;
-  margin: 2rem 0;
+/* TabView Styling */
+.p-tabview {
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.student-info {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
+/* TabPanel Content Styling */
+.p-tabview-panel {
+  padding: 1.5rem; /* Compact padding for content */
 }
 
-.student-image {
-  border-radius: 100px;
+/* Tab Headers */
+.p-tabview-nav {
+  background-color: #ffffff;
+  border-bottom: 1px solid #dddddd;
+}
+
+.p-tabview-nav li {
+  padding: 0.8rem 1rem;
+}
+
+.p-tabview-nav .p-tabview-selected {
+  font-weight: bold;
+  color: #007ad9;
+}
+
+/* Adjusting Individual Session Cards in Tab Panels */
+.session-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .session-page-wrapper {
+      padding: 0.5rem;
+  }
+
+  .p-tabview-nav li {
+      padding: 0.6rem 0.8rem;
+      font-size: 0.9rem;
+  }
+
+  .p-tabview-panel {
+      padding: 1rem;
+  }
+
+  .session-card {
+      padding: 0.8rem;
+  }
+}
+
+.session-page-container{
+  
 }
