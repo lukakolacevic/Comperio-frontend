@@ -1,46 +1,118 @@
+/* Card Container for Each Professor */
 .professor {
-    background-color: white;
+    background-color: #ffffff;
     border-radius: 16px;
-    padding: 20px;
-    margin: 20px 0px;
-}
-
-.professor {
-    width: 10rem;
+    padding: 1.5rem;
+    margin: 1rem;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: fit-content;
+    flex-direction: column; /* Makes it easier to stack content vertically in smaller cards */
     align-items: center;
-    gap: 1rem;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    max-width: 250px; /* Fixed max width to make cards smaller */
+    width: 100%;
 }
 
+.professor:hover {
+    transform: scale(1.03);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Container for All Professor Cards */
 .professor-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 5%;    
+    justify-content: center; /* Center-aligns the cards */
+    gap: 1rem;
+    padding: 1rem;
 }
 
-.professor-text {
-    padding: 0px;
-    margin: 0px;
+/* Responsive Adjustments for Smaller Screens */
+@media (max-width: 768px) {
+    .professor {
+        max-width: 100%; /* Full width on smaller screens */
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .professor-container {
+        justify-content: center;
+    }
 }
 
+/* Image Styling for Profile Picture */
 .professor-image {
-    height: 10rem;
-    width: 10rem;
+    height: 6rem; /* Smaller profile image */
+    width: 6rem;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    object-fit: cover;
+    margin-bottom: 1rem; /* Adds space between the image and text */
 }
 
-.professor-info{
-    height: 100%;
+/* Text Container for Information */
+.professor-info {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
 }
 
+/* Name and Details Styling */
+.professor-text {
+    font-size: 1rem;
+    color: #333333;
+    font-weight: 600;
+    margin: 0.5rem 0;
+}
+
+.professor-text p {
+    font-size: 0.9rem;
+    color: #666666;
+    margin: 0.2rem 0;
+}
+
+/* Instructions Count and Date/Time Container */
 .instructionsCount-container {
     display: flex;
-    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #555;
 }
 
+/* Action Buttons Styling */
+.professor-info .p-button {
+    margin-top: 0.5rem;
+}
+
+/* Button Base Styling */
+.p-button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+/* Customize Button Colors */
+.p-button-primary {
+    background-color: #3498db;
+    border: none;
+    color: white;
+}
+
+.p-button-danger {
+    background-color: #e74c3c;
+    border: none;
+    color: white;
+}
+
+/* Button Hover Effects */
+.p-button-primary:hover {
+    background-color: #2980b9;
+}
+
+.p-button-danger:hover {
+    background-color: #c0392b;
+}
