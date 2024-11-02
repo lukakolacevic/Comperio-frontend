@@ -56,9 +56,9 @@ export async function sentInstructionDate(selectedDate, professorId, subjectId) 
 }
 
 
-export async function getStudentSessions() {
+export async function getStudentSessions(studentId) {
   const response = await fetch(
-    `${import.meta.env.VITE_REACT_BACKEND_URL}/student/sessions`,
+    `${import.meta.env.VITE_REACT_BACKEND_URL}/sessions/students/${studentId}`,
     {
       method: "GET",
       headers: {
@@ -74,9 +74,9 @@ export async function getStudentSessions() {
   return instructions;
 }
 
-export async function getProfessorSessions() {
+export async function getProfessorSessions(professorId) {
   const response = await fetch(
-    `${import.meta.env.VITE_REACT_BACKEND_URL}/professor/sessions`,
+    `${import.meta.env.VITE_REACT_BACKEND_URL}/sessions/professors/${professorId}`,
     {
       method: "GET",
       headers: {
@@ -99,7 +99,7 @@ export async function manageSessionRequest(sessionId, newStatus) {
     const response = await fetch(
       import.meta.env.VITE_REACT_BACKEND_URL + "/sessions",
       {
-        method: "PUT",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + localStorage.getItem("token"),
@@ -124,17 +124,13 @@ export async function manageSessionRequest(sessionId, newStatus) {
 export async function removeProfessorFromSubject(professorId, subjectId) {
   try {
     const response = await fetch(
-      import.meta.env.VITE_REACT_BACKEND_URL + "/professor-subjects",
+      `${import.meta.env.VITE_REACT_BACKEND_URL}/professors/${professorId}/subjects/${subjectId}`,
       {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + localStorage.getItem("token")
-        },
-        body: JSON.stringify({
-          professorId: professorId,
-          subjectId: subjectId
-        })
+        }
       }
     );
 
