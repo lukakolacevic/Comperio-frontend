@@ -8,9 +8,15 @@ import SessionPage from './pages/sessionpage/SessionPage.jsx';
 import PingPage from './pages/pages/PingPage.jsx';
 import SettingsPage from './pages/settings/SettingsPage.jsx';
 import NewSubject from './pages/newsubjectpage/NewSubjectPage.jsx';
-import ProfilePage from './pages/profilepage/ProfilePage.jsx'
+import ProfessorProfilePage from './pages/profilepage/ProfessorProfilePage.jsx'
+import StudentProfilePage from './pages/profilepage/StudentProfilePage.jsx'
 
 function App() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const isLoggedIn = !!user; // true if user exists, false if not
+  const isProfessor = isLoggedIn && user.status === "professor";
+  const isStudent = isLoggedIn && user.status === "student";
+
   return (
     <Router>
       <div>
@@ -21,7 +27,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/my-sessions" element={<SessionPage />} />
-          <Route path="/profile" element={<ProfilePage/>}/>
+          <Route path="/profile" element={isProfessor ? <ProfessorProfilePage /> : <StudentProfilePage />} />
           <Route path="/ping" element={<PingPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/new" element={<NewSubject />} />
