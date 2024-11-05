@@ -1,30 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { getTopSubjectsForStudent } from "../../api/SubjectApi";
+import { getTopSubjectsForStudent, getTopProfessorsForStudent } from "../../api/SubjectApi";
 import BarChart from "../../components/chart/BarChart.jsx";
 import "./StudentProfilePage.css";
 
 function StudentProfilePage() {
     const user = JSON.parse(localStorage.getItem("user"));
     const [topStudentSubjects, setTopStudentSubjects] = useState([]);
-    //const [topStudentProfessors, setTopStudentProfessors] = useState([]);
+    const [topStudentProfessors, setTopStudentProfessors] = useState([]);
     
     useEffect(() => {
-        const fetchTopSubjects = async () => {
+        const fetchTopSubjectsAndProfessors = async () => {
             try {
                 const topSubjects = await getTopSubjectsForStudent(user.studentId);
-                
+                const topProfessors = await getTopProfessorsForStudent(user.studentId);
                 if (topSubjects && topSubjects.listOfMostChosenSubjects) {
                     setTopStudentSubjects(topSubjects.listOfMostChosenSubjects);
                     console.log(topStudentSubjects);
                 } else {
                     console.error("Unexpected data format:", topSubjects);
                 }
+
+                if (topProfessors && topProfessors.listOfMostChosenProfessors) {
+                    setTopStudentProfessors(topProfessors.listOfMostChosenProfessors);
+                    console.log(topProfessors);
+                } else {
+                    console.error("Unexpected data format:", topProfessors);
+                }
             } catch (error) {
                 console.error("Error fetching top subjects:", error);
                 setTopStudentSubjects([]);
             }
         };
-        fetchTopSubjects();
+        fetchTopSubjectsAndProfessors();
         
     }, [user.studentId]);
 
@@ -39,11 +46,11 @@ function StudentProfilePage() {
             <div className="chart-wrapper"> {/* Wrapper for two charts */}
                 <div className="chart-card">
                     <h3 className="chart-title">Tvoji najodabraniji predmeti</h3>
-                    <BarChart data={topStudentSubjects} />
+                    <BarChart data={topStudentSubjects} isForProfessors={false}/>
                 </div>
                 <div className="chart-card">
                     <h3 className="chart-title">Tvoji najodabraniji profesori</h3>
-                    
+                    <BarChart data={topStudentProfessors} isForProfessors={true}/>
                 </div>
             </div>
         </div>
