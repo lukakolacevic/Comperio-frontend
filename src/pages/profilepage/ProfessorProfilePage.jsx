@@ -83,7 +83,7 @@ function ProfessorProfilePage() {
                     });
                 }
             } catch (error) {
-                console.error("Error: " + error);
+                console.error(error.message);
 
                 setProfessorSubjects(previousProfessorSubjects);
                 setShowConfirmDialog(false);
@@ -128,9 +128,9 @@ function ProfessorProfilePage() {
                     });
                 }
             } catch (error) {
-                console.error("Error: " + error);
+                console.error(error.message);
 
-                if (error.message === "The professor is already teaching this subject.") {
+                if (error.message === "Already enrolled") {
                     if (toast.current) {
                         toast.current.show({
                             severity: 'warn',
