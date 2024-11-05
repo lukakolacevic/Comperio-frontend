@@ -4,12 +4,12 @@ import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Lege
 //import "./BarChart.css";
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const CustomBarChart = ({ data }) => {
+const CustomBarChart = ({ data, isForProfessors }) => {
     const colorPalette = ["#4f83cc", "#f76c6c", "#f9a620", "#34a853", "#ff8a65"];
     const hoverPalette = ["#2f5b99", "#c74444", "#e07b1a", "#2e7d32", "#ff7043"];
     
     const chartData = {
-        labels: data.map(item => item.name || item.title),
+        labels: data.map(item => isForProfessors ?`${item.name} ${item.surname}` : item.title),
         datasets: [
             {
                 label: "Broj odrađenih termina",
