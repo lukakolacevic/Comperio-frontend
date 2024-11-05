@@ -63,7 +63,9 @@ function ProfessorsComponent({
   };
 
   const renderProfessorCard = (professor, session, index) => (
+    
     <div key={`${professor.professorId}-${index}`} className="professor">
+      {console.log(professor)}
       <img
         src={
           professor.profilePictureBase64String
