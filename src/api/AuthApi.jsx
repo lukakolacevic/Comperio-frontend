@@ -10,6 +10,7 @@ export const handleLogin = async (data, user) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
+        credentials: "include"
       }
     );
 
@@ -48,7 +49,7 @@ export const handlerRegister = async (formData, user) => {
       import.meta.env.VITE_REACT_BACKEND_URL + "/register/" + user,
       formData,
       {
-        headers:{
+        headers: {
           'Content-Type': 'multipart/form-data'
         }
       }
@@ -66,14 +67,27 @@ export const handlerRegister = async (formData, user) => {
 };
 
 
+export const logout = async () => {
 
+  try {
+    const response = await fetch(
+      import.meta.env.VITE_REACT_BACKEND_URL + "/logout",
+      {
+        method: "POST",
+        headers: {
+          'Content-Type': "application/json"
+        },
+        credentials: "include"
+      }
+    );
+    window.location.href = "/login";
+    if (!response.ok) {
+      throw new Error("Unable to log user out");
+    }
+    localStorage.removeItem("user");
 
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
 
-
-
-
-export const logout = () => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("user");
-  window.location.href = "/";
 };
