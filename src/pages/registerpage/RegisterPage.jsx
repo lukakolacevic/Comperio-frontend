@@ -32,7 +32,7 @@ function RegisterPage() {
   const [professorPassword, setProfessorPassword] = useState("");
   const [professorConfirmPassword, setProfessorConfirmPassword] = useState("");
   const [professorProfilePicture, setProfessorProfilePicture] = useState(null);
-  const [professorSubjects, setProfessorSubjects] = useState([]);
+  //const [professorSubjects, setProfessorSubjects] = useState([]);
 
   const handleStudentSubmit = async (event) => {
     event.preventDefault();
@@ -62,17 +62,13 @@ function RegisterPage() {
     professorData.append("password", professorPassword);
     professorData.append("confirmPassword", professorConfirmPassword);
     professorData.append("profilePicture", professorProfilePicture);
-    professorSubjects.forEach((subject) => {
-      professorData.append("subjects", subject.url);
-    });
+   // professorSubjects.forEach((subject) => {
+     // professorData.append("subjects", subject.url);
+    //});
 
 
     // Assuming professorData is your FormData object
-    for (let [key, value] of professorData.entries()) {
-      if (key === 'subjects') {
-        console.log('Subjects:', value);
-      }
-    }
+    
 
 
     handlerRegister(professorData, "professor");
@@ -91,12 +87,6 @@ function RegisterPage() {
   useEffect(() => {
     getSubjects().then((response) => setSubjects(response.subjects));
   }, []);
-
-  const handleSubjectSelect = (event, value) => {
-    if (value) {
-      setProfessorSubjects((prevSubjects) => [...prevSubjects, value]);
-    }
-  };
 
 
   return (
@@ -219,6 +209,12 @@ function RegisterPage() {
               >
                 Odbaci
               </Button>
+              <Button
+                variant="contained"
+                onClick={() => setShowStudentForm(!showStudentForm)}
+              >
+                Registriraj se kao {showStudentForm ? "professor" : "student"}?
+              </Button>
             </form>
           </div>
         </div>
@@ -318,41 +314,6 @@ function RegisterPage() {
                   type="file"
                   onChange={handleProfessorImageChange}
                 />
-
-                <InputLabel htmlFor="profilePicture">
-                  Pridruži se predmetu{" "}
-                </InputLabel>
-                <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  options={subjects}
-                  getOptionLabel={(option) => option.title}
-                  onChange={handleSubjectSelect}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      InputProps={{
-                        ...params.InputProps,
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <img
-                              src="/icons/search-icon.svg"
-                              style={{ height: "20px", width: "20px" }}
-                            />
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                  )}
-                />
-                {professorSubjects.map((subject) => (
-                  <div key={subject.url} className="link-no-style">
-                    <div className="predmet">
-                      <h2 className="predmet-text">{subject.title}</h2>
-                      <p className="predmet-text">{subject.description}</p>
-                    </div>
-                  </div>
-                ))}
               </div>
 
               <Button
@@ -376,18 +337,19 @@ function RegisterPage() {
               >
                 Odbaci
               </Button>
+              <Button
+                variant="contained"
+                onClick={() => setShowStudentForm(!showStudentForm)}
+              >
+                Registriraj se kao {showStudentForm ? "professor" : "student"}?
+              </Button>
             </form>
           </div>
         </div>
       )}
       <div className="login-wrapper">
         <div className="login-container" style={{ flexDirection: "row" }}>
-          <Button
-            variant="contained"
-            onClick={() => setShowStudentForm(!showStudentForm)}
-          >
-            Registriraj se kao {showStudentForm ? "professor" : "student"}?
-          </Button>
+
         </div>
       </div>
     </>
