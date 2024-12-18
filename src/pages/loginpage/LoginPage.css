@@ -17,6 +17,10 @@
     align-items: center;
 }
 
+.login-container h1{
+   color: black;
+}
+
 /* Logo positioning slightly above the form */
 .logo {
     margin-bottom: 2rem; /* Add some spacing below the logo */

@@ -1,36 +1,31 @@
 import axios from "axios";
 
-export const handleLogin = async (data, user) => {
+export const handleLogin = async (data, roleId) => {
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_REACT_BACKEND_URL}/login/${user}`,
+      `${import.meta.env.VITE_REACT_BACKEND_URL}/login/${roleId}`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
-        credentials: "include"
+        credentials: "include", // Include cookies
       }
     );
 
     if (response.ok) {
       const result = await response.json();
 
-      localStorage.removeItem("token");
+      // Clear any old stored data
       localStorage.removeItem("user");
 
-      localStorage.setItem("token", result.token);
-      if (user === "student") {
-        result.student.status = "student";
-      } else {
-        result.professor.status = "professor";
-      }
+      // Add role status and store user info
+      const user = { ...result.user, status: roleId === 1 ? "student" : "professor" };
 
-      localStorage.setItem(
-        "user",
-        JSON.stringify(user === "student" ? result.student : result.professor)
-      );
+      localStorage.setItem("user", JSON.stringify(user));
+
+      // Redirect the user
       window.location.href = "/";
     } else {
       const errorData = await response.json();
@@ -38,15 +33,16 @@ export const handleLogin = async (data, user) => {
     }
   } catch (error) {
     console.error("An error occurred in handleLogin:", error);
-    throw error; // Propagate the error to the calling function
+    throw error; // Propagate error
   }
 };
 
 
-export const handlerRegister = async (formData, user) => {
+
+export const handlerRegister = async (formData, roleId) => {
   try {
     const response = await axios.post(
-      `${import.meta.env.VITE_REACT_BACKEND_URL}/register/${user}`,
+      `${import.meta.env.VITE_REACT_BACKEND_URL}/register/${roleId}`,
       formData,
       {
         headers: {
@@ -57,7 +53,7 @@ export const handlerRegister = async (formData, user) => {
 
     if (response.status === 201) {
       console.log(user + " registered successfully");
-      window.location.href = "/login";
+      window.location.href = "/register-success";
     } else {
       console.error(response.status + " " + response.statusText);
     }

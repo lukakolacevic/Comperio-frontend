@@ -13,7 +13,7 @@ function SessionPage() {
   }
 
   const user = JSON.parse(localStorage.getItem('user'));
-  const userType = user.status;
+  const roleId = user.roleId;
 
   const [pastSessions, setPastSessions] = useState([]);
   const [upcomingSessions, setUpcomingSessions] = useState([]);
@@ -31,14 +31,14 @@ function SessionPage() {
   useEffect(() => {
     const fetchSessions = async () => {
       try {
-        if (userType === 'student') {
-          const studentSessions = await getStudentSessions(user.studentId);
+        if (roleId === 1) {
+          const studentSessions = await getStudentSessions(user.id);
           setPastSessions(studentSessions.pastSessions);
           setUpcomingSessions(studentSessions.upcomingSessions);
           setPendingRequests(studentSessions.pendingRequests);
           setCancelledSessions(studentSessions.cancelledSessions);
-        } else if (userType === 'professor') {
-          const professorSessions = await getProfessorSessions(user.professorId);
+        } else if (roleId === 2) {
+          const professorSessions = await getProfessorSessions(user.id);
           setPastSessions(professorSessions.pastSessions);
           setUpcomingSessions(professorSessions.upcomingSessions);
           setPendingRequests(professorSessions.pendingRequests);
@@ -50,7 +50,8 @@ function SessionPage() {
     };
     console.log(user);
     fetchSessions();
-  }, [userType]);
+    
+  }, [roleId]);
 
   const handleAccept = (session) => {
     setSelectedSessionId(session.sessionId);
@@ -151,7 +152,7 @@ function SessionPage() {
           <TabView>
             <TabPanel header="Zahtjevi za instrukcije">
               <div className="session-card-container">
-                {userType === "student" ? (
+                {roleId === 1 ? (
                   <ProfessorsComponent
                     sessions={pendingRequests}
                     showTime={true}
@@ -172,7 +173,7 @@ function SessionPage() {
             </TabPanel>
             <TabPanel header="Nadolezeće instrukcije">
               <div className="session-card-container">
-                {userType === "student" ? (
+                {roleId === 1 ? (
                   <ProfessorsComponent
                     sessions={upcomingSessions}
                     showTime={true}
@@ -193,7 +194,7 @@ function SessionPage() {
             </TabPanel>
             <TabPanel header="Prošle instrukcije">
               <div className="session-card-container">
-                {userType === "student" ? (
+                {roleId === 1 ? (
                   <ProfessorsComponent
                     sessions={pastSessions}
                     showTime={true}
@@ -211,7 +212,7 @@ function SessionPage() {
             </TabPanel>
             <TabPanel header="Otkazane instrukcije">
               <div className="session-card-container">
-                {userType === "student" ? (
+                {roleId === 1 ? (
                   <ProfessorsComponent
                     sessions={cancelledSessions}
                     showTime={true}

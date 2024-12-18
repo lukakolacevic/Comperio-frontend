@@ -49,7 +49,7 @@ function RegisterPage() {
     console.log(studentData);
 
     // Send the data to the server
-    handlerRegister(studentData, "student");
+    handlerRegister(studentData, 1);
   };
 
   const handleProfessorSubmit = async (event) => {
@@ -71,7 +71,7 @@ function RegisterPage() {
     
 
 
-    handlerRegister(professorData, "professor");
+    handlerRegister(professorData, 2);
   };
 
   const handleStudentImageChange = (event) => {

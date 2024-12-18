@@ -64,12 +64,12 @@ function ProfessorsComponent({
 
   const renderProfessorCard = (professor, session, index) => (
     
-    <div key={`${professor.professorId}-${index}`} className="professor">
+    <div key={`${professor.id}-${index}`} className="professor">
       {console.log(professor)}
       <img
         src={
-          professor.profilePictureBase64String
-            ? `data:image/jpeg;base64,${professor.profilePictureBase64String}`
+          professor.profilePicture
+            ? `data:image/jpeg;base64,${professor.profilePicture}`
             : "/placeholder.png"
         }
         className="professor-image"
@@ -98,15 +98,15 @@ function ProfessorsComponent({
         )}
 
         <Button
-          onClick={() => handleButtonClick(professor.professorId)}
+          onClick={() => handleButtonClick(professor.id)}
           variant={buttonVariant ? buttonVariant : "contained"}
         >
           {buttonText ? buttonText : "Dogovori termin"}
         </Button>
       </div>
-      {selectedProfessorId === professor.professorId && (
+      {selectedProfessorId === professor.id && (
         <DateTimeDialog
-          open={selectedProfessorId === professor.professorId}
+          open={selectedProfessorId === professor.id}
           onClose={handleCloseDialog}
           professor={professor}
           subjectId={subjectId} // Pass subjectId if available
@@ -125,7 +125,7 @@ function ProfessorsComponent({
       {/* If sessions exist, render session-based view, otherwise render professors */}
       {sessions?.length > 0
         ? sessions.map((session, index) =>
-          renderProfessorCard(session.professor, session, index)
+          renderProfessorCard(session.user, session, index)
         )
         : professors?.map((professor, index) =>
           renderProfessorCard(professor, null, index)

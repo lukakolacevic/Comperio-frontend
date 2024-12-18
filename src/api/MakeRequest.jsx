@@ -24,7 +24,7 @@ export async function makeRequestWithRetry(url, options) {
         const refreshResponse = await fetch(
           `${import.meta.env.VITE_REACT_BACKEND_URL}/refresh-token`,
           {
-            method: "POST",
+            method: "GET",
             headers: {
               "Content-Type": "application/json",
             },

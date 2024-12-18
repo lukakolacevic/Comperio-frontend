@@ -1,56 +1,108 @@
-import { Button } from "@mui/material";
-import "./Navbar.css";
-import { Link } from "react-router-dom";
-import { logout } from "../../api/AuthApi";
+import React, { useState } from 'react';
+import { Menubar } from 'primereact/menubar';
+import { Sidebar } from 'primereact/sidebar';
+import { Button } from 'primereact/button';
+import { useMediaQuery } from 'react-responsive';
+import { logout } from '../../api/AuthApi';
+import './Navbar.css';
 
 function HomePage() {
-  const token = localStorage.getItem("token");
-  let loggedIn = Boolean(token);
+    //const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
+    const loggedIn = Boolean(user);
 
-  let user = JSON.parse(localStorage.getItem("user"));
+    const [visibleSidebar, setVisibleSidebar] = useState(false);
+    const isSmallScreen = useMediaQuery({ maxWidth: 768 });
 
-  return (
-    <>
-      <div className="navbar-container">
-        {loggedIn ? (
-          <div className="flex-row navbar-wrapper">
-          <div>
-            <Link to="/">
-              <img src="/logo/dotInstrukcije-logo.png" />
-            </Link>
-          </div>
+    const items = [
+        {
+            label: 'Home',
+            icon: 'pi pi-home',
+            command: () => window.location.href = '/'
+        },
+        {
+            label: 'Moje instrukcije',
+            icon: 'pi pi-book',
+            command: () => window.location.href = '/my-sessions'
+        },
+        {
+            label: 'Postavke',
+            icon: 'pi pi-cog',
+            command: () => window.location.href = '/settings'
+        },
+        {
+            label: 'Moj profil',
+            icon: 'pi pi-user',
+            command: () => window.location.href = '/profile'
+        },
+        user?.status === 'professor' && {
+            label: 'Novi predmet',
+            icon: 'pi pi-plus',
+            command: () => window.location.href = '/new'
+        },
+        {
+            label: 'Odjavi se',
+            icon: 'pi pi-sign-out',
+            command: logout
+        }
+    ];
 
-          <div className="flex-row navbar-options">
-            <>
-              <Link to="/">
-                <Button variant="contained">Pretraži</Button>
-              </Link>
-              <Link to="/my-sessions">
-                <Button variant="contained">Moje instrukcije</Button>
-              </Link>
-              <Link to="/settings">
-                <Button variant="contained">Postavke</Button>
-              </Link>
-              <Link to="/profile">
-                <Button variant="contained">Moj profil</Button>
-              </Link>
-              {user.status === "professor" && (
-                <Link to="/new">
-                  <Button variant="contained">Novi predmet</Button>
-                </Link>
-              )}
-              <Button variant="contained" onClick={logout}>
-                Odjavi se
-              </Button>
-            </>
-          </div>
+    const start = <img alt="logo" src="/logo/dotInstrukcije-logo.png" height="40" className="navbar-logo" />;
+
+    return (
+        <div className="navbar-container">
+            {loggedIn && (
+                <div className="navbar-wrapper">
+                    {/* Desktop Menubar - Only visible on large screens */}
+                    {!isSmallScreen && (
+                        <div className="desktop-navbar">
+                            <Menubar model={items.filter(Boolean)} start={start} />
+                        </div>
+                    )}
+
+                    {/* Mobile Sidebar Toggle Button - Only visible on small screens */}
+                    {isSmallScreen && (
+                        <div className="mobile-navbar">
+                            <Button
+                                icon="pi pi-bars"
+                                className="p-button-primary sidebar-toggle-button"
+                                onClick={() => setVisibleSidebar(true)}
+                            />
+                        </div>
+                    )}
+
+                    {/* Sidebar for Mobile - Opens when the button is clicked on small screens */}
+                    <Sidebar
+                        visible={visibleSidebar}
+                        onHide={() => setVisibleSidebar(false)}
+                        position="left"
+                        className="custom-sidebar"
+                        modal
+                    >
+                        <div className="sidebar-content">
+                            <ul className="sidebar-list">
+                                {items.map((item, index) => (
+                                    item && (
+                                        <li key={index} className="sidebar-item">
+                                            <Button
+                                                label={item.label}
+                                                icon={item.icon}
+                                                className="p-button-link sidebar-button"
+                                                onClick={() => {
+                                                    item.command();
+                                                    setVisibleSidebar(false); // Close sidebar after clicking
+                                                }}
+                                            />
+                                        </li>
+                                    )
+                                ))}
+                            </ul>
+                        </div>
+                    </Sidebar>
+                </div>
+            )}
         </div>
-        ) : (
-          <></>
-        )}
-      </div>
-    </>
-  );
+    );
 }
 
 export default HomePage;

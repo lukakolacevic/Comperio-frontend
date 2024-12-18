@@ -11,8 +11,8 @@ function LoginPage() {
   const [showStudentLogIn, setShowStudentLogIn] = useState(true);
   const [studentEmail, setStudentEmail] = useState("");
   const [studentPassword, setStudentPassword] = useState("");
-  const [professorEmail, setProfessorEmail] = useState("");
-  const [professorPassword, setProfessorPassword] = useState("");
+  const [instructorEmail, setInstructorEmail] = useState("");
+  const [instructorPassword, setinstructorPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
 
   function handleStudentSubmit(event) {
@@ -20,7 +20,7 @@ function LoginPage() {
     const data = { email: studentEmail, password: studentPassword };
     (async () => {
       try {
-        await handleLogin(data, "student");
+        await handleLogin(data, 1);
       } catch (error) {
         setErrorMessage("Krivi e-mail ili lozinka. Molim vas pokušajte ponovno.");
       }
@@ -29,10 +29,10 @@ function LoginPage() {
 
   function handleProfessorSubmit(event) {
     event.preventDefault();
-    const data = { email: professorEmail, password: professorPassword };
+    const data = { email: instructorEmail, password: instructorPassword };
     (async () => {
       try {
-        await handleLogin(data, "professor");
+        await handleLogin(data, 2);
       } catch (error) {
         setErrorMessage("Krivi e-mail ili lozinka. Molim vas pokušajte ponovno.");
       }
@@ -57,8 +57,8 @@ function LoginPage() {
               id="email"
               type="text"
               placeholder="Email"
-              value={showStudentLogIn ? studentEmail : professorEmail}
-              onChange={(e) => (showStudentLogIn ? setStudentEmail(e.target.value) : setProfessorEmail(e.target.value))}
+              value={showStudentLogIn ? studentEmail : instructorEmail}
+              onChange={(e) => (showStudentLogIn ? setStudentEmail(e.target.value) : setInstructorEmail(e.target.value))}
               startAdornment={
                 <InputAdornment position="start">
                   <img src="/icons/email-icon.svg" style={{ height: "15px", width: "15px" }} />
@@ -71,8 +71,8 @@ function LoginPage() {
               id="password"
               type="password"
               placeholder="Lozinka"
-              value={showStudentLogIn ? studentPassword : professorPassword}
-              onChange={(e) => (showStudentLogIn ? setStudentPassword(e.target.value) : setProfessorPassword(e.target.value))}
+              value={showStudentLogIn ? studentPassword : instructorPassword}
+              onChange={(e) => (showStudentLogIn ? setStudentPassword(e.target.value) : setinstructorPassword(e.target.value))}
               startAdornment={
                 <InputAdornment position="start">
                   <img src="/icons/password-icon.svg" style={{ height: "15px", width: "15px" }} />
@@ -94,8 +94,8 @@ function LoginPage() {
                   setStudentEmail("");
                   setStudentPassword("");
                 } else {
-                  setProfessorEmail("");
-                  setProfessorPassword("");
+                  setInstructorEmail("");
+                  setinstructorPassword("");
                 }
               }}
             >

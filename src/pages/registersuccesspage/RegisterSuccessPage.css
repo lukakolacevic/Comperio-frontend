@@ -1,0 +1,59 @@
+/* ConfirmEmailPage.css */
+.confirm-email-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f4f6f8; /* Soft background color */
+  }
+  
+  .confirm-email-container {
+    max-width: 500px;
+    padding: 2rem;
+    background-color: #ffffff; /* White container background */
+    border-radius: 12px;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  h2 {
+    color: #4f83cc; /* Primary color for the heading */
+    margin-bottom: 1rem;
+  }
+  
+  p {
+    color: #555555;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  
+  .resend-wrapper {
+    margin-top: 1.5rem;
+  }
+  
+  .resend-button {
+    margin-top: 0.5rem;
+    border-color: #4f83cc;
+    color: #4f83cc;
+  }
+  
+  .resend-button:hover {
+    background-color: #4f83cc;
+    color: white;
+  }
+  
+  .login-link {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: #888888;
+  }
+  
+  .login-link span {
+    color: #4f83cc;
+    cursor: pointer;
+  }
+  
+  .login-link span:hover {
+    text-decoration: underline;
+  }
+  

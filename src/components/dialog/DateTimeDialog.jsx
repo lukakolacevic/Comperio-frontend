@@ -23,7 +23,7 @@ const DateTimeDialog = ({ open, onClose, professor, subjectId, isOnSubjectPage, 
     const fetchSubjects = async () => {
       if (!isOnSubjectPage) {
         try {
-          const professorSubjects = await getSubjectsForProfessor(professor.professorId);
+          const professorSubjects = await getSubjectsForProfessor(professor.id);
           setAvailableSubjects(professorSubjects.subjects); // Ensure it's an array
         } catch (error) {
           setAvailableSubjects([]); // Set to an empty array if an error occurs
@@ -32,7 +32,7 @@ const DateTimeDialog = ({ open, onClose, professor, subjectId, isOnSubjectPage, 
     };
 
     fetchSubjects(); // Only call this function once
-  }, [isOnSubjectPage, professor.professorId]); // Adjusted the dependency to `professor.professorId`
+  }, [isOnSubjectPage, professor.id]); // Adjusted the dependency to `professor.id`
 
   const handleClose = () => {
     onClose();
@@ -41,7 +41,7 @@ const DateTimeDialog = ({ open, onClose, professor, subjectId, isOnSubjectPage, 
   const handleConfirm = async () => {
     try {
       const isoDateString = value.toISOString();
-      await sentInstructionDate(isoDateString, professor.professorId, selectedSubjectId);
+      await sentInstructionDate(isoDateString, professor.id, selectedSubjectId);
 
       // Success - Close dialog and trigger success toast outside the component
       handleClose();

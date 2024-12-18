@@ -10,6 +10,9 @@ import SettingsPage from './pages/settings/SettingsPage.jsx';
 import NewSubject from './pages/newsubjectpage/NewSubjectPage.jsx';
 import ProfessorProfilePage from './pages/profilepage/ProfessorProfilePage.jsx'
 import StudentProfilePage from './pages/profilepage/StudentProfilePage.jsx'
+import RegisterSuccessPage from './pages/registersuccesspage/RegisterSuccessPage.jsx';
+import EmailConfirmationSuccessPage from "./pages/mailconformationsuccesspage/MailConfirmationSuccessPage.jsx"
+
 
 function App() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -20,7 +23,7 @@ function App() {
   return (
     <Router>
       <div>
-        <Navbar />
+        {isLoggedIn && <Navbar/>}
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/subject/:subjectName" element={<SubjectPage />} />
@@ -31,6 +34,8 @@ function App() {
           <Route path="/ping" element={<PingPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/new" element={<NewSubject />} />
+          <Route path="/register-success" element={<RegisterSuccessPage/>}/>
+          <Route path="/confirm-email-success" element={<EmailConfirmationSuccessPage/>}/>
         </Routes>
       </div>
     </Router>

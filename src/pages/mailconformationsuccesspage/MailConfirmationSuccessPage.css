@@ -1,0 +1,69 @@
+/* ConfirmationSuccessPage.css */
+/* CSS */
+.confirmation-success-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f4f6f8;
+  padding: 20px;
+}
+
+.confirmation-success-container {
+  max-width: 400px;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+h1 {
+  color: #4BB543; /* Green for success */
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Spacing between emoji and text */
+}
+
+.emoji {
+  font-size: 1.4em;
+  line-height: 1; /* Ensures emoji is aligned */
+  vertical-align: middle; /* Aligns emoji with the text */
+}
+
+p {
+  color: #555555;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 15px 0 25px;
+}
+
+.login-button {
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #0056b3;
+}
+
+.resend-button {
+  margin-top: 0.5rem;
+  border-color: #4f83cc;
+  color: #4f83cc;
+}
+
+.resend-button:hover {
+  background-color: #4f83cc;
+  color: white;
+}

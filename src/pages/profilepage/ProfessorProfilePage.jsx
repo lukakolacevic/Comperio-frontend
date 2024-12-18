@@ -23,10 +23,10 @@ function ProfessorProfilePage() {
     let user = JSON.parse(localStorage.getItem("user"));
     useEffect(() => {
 
-        if (user.professorId) {
+        if (user.id) {
             const fetchProfessorSubjects = async () => {
                 try {
-                    const fetchedProfessorSubjects = await getSubjectsForProfessor(user.professorId);
+                    const fetchedProfessorSubjects = await getSubjectsForProfessor(user.id);
                     setProfessorSubjects(fetchedProfessorSubjects.subjects);
                 } catch (error) {
                     console.error("Error fetching subjects.")
@@ -47,7 +47,7 @@ function ProfessorProfilePage() {
             fetchAllSubjects();
             fetchProfessorSubjects();
         }
-    }, [user.professorId]);
+    }, [user.id]);
 
     useEffect(() => {
         const filtered = allSubjects.filter(subject =>
@@ -170,7 +170,7 @@ function ProfessorProfilePage() {
                 icon="pi pi-check-circle"
                 acceptClassName="p-button-success p-button-rounded"
                 rejectClassName="p-button-secondary p-button-rounded"
-                onConfirm={() => confirmJoinSubject(user.professorId)}
+                onConfirm={() => confirmJoinSubject(user.id)}
                 onCancel={() => setShowConfirmJoinDialog(false)}
 
             />
@@ -181,7 +181,7 @@ function ProfessorProfilePage() {
                 icon="pi pi-times-circle"
                 acceptClassName="p-button-danger p-button-rounded"
                 rejectClassName="p-button-secondary p-button-rounded"
-                onConfirm={() => confirmRemoveSubject(user.professorId)}
+                onConfirm={() => confirmRemoveSubject(user.id)}
                 onCancel={() => setShowConfirmDialog(false)}
 
             />

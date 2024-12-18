@@ -15,6 +15,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 function ComboBox() {
   const [subjects, setSubjects] = useState([]);
 
+  console.log(localStorage.getItem("user"))
+
   useEffect(() => {
     getSubjects().then(response => setSubjects(response.subjects));
   }, []);

@@ -11,8 +11,8 @@ function StudentProfilePage() {
     useEffect(() => {
         const fetchTopSubjectsAndProfessors = async () => {
             try {
-                const topSubjects = await getTopSubjectsForStudent(user.studentId);
-                const topProfessors = await getTopProfessorsForStudent(user.studentId);
+                const topSubjects = await getTopSubjectsForStudent(user.id);
+                const topProfessors = await getTopProfessorsForStudent(user.id);
                 if (topSubjects && topSubjects.listOfMostChosenSubjects) {
                     setTopStudentSubjects(topSubjects.listOfMostChosenSubjects);
                     console.log(topStudentSubjects);
@@ -20,8 +20,8 @@ function StudentProfilePage() {
                     console.error("Unexpected data format:", topSubjects);
                 }
 
-                if (topProfessors && topProfessors.listOfMostChosenProfessors) {
-                    setTopStudentProfessors(topProfessors.listOfMostChosenProfessors);
+                if (topProfessors && topProfessors.listOfMostChosenInstructors) {
+                    setTopStudentProfessors(topProfessors.listOfMostChosenInstructors);
                     console.log(topProfessors);
                 } else {
                     console.error("Unexpected data format:", topProfessors);
