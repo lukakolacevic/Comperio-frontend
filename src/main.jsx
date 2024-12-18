@@ -6,8 +6,8 @@ import App from "./App.jsx";
 
 // Import PrimeReact stylesheets
 import 'primereact/resources/themes/saga-blue/theme.css'; // Or your chosen theme
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
+//import 'primereact/resources/primereact.min.css';
+//import 'primeicons/primeicons.css';
 import "./index.css";
 
 // Import Material UI theme setup
@@ -17,6 +17,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { PrimeReactProvider } from 'primereact/api';
 
 // Custom MUI theme if needed
+{/*
 const theme = createTheme({
   components: {
     MuiButton: {
@@ -35,15 +36,15 @@ const theme = createTheme({
       },
     },
   },
-});
+});*/}
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     {/* Wrap ThemeProvider inside PrimeReactProvider */}
-    <ThemeProvider theme={theme}>
-      <PrimeReactProvider value ={{ripple: true}}>
+    {/*<ThemeProvider theme={theme}>*/}
+      {/*<PrimeReactProvider value ={{ripple: true}}>*/}
         <App />
-      </PrimeReactProvider>
-    </ThemeProvider>
+      {/*</PrimeReactProvider>*/}
+    {/*</ThemeProvider>*/}
   </React.StrictMode>
 );

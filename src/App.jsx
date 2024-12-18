@@ -8,7 +8,7 @@ import SessionPage from './pages/sessionpage/SessionPage.jsx';
 import PingPage from './pages/pages/PingPage.jsx';
 import SettingsPage from './pages/settings/SettingsPage.jsx';
 import NewSubject from './pages/newsubjectpage/NewSubjectPage.jsx';
-import ProfessorProfilePage from './pages/profilepage/ProfessorProfilePage.jsx'
+import InstructorProfilePage from './pages/profilepage/InstructorProfilePage.jsx'
 import StudentProfilePage from './pages/profilepage/StudentProfilePage.jsx'
 import RegisterSuccessPage from './pages/registersuccesspage/RegisterSuccessPage.jsx';
 import EmailConfirmationSuccessPage from "./pages/mailconformationsuccesspage/MailConfirmationSuccessPage.jsx"
@@ -17,7 +17,7 @@ import EmailConfirmationSuccessPage from "./pages/mailconformationsuccesspage/Ma
 function App() {
   const user = JSON.parse(localStorage.getItem("user"));
   const isLoggedIn = !!user; // true if user exists, false if not
-  const isProfessor = isLoggedIn && user.status === "professor";
+  const isInstructor = isLoggedIn && user.status === "instructor";
   const isStudent = isLoggedIn && user.status === "student";
 
   return (
@@ -30,7 +30,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/my-sessions" element={<SessionPage />} />
-          <Route path="/profile" element={isProfessor ? <ProfessorProfilePage /> : <StudentProfilePage />} />
+          <Route path="/profile" element={isInstructor ? <InstructorProfilePage /> : <StudentProfilePage />} />
           <Route path="/ping" element={<PingPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/new" element={<NewSubject />} />

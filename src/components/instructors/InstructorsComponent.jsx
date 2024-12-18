@@ -1,13 +1,13 @@
 import { Button } from "@mui/material";
 import { useState, useEffect, useRef } from "react";
-import "./ProfessorsComponent.css";
+import "./InstructorsComponent.css";
 import DateTimeDialog from "../dialog/DateTimeDialog";
 import { useParams } from "react-router-dom";
 import { getSubject } from "../../api/SubjectApi";
 import { Toast } from 'primereact/toast'; // Import PrimeReact Toast
 
-function ProfessorsComponent({
-  professors,      // Used on the home page and subject page
+function InstructorsComponent({
+  instructors,      // Used on the home page and subject page
   sessions,        // Used on the profile page
   showSubject,     // Flag to show the subject name
   showInstructionsCount,
@@ -15,7 +15,7 @@ function ProfessorsComponent({
   buttonText,
   buttonVariant,
 }) {
-  const [selectedProfessorId, setSelectedProfessorId] = useState(null);
+  const [selectedInstructorId, setSelectedInstructorId] = useState(null);
   const [subjectId, setSubjectId] = useState(null);
   const { subjectName } = useParams(); // This will be undefined on the main page
   const successToast = useRef(null);  // Ref for the success toast
@@ -43,12 +43,12 @@ function ProfessorsComponent({
     }
   }, [subjectName]); 
 
-  const handleButtonClick = (professorId) => {
-    setSelectedProfessorId(professorId);
+  const handleButtonClick = (instructorId) => {
+    setSelectedInstructorId(instructorId);
   };
 
   const handleCloseDialog = () => {
-    setSelectedProfessorId(null);
+    setSelectedInstructorId(null);
   };
 
   const handleSuccess = () => {
@@ -62,32 +62,32 @@ function ProfessorsComponent({
     }
   };
 
-  const renderProfessorCard = (professor, session, index) => (
+  const renderProfessorCard = (instructor, session, index) => (
     
-    <div key={`${professor.id}-${index}`} className="professor">
-      {console.log(professor)}
+    <div key={`${instructor.id}-${index}`} className="instructor">
+      {console.log(instructor)}
       <img
         src={
-          professor.profilePicture
-            ? `data:image/jpeg;base64,${professor.profilePicture}`
+          instructor.profilePicture
+            ? `data:image/jpeg;base64,${instructor.profilePicture}`
             : "/placeholder.png"
         }
-        className="professor-image"
-        alt={professor.name}
+        className="instructor-image"
+        alt={instructor.name}
       />
-      <div className="professor-info">
-        <h3 className="professor-text">
-          {professor.name} {professor.surname}
+      <div className="instructor-info">
+        <h3 className="instructor-text">
+          {instructor.name} {instructor.surname}
         </h3>
 
         {showSubject && session?.subject && (
-          <p className="professor-text">{session.subject.title}</p>
+          <p className="instructor-text">{session.subject.title}</p>
         )}
 
         {showInstructionsCount && (
           <div className="instructionsCount-container">
             <img src="/icons/users-icon.svg" className="users-icon" />
-            <p>{professor.instructionsCount}</p>
+            <p>{instructor.instructionsCount}</p>
           </div>
         )}
 
@@ -98,17 +98,17 @@ function ProfessorsComponent({
         )}
 
         <Button
-          onClick={() => handleButtonClick(professor.id)}
+          onClick={() => handleButtonClick(instructor.id)}
           variant={buttonVariant ? buttonVariant : "contained"}
         >
           {buttonText ? buttonText : "Dogovori termin"}
         </Button>
       </div>
-      {selectedProfessorId === professor.id && (
+      {selectedInstructorId === instructor.id && (
         <DateTimeDialog
-          open={selectedProfessorId === professor.id}
+          open={selectedInstructorId === instructor.id}
           onClose={handleCloseDialog}
-          professor={professor}
+          instructor={instructor}
           subjectId={subjectId} // Pass subjectId if available
           isOnSubjectPage={!!subjectName} // Check if on the subject page
           onSuccess={handleSuccess}  // Handle success toast
@@ -118,20 +118,20 @@ function ProfessorsComponent({
   );
 
   return (
-    <div className="professor-container">
+    <div className="instructor-container">
       {/* Toast for showing success messages */}
       <Toast ref={successToast} position="top-center" />
 
-      {/* If sessions exist, render session-based view, otherwise render professors */}
+      {/* If sessions exist, render session-based view, otherwise render instructors */}
       {sessions?.length > 0
         ? sessions.map((session, index) =>
           renderProfessorCard(session.user, session, index)
         )
-        : professors?.map((professor, index) =>
-          renderProfessorCard(professor, null, index)
+        : instructors?.map((instructor, index) =>
+          renderProfessorCard(instructor, null, index)
         )}
     </div>
   );
 }
 
-export default ProfessorsComponent;
+export default InstructorsComponent;

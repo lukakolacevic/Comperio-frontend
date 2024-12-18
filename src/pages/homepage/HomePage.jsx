@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
 
 import InputAdornment from "@mui/material/InputAdornment";
-import ProfessorsComponent from "../../components/professors/ProfessorsComponent";
+import InstructorsComponent from "../../components/instructors/InstructorsComponent";
 import { getSubjects } from '../../api/SubjectApi';
-import { getProfessors } from '../../api/ProfessorApi';
+import { getInstructors } from '../../api/InstructorApi';
 
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -73,17 +73,17 @@ function ComboBox() {
 }
 
 function HomePage() {
-  const [professors, setProfessors] = useState([]);
+  const [instructors, setInstructors] = useState([]);
 
   useEffect(() => {
-    const fetchProfessors = async () => {
-      const fetchedProfessors = await getProfessors();
-      console.log("Prvi return: ", fetchedProfessors); // Check what is actually being returned here
-      setProfessors(fetchedProfessors.professors);
-      console.log("Drugi return: ", professors); // This will show the previous state due to closure
+    const fetchInstructors = async () => {
+      const fetchedInstructors = await getInstructors();
+      console.log("Prvi return: ", fetchedInstructors); // Check what is actually being returned here
+      setInstructors(fetchedInstructors.instructors);
+      console.log("Drugi return: ", instructors); // This will show the previous state due to closure
     };
 
-    fetchProfessors();
+    fetchInstructors();
   }, []);
 
   if (!localStorage.getItem('token')) {
@@ -97,7 +97,7 @@ function HomePage() {
           <div>
             <div className="title">
               <img src="/logo/dotGet-logo.svg" alt="" />
-              <h2>instrukcije po mjeri!</h2>
+              <h2>Instrukcije po mjeri!</h2>
             </div>
 
               <ComboBox />
@@ -106,8 +106,8 @@ function HomePage() {
 
           <div>
             <h4>Najpopularniji instruktori:</h4>
-            <ProfessorsComponent
-              professors={professors}
+            <InstructorsComponent
+              instructors={instructors}
               sessions = {null}
               showSubject={true}
               showInstructionsCount={true}

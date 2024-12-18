@@ -2,15 +2,15 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Card } from 'primereact/card';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
-import './ProfessorProfilePage.css';
-import { getSubjectsForProfessor, getSubjects } from '../../api/SubjectApi';
+import './InstructorProfilePage.css';
+import { getSubjectsForInstructor, getSubjects } from '../../api/SubjectApi';
 import ConfirmSelectionDialog from '../../components/dialog/ConfirmSelectionDialog';
 import { Toast } from 'primereact/toast';
 import { Accordion, AccordionTab } from 'primereact/accordion';
-import { removeProfessorFromSubject, joinSubject } from '../../api/ProfessorApi';
+import { removeInstructorFromSubject, joinSubject } from '../../api/InstructorApi';
 
-function ProfessorProfilePage() {
-    const [professorSubjects, setProfessorSubjects] = useState([]);
+function InstructorProfilePage() {
+    const [instructorSubjects, setInstructorSubjects] = useState([]);
     const [allSubjects, setAllSubjects] = useState([]);
     const [filteredSubjects, setFilteredSubjects] = useState([]);
     const [showConfirmDialog, setShowConfirmDialog] = useState(false);
@@ -24,13 +24,13 @@ function ProfessorProfilePage() {
     useEffect(() => {
 
         if (user.id) {
-            const fetchProfessorSubjects = async () => {
+            const fetchInstructorSubjects = async () => {
                 try {
-                    const fetchedProfessorSubjects = await getSubjectsForProfessor(user.id);
-                    setProfessorSubjects(fetchedProfessorSubjects.subjects);
+                    const fetchedInstructorSubjects = await getSubjectsForInstructor(user.id);
+                    setInstructorSubjects(fetchedInstructorSubjects.subjects);
                 } catch (error) {
                     console.error("Error fetching subjects.")
-                    setProfessorSubjects([]);
+                    setInstructorSubjects([]);
                 }
             }
 
@@ -45,7 +45,7 @@ function ProfessorProfilePage() {
                 }
             }
             fetchAllSubjects();
-            fetchProfessorSubjects();
+            fetchInstructorSubjects();
         }
     }, [user.id]);
 
@@ -63,17 +63,17 @@ function ProfessorProfilePage() {
         setShowConfirmDialog(true);
     }
 
-    const confirmRemoveSubject = async (professorId) => {
-        const subjectToRemove = professorSubjects.find(subject => subject.id === selectedSubjectId);
+    const confirmRemoveSubject = async (instructorId) => {
+        const subjectToRemove = instructorSubjects.find(subject => subject.id === selectedSubjectId);
 
         if (subjectToRemove) {
-            const previousProfessorSubjects = [...professorSubjects];
-            setProfessorSubjects(prevSubjects =>
+            const previousInstructorSubjects = [...instructorSubjects];
+            setInstructorSubjects(prevSubjects =>
                 prevSubjects.filter(subject => subject.id !== selectedSubjectId)
             );
 
             try {
-                await removeProfessorFromSubject(professorId, selectedSubjectId);
+                await removeInstructorFromSubject(instructorId, selectedSubjectId);
                 setShowConfirmDialog(false);
                 if (toast.current) {
                     toast.current.show({
@@ -85,7 +85,7 @@ function ProfessorProfilePage() {
             } catch (error) {
                 console.error(error.message);
 
-                setProfessorSubjects(previousProfessorSubjects);
+                setInstructorSubjects(previousInstructorSubjects);
                 setShowConfirmDialog(false);
                 setSelectedSubjectId(null);
                 setSelectedSubjectTitle('');
@@ -108,17 +108,17 @@ function ProfessorProfilePage() {
         setShowConfirmJoinDialog(true);
     }
 
-    const confirmJoinSubject = async (professorId) => {
+    const confirmJoinSubject = async (instructorId) => {
         const subjectToJoin = allSubjects.find(subject => subject.id === selectedSubjectId);
-        console.log(professorId, selectedSubjectId);
+        console.log(instructorId, selectedSubjectId);
         if (subjectToJoin) {
-            const previousProfessorSubjects = [...professorSubjects];
+            const previousInstructorSubjects = [...instructorSubjects];
 
             // Optimistically update the UI by adding the subject
-            setProfessorSubjects(prevSubjects => [...prevSubjects, subjectToJoin]);
+            setInstructorSubjects(prevSubjects => [...prevSubjects, subjectToJoin]);
 
             try {
-                await joinSubject(professorId, selectedSubjectId);
+                await joinSubject(instructorId, selectedSubjectId);
                 setShowConfirmJoinDialog(false);
                 if (toast.current) {
                     toast.current.show({
@@ -150,7 +150,7 @@ function ProfessorProfilePage() {
                     }
                 }
                 // Revert the UI back to the previous state on error
-                setProfessorSubjects(previousProfessorSubjects);
+                setInstructorSubjects(previousInstructorSubjects);
                 setShowConfirmJoinDialog(false);
                 setSelectedSubjectId(null);
                 setSelectedSubjectTitle('');
@@ -199,9 +199,9 @@ function ProfessorProfilePage() {
                         <Card title="Moji Predmeti" className="subject-card my-subjects">
 
                             <div className="scrollable-subject-list">
-                                {professorSubjects.length > 0 ? (
-                                    professorSubjects.map((subject) => (
-                                        <div key={`professor-${subject.id}`}>
+                                {instructorSubjects.length > 0 ? (
+                                    instructorSubjects.map((subject) => (
+                                        <div key={`instructor-${subject.id}`}>
                                             <div className="subject-item">
                                                 <h4>{subject.title}</h4>
                                                 <p>{subject.description || "No description available."}</p>
@@ -257,4 +257,4 @@ function ProfessorProfilePage() {
     );
 }
 
-export default ProfessorProfilePage;
+export default InstructorProfilePage;

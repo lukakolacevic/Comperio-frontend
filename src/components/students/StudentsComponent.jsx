@@ -1,6 +1,6 @@
 import React from "react";
 import "./StudentsComponent.css";
-import "../professors/ProfessorsComponent.css";
+import "../instructors/InstructorsComponent.css";
 import { Button as PrimeButton } from 'primereact/button';
 
 function StudentsComponent({
@@ -12,24 +12,26 @@ function StudentsComponent({
     buttonText,
     buttonVariant
 }) {
+    
 
     const renderStudentCard = (student, session, index) => {
+        console.log(student);
         return (
-            <div key={`${session.sessionId}-${index}`} className="professor">
+            <div key={`${session.sessionId}-${index}`} className="instructor">
                 <img
                     src={
-                        student.profilePictureBase64String
-                            ? `data:image/jpeg;base64,${student.profilePictureBase64String}`
+                        student.profilePicture
+                            ? `data:image/jpeg;base64,${student.profilePicture}`
                             : "/placeholder.png"
                     }
-                    className="professor-image"
+                    className="instructor-image"
                     alt={student.name}
                 />
-                <div className="professor-info">
-                    <h3 className="professor-text">
+                <div className="instructor-info">
+                    <h3 className="instructor-text">
                         {student.name} {student.surname}
                     </h3>
-                    <p className="professor-text">{session.subject.title}</p>
+                    <p className="instructor-text">{session.subject.title}</p>
                     <p>{new Date(session.dateTime).toLocaleString()}</p>
 
                     {isForPendingRequests && (
@@ -63,9 +65,9 @@ function StudentsComponent({
     };
 
     return (
-        <div className="professor-container">
+        <div className="instructor-container">
             {sessions.map((session, index) =>
-                renderStudentCard(session.student, session, index)
+                renderStudentCard(session.user, session, index)
             )}
         </div>
     );

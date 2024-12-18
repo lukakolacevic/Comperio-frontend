@@ -6,11 +6,11 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { Button, Dialog, DialogContent, DialogTitle, MenuItem, Select } from "@mui/material";
-import { sentInstructionDate } from "../../api/ProfessorApi";
-import { getSubjectsForProfessor } from "../../api/SubjectApi";
+import { sentInstructionDate } from "../../api/InstructorApi";
+import { getSubjectsForInstructor } from "../../api/SubjectApi";
 import { Toast } from 'primereact/toast'; // Import PrimeReact Toast
 
-const DateTimeDialog = ({ open, onClose, professor, subjectId, isOnSubjectPage, onSuccess }) => {
+const DateTimeDialog = ({ open, onClose, instructor, subjectId, isOnSubjectPage, onSuccess }) => {
 
   const formattedDate = dayjs().format('YYYY-MM-DDTHH:mm:ss');
   const [value, setValue] = React.useState(dayjs(formattedDate));
@@ -23,8 +23,8 @@ const DateTimeDialog = ({ open, onClose, professor, subjectId, isOnSubjectPage, 
     const fetchSubjects = async () => {
       if (!isOnSubjectPage) {
         try {
-          const professorSubjects = await getSubjectsForProfessor(professor.id);
-          setAvailableSubjects(professorSubjects.subjects); // Ensure it's an array
+          const instructorSubjects = await getSubjectsForInstructor(instructor.id);
+          setAvailableSubjects(instructorSubjects.subjects); // Ensure it's an array
         } catch (error) {
           setAvailableSubjects([]); // Set to an empty array if an error occurs
         }
@@ -32,7 +32,7 @@ const DateTimeDialog = ({ open, onClose, professor, subjectId, isOnSubjectPage, 
     };
 
     fetchSubjects(); // Only call this function once
-  }, [isOnSubjectPage, professor.id]); // Adjusted the dependency to `professor.id`
+  }, [isOnSubjectPage, instructor.id]); // Adjusted the dependency to `instructor.id`
 
   const handleClose = () => {
     onClose();
@@ -41,7 +41,7 @@ const DateTimeDialog = ({ open, onClose, professor, subjectId, isOnSubjectPage, 
   const handleConfirm = async () => {
     try {
       const isoDateString = value.toISOString();
-      await sentInstructionDate(isoDateString, professor.id, selectedSubjectId);
+      await sentInstructionDate(isoDateString, instructor.id, selectedSubjectId);
 
       // Success - Close dialog and trigger success toast outside the component
       handleClose();
@@ -78,7 +78,7 @@ const DateTimeDialog = ({ open, onClose, professor, subjectId, isOnSubjectPage, 
         <DialogTitle>Odaberi vrijeme instrukcija</DialogTitle>
         <DialogContent>
           <h3>
-            Profesor: {professor.name} {professor.surname}
+            Profesor: {instructor.name} {instructor.surname}
           </h3>
 
           {/* Only show subject dropdown if the user is not on the subject page */}

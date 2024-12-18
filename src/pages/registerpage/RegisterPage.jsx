@@ -26,13 +26,13 @@ function RegisterPage() {
   const [studentConfirmPassword, setStudentConfirmPassword] = useState("");
   const [studentProfilePicture, setStudentProfilePicture] = useState(null);
 
-  const [professorName, setProfessorName] = useState("");
-  const [professorSurname, setProfessorSurname] = useState("");
-  const [professorEmail, setProfessorEmail] = useState("");
-  const [professorPassword, setProfessorPassword] = useState("");
-  const [professorConfirmPassword, setProfessorConfirmPassword] = useState("");
-  const [professorProfilePicture, setProfessorProfilePicture] = useState(null);
-  //const [professorSubjects, setProfessorSubjects] = useState([]);
+  const [instructorName, setInstructorName] = useState("");
+  const [instructorSurname, setInstructorSurname] = useState("");
+  const [instructorEmail, setInstructorEmail] = useState("");
+  const [instructorPassword, setInstructorPassword] = useState("");
+  const [instructorConfirmPassword, setInstructorConfirmPassword] = useState("");
+  const [instructorProfilePicture, setInstructorProfilePicture] = useState(null);
+  //const [instructorSubjects, setInstructorSubjects] = useState([]);
 
   const handleStudentSubmit = async (event) => {
     event.preventDefault();
@@ -52,34 +52,34 @@ function RegisterPage() {
     handlerRegister(studentData, 1);
   };
 
-  const handleProfessorSubmit = async (event) => {
+  const handleInstructorSubmit = async (event) => {
     event.preventDefault();
 
-    const professorData = new FormData();
-    professorData.append("name", professorName);
-    professorData.append("surname", professorSurname);
-    professorData.append("email", professorEmail);
-    professorData.append("password", professorPassword);
-    professorData.append("confirmPassword", professorConfirmPassword);
-    professorData.append("profilePicture", professorProfilePicture);
-   // professorSubjects.forEach((subject) => {
-     // professorData.append("subjects", subject.url);
+    const instructorData = new FormData();
+    instructorData.append("name", instructorName);
+    instructorData.append("surname", instructorSurname);
+    instructorData.append("email", instructorEmail);
+    instructorData.append("password", instructorPassword);
+    instructorData.append("confirmPassword", instructorConfirmPassword);
+    instructorData.append("profilePicture", instructorProfilePicture);
+   // instructorSubjects.forEach((subject) => {
+     // instructorData.append("subjects", subject.url);
     //});
 
 
-    // Assuming professorData is your FormData object
+    // Assuming instructorData is your FormData object
     
 
 
-    handlerRegister(professorData, 2);
+    handlerRegister(instructorData, 2);
   };
 
   const handleStudentImageChange = (event) => {
     setStudentProfilePicture(event.target.files[0]);
   };
 
-  const handleProfessorImageChange = (event) => {
-    setProfessorProfilePicture(event.target.files[0]);
+  const handleInstructorImageChange = (event) => {
+    setInstructorProfilePicture(event.target.files[0]);
   };
 
   const [subjects, setSubjects] = useState([]);
@@ -213,7 +213,7 @@ function RegisterPage() {
                 variant="contained"
                 onClick={() => setShowStudentForm(!showStudentForm)}
               >
-                Registriraj se kao {showStudentForm ? "professor" : "student"}?
+                Registriraj se kao {showStudentForm ? "instruktor" : "student"}?
               </Button>
             </form>
           </div>
@@ -222,14 +222,14 @@ function RegisterPage() {
         <div className="login-wrapper">
           <div className="login-container">
             <h1>Registracija profesora</h1>
-            <form onSubmit={handleProfessorSubmit}>
+            <form onSubmit={handleInstructorSubmit}>
               <div className="register-form">
                 <InputLabel htmlFor="name">Ime</InputLabel>
                 <OutlinedInput
                   id="name"
                   type="text"
-                  value={professorName}
-                  onChange={(e) => setProfessorName(e.target.value)}
+                  value={instructorName}
+                  onChange={(e) => setInstructorName(e.target.value)}
                   startAdornment={
                     <InputAdornment position="start">
                       <img
@@ -244,8 +244,8 @@ function RegisterPage() {
                 <OutlinedInput
                   id="surname"
                   type="text"
-                  value={professorSurname}
-                  onChange={(e) => setProfessorSurname(e.target.value)}
+                  value={instructorSurname}
+                  onChange={(e) => setInstructorSurname(e.target.value)}
                   startAdornment={
                     <InputAdornment position="start">
                       <img
@@ -260,8 +260,8 @@ function RegisterPage() {
                 <OutlinedInput
                   id="email"
                   type="email"
-                  value={professorEmail}
-                  onChange={(e) => setProfessorEmail(e.target.value)}
+                  value={instructorEmail}
+                  onChange={(e) => setInstructorEmail(e.target.value)}
                   startAdornment={
                     <InputAdornment position="start">
                       <img
@@ -276,8 +276,8 @@ function RegisterPage() {
                 <OutlinedInput
                   id="password"
                   type="password"
-                  value={professorPassword}
-                  onChange={(e) => setProfessorPassword(e.target.value)}
+                  value={instructorPassword}
+                  onChange={(e) => setInstructorPassword(e.target.value)}
                   startAdornment={
                     <InputAdornment position="start">
                       <img
@@ -294,8 +294,8 @@ function RegisterPage() {
                 <OutlinedInput
                   id="confirmPassword"
                   type="password"
-                  value={professorConfirmPassword}
-                  onChange={(e) => setProfessorConfirmPassword(e.target.value)}
+                  value={instructorConfirmPassword}
+                  onChange={(e) => setInstructorConfirmPassword(e.target.value)}
                   startAdornment={
                     <InputAdornment position="start">
                       <img
@@ -312,7 +312,7 @@ function RegisterPage() {
                 <OutlinedInput
                   id="profilePicture"
                   type="file"
-                  onChange={handleProfessorImageChange}
+                  onChange={handleInstructorImageChange}
                 />
               </div>
 
@@ -327,12 +327,12 @@ function RegisterPage() {
                 type="button"
                 variant="contained"
                 onClick={() => {
-                  setProfessorName("");
-                  setProfessorSurname("");
-                  setProfessorEmail("");
-                  setProfessorPassword("");
-                  setProfessorConfirmPassword("");
-                  setProfessorProfilePicture(null);
+                  setInstructorName("");
+                  setInstructorSurname("");
+                  setInstructorEmail("");
+                  setInstructorPassword("");
+                  setInstructorConfirmPassword("");
+                  setInstructorProfilePicture(null);
                 }}
               >
                 Odbaci
@@ -341,7 +341,7 @@ function RegisterPage() {
                 variant="contained"
                 onClick={() => setShowStudentForm(!showStudentForm)}
               >
-                Registriraj se kao {showStudentForm ? "professor" : "student"}?
+                Registriraj se kao {showStudentForm ? "instruktor" : "student"}?
               </Button>
             </form>
           </div>

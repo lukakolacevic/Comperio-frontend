@@ -1,5 +1,5 @@
-/* Card Container for Each Professor */
-.professor {
+/* Card Container for Each instructor */
+.instructor {
     background-color: #ffffff;
     border-radius: 16px;
     padding: 1.5rem;
@@ -13,13 +13,13 @@
     width: 100%;
 }
 
-.professor:hover {
+.instructor:hover {
     transform: scale(1.03);
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Container for All Professor Cards */
-.professor-container {
+/* Container for All instructor Cards */
+.instructor-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center; /* Center-aligns the cards */
@@ -29,19 +29,19 @@
 
 /* Responsive Adjustments for Smaller Screens */
 @media (max-width: 768px) {
-    .professor {
+    .instructor {
         max-width: 100%; /* Full width on smaller screens */
         flex-direction: column;
         align-items: center;
     }
 
-    .professor-container {
+    .instructor-container {
         justify-content: center;
     }
 }
 
 /* Image Styling for Profile Picture */
-.professor-image {
+.instructor-image {
     height: 6rem; /* Smaller profile image */
     width: 6rem;
     border-radius: 50%;
@@ -51,7 +51,7 @@
 }
 
 /* Text Container for Information */
-.professor-info {
+.instructor-info {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -60,14 +60,14 @@
 }
 
 /* Name and Details Styling */
-.professor-text {
+.instructor-text {
     font-size: 1rem;
     color: #333333;
     font-weight: 600;
     margin: 0.5rem 0;
 }
 
-.professor-text p {
+.instructor-text p {
     font-size: 0.9rem;
     color: #666666;
     margin: 0.2rem 0;
@@ -83,7 +83,7 @@
 }
 
 /* Action Buttons Styling */
-.professor-info .p-button {
+.instructor-info .p-button {
     margin-top: 0.5rem;
 }
 

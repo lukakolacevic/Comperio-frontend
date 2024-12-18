@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { getTopSubjectsForStudent, getTopProfessorsForStudent } from "../../api/SubjectApi";
+import { getTopSubjectsForStudent, getTopInstructorsForStudent } from "../../api/SubjectApi";
 import BarChart from "../../components/chart/BarChart.jsx";
 import "./StudentProfilePage.css";
 
 function StudentProfilePage() {
     const user = JSON.parse(localStorage.getItem("user"));
     const [topStudentSubjects, setTopStudentSubjects] = useState([]);
-    const [topStudentProfessors, setTopStudentProfessors] = useState([]);
+    const [topStudentInstructors, setTopStudentInstructors] = useState([]);
     
     useEffect(() => {
-        const fetchTopSubjectsAndProfessors = async () => {
+        const fetchTopSubjectsAndInstructors = async () => {
             try {
                 const topSubjects = await getTopSubjectsForStudent(user.id);
-                const topProfessors = await getTopProfessorsForStudent(user.id);
+                const topInstructors = await getTopInstructorsForStudent(user.id);
                 if (topSubjects && topSubjects.listOfMostChosenSubjects) {
                     setTopStudentSubjects(topSubjects.listOfMostChosenSubjects);
                     console.log(topStudentSubjects);
@@ -20,18 +20,18 @@ function StudentProfilePage() {
                     console.error("Unexpected data format:", topSubjects);
                 }
 
-                if (topProfessors && topProfessors.listOfMostChosenInstructors) {
-                    setTopStudentProfessors(topProfessors.listOfMostChosenInstructors);
-                    console.log(topProfessors);
+                if (topInstructors && topInstructors.listOfMostChosenInstructors) {
+                    setTopStudentInstructors(topInstructors.listOfMostChosenInstructors);
+                    console.log(topInstructors);
                 } else {
-                    console.error("Unexpected data format:", topProfessors);
+                    console.error("Unexpected data format:", topInstructors);
                 }
             } catch (error) {
                 console.error("Error fetching top subjects:", error);
                 setTopStudentSubjects([]);
             }
         };
-        fetchTopSubjectsAndProfessors();
+        fetchTopSubjectsAndInstructors();
         
     }, [user.studentId]);
 
@@ -46,11 +46,11 @@ function StudentProfilePage() {
             <div className="chart-wrapper"> {/* Wrapper for two charts */}
                 <div className="chart-card">
                     <h3 className="chart-title">Tvoji najodabraniji predmeti</h3>
-                    <BarChart data={topStudentSubjects} isForProfessors={false}/>
+                    <BarChart data={topStudentSubjects} isForInstructors={false}/>
                 </div>
                 <div className="chart-card">
                     <h3 className="chart-title">Tvoji najodabraniji profesori</h3>
-                    <BarChart data={topStudentProfessors} isForProfessors={true}/>
+                    <BarChart data={topStudentInstructors} isForInstructors={true}/>
                 </div>
             </div>
         </div>

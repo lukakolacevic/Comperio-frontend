@@ -1,5 +1,5 @@
 import "./SubjectPage.css";
-import ProfessorsComponent from "../../components/professors/ProfessorsComponent";
+import InstructorsComponent from "../../components/instructors/InstructorsComponent";
 import { getSubject } from "../../api/SubjectApi";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -38,8 +38,8 @@ function SubjectPage() {
 
           <div>
             <h4>Najpopularniji instruktori:</h4>
-            <ProfessorsComponent
-              professors={subjectData ? subjectData.professors : []}
+            <InstructorsComponent
+              instructors={subjectData ? subjectData.instructors : []}
               sessions = {null}
               showSubject={false}
               showInstructionsCount={false}

@@ -21,7 +21,7 @@ export const handleLogin = async (data, roleId) => {
       localStorage.removeItem("user");
 
       // Add role status and store user info
-      const user = { ...result.user, status: roleId === 1 ? "student" : "professor" };
+      const user = { ...result.user, status: roleId === 1 ? "student" : "instructor" };
 
       localStorage.setItem("user", JSON.stringify(user));
 

@@ -31,7 +31,7 @@ export async function createSubject(data) {
   return makeRequestWithRetry(url, options);
 }
 
-export async function getSubjectsForProfessor(instructorId) {
+export async function getSubjectsForInstructor(instructorId) {
   const url = `${import.meta.env.VITE_REACT_BACKEND_URL}/instructors/${instructorId}/subjects`;
   const options = {
     method: "GET",
@@ -51,7 +51,7 @@ export async function getTopSubjectsForStudent(studentId) {
   return makeRequestWithRetry(url, options);
 }
 
-export async function getTopProfessorsForStudent(studentId) {
+export async function getTopInstructorsForStudent(studentId) {
   const url = `${import.meta.env.VITE_REACT_BACKEND_URL}/students/${studentId}/stats/popular-instructors`;
   const options = {
     method: "GET",

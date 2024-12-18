@@ -27,7 +27,7 @@ function LoginPage() {
     })();
   }
 
-  function handleProfessorSubmit(event) {
+  function handleInstructorSubmit(event) {
     event.preventDefault();
     const data = { email: instructorEmail, password: instructorPassword };
     (async () => {
@@ -49,8 +49,8 @@ function LoginPage() {
       <div className="login-container">
         <h1>{showStudentLogIn ? "Prijava studenta" : "Prijava profesora"}</h1>
 
-        {/* Form for student or professor login */}
-        <form onSubmit={showStudentLogIn ? handleStudentSubmit : handleProfessorSubmit}>
+        {/* Form for student or Instructor login */}
+        <form onSubmit={showStudentLogIn ? handleStudentSubmit : handleInstructorSubmit}>
           <div className="login-form">
             <InputLabel htmlFor="email">E-mail adresa</InputLabel>
             <OutlinedInput

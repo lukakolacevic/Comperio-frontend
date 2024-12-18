@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { TabView, TabPanel } from 'primereact/tabview';
-import ProfessorsComponent from "../../components/professors/ProfessorsComponent.jsx";
+import InstructorsComponent from "../../components/instructors/InstructorsComponent.jsx";
 import StudentsComponent from "../../components/students/StudentsComponent.jsx";
-import { getStudentSessions, getProfessorSessions, manageSessionRequest } from "../../api/ProfessorApi.jsx";
+import { getStudentSessions, getInstructorSessions, manageSessionRequest } from "../../api/InstructorApi.jsx";
 import { Toast } from 'primereact/toast';
 import ConfirmSelectionDialog from '../../components/dialog/ConfirmSelectionDialog.jsx';
 import "./SessionPage.css";
@@ -38,11 +38,11 @@ function SessionPage() {
           setPendingRequests(studentSessions.pendingRequests);
           setCancelledSessions(studentSessions.cancelledSessions);
         } else if (roleId === 2) {
-          const professorSessions = await getProfessorSessions(user.id);
-          setPastSessions(professorSessions.pastSessions);
-          setUpcomingSessions(professorSessions.upcomingSessions);
-          setPendingRequests(professorSessions.pendingRequests);
-          setCancelledSessions(professorSessions.cancelledSessions);
+          const instructorSessions = await getInstructorSessions(user.id);
+          setPastSessions(instructorSessions.pastSessions);
+          setUpcomingSessions(instructorSessions.upcomingSessions);
+          setPendingRequests(instructorSessions.pendingRequests);
+          setCancelledSessions(instructorSessions.cancelledSessions);
         }
       } catch (error) {
         console.error("Error fetching sessions/requests:", error);
@@ -153,7 +153,7 @@ function SessionPage() {
             <TabPanel header="Zahtjevi za instrukcije">
               <div className="session-card-container">
                 {roleId === 1 ? (
-                  <ProfessorsComponent
+                  <InstructorsComponent
                     sessions={pendingRequests}
                     showTime={true}
                     showSubject={true}
@@ -174,7 +174,7 @@ function SessionPage() {
             <TabPanel header="Nadolezeće instrukcije">
               <div className="session-card-container">
                 {roleId === 1 ? (
-                  <ProfessorsComponent
+                  <InstructorsComponent
                     sessions={upcomingSessions}
                     showTime={true}
                     showSubject={true}
@@ -195,7 +195,7 @@ function SessionPage() {
             <TabPanel header="Prošle instrukcije">
               <div className="session-card-container">
                 {roleId === 1 ? (
-                  <ProfessorsComponent
+                  <InstructorsComponent
                     sessions={pastSessions}
                     showTime={true}
                     showSubject={true}
@@ -213,7 +213,7 @@ function SessionPage() {
             <TabPanel header="Otkazane instrukcije">
               <div className="session-card-container">
                 {roleId === 1 ? (
-                  <ProfessorsComponent
+                  <InstructorsComponent
                     sessions={cancelledSessions}
                     showTime={true}
                     showSubject={true}

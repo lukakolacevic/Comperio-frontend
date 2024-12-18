@@ -1,6 +1,6 @@
 import { makeRequestWithRetry } from "./MakeRequest";
 
-export async function getProfessors() {
+export async function getInstructors() {
   const url = `${import.meta.env.VITE_REACT_BACKEND_URL}/instructors`;
   const options = {
     method: "GET",
@@ -10,7 +10,7 @@ export async function getProfessors() {
   return makeRequestWithRetry(url, options);
 }
 
-export async function sentInstructionDate(selectedDate, professorId, subjectId) {
+export async function sentInstructionDate(selectedDate, instructorId, subjectId) {
   const url = `${import.meta.env.VITE_REACT_BACKEND_URL}/sessions`;
   const options = {
     method: "POST",
@@ -18,7 +18,7 @@ export async function sentInstructionDate(selectedDate, professorId, subjectId) 
     credentials: "include",
     body: JSON.stringify({
       dateTime: selectedDate,
-      professorId: professorId,
+      instructorId: instructorId,
       subjectId: subjectId,
     }),
   };
@@ -35,7 +35,7 @@ export async function getStudentSessions(studentId) {
   return makeRequestWithRetry(url, options);
 }
 
-export async function getProfessorSessions(instructorId) {
+export async function getInstructorSessions(instructorId) {
   const url = `${import.meta.env.VITE_REACT_BACKEND_URL}/sessions/instructors/${instructorId}`;
   const options = {
     method: "GET",
@@ -56,7 +56,7 @@ export async function manageSessionRequest(sessionId, newStatus) {
   return makeRequestWithRetry(url, options);
 }
 
-export async function removeProfessorFromSubject(instructorId, subjectId) {
+export async function removeInstructorFromSubject(instructorId, subjectId) {
   const url = `${import.meta.env.VITE_REACT_BACKEND_URL}/instructor/${instructorId}/subjects/${subjectId}`;
   const options = {
     method: "DELETE",
