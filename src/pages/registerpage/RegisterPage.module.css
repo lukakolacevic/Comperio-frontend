@@ -1,0 +1,112 @@
+.register-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f3f4f6;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.register-container {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.register-container h1 {
+    font-size: 1.5rem;
+    color: #111827;
+    margin-bottom: 24px;
+    font-weight: bold;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.register-form input {
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.register-form input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 4px rgba(37, 99, 235, 0.4);
+    outline: none;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.button-container button {
+    padding: 12px 0;
+    border-radius: 8px;
+    font-weight: 600;
+    width: 48%;
+    background-color: #00a3f0;
+}
+
+.button-container button:hover {
+    background-color: #0081bd;
+}
+
+.name-fields {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.file-name {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    color: #6b7280; /* Gray */
+    font-style: italic;
+}
+
+.custom-hover-effect:hover {
+    background-color: #d84300 !important; /* Dimmed hover color */
+    border-color: #d84300 !important;     /* Matching border on hover */
+    color: white !important;
+    transform: none !important;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.custom-hover-effect:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Add these two for red outline and red error text */
+.error-outline .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline,
+.error-outline .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: #dc2626 !important;
+}
+
+
+.error-text {
+    color: #dc2626;
+    margin: 0.25rem 0 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.bottom-buttons-container{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}

@@ -1,4 +1,9 @@
-/* Remove duplicate PrimeReact imports */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ... */
 
 /* Your other styles */
 :root {
@@ -13,6 +18,7 @@
 }
 
 body {
+  background-color: #FAFAFA;
   margin: 0;
   min-width: 320px;
   min-height: 100vh;

@@ -1,20 +1,13 @@
 import { useState } from "react";
 import {
-  Button,
   InputAdornment,
   InputLabel,
   OutlinedInput,
 } from "@mui/material";
-
-import "./RegisterPage.css";
-import { handlerRegister } from "../../api/AuthApi";
-
-import { useEffect } from "react";
-
-import { getSubjects } from "../../api/SubjectApi";
-
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
+import { Button } from "@/components/shadcn/Button";
+import styles from "./RegisterPage.module.css";
+import { FileUpload } from "primereact/fileupload";
+import { Link } from "react-router-dom";
 
 function RegisterPage() {
   const [showStudentForm, setShowStudentForm] = useState(true);
@@ -25,6 +18,7 @@ function RegisterPage() {
   const [studentPassword, setStudentPassword] = useState("");
   const [studentConfirmPassword, setStudentConfirmPassword] = useState("");
   const [studentProfilePicture, setStudentProfilePicture] = useState(null);
+  const [studentErrors, setStudentErrors] = useState({});
 
   const [instructorName, setInstructorName] = useState("");
   const [instructorSurname, setInstructorSurname] = useState("");
@@ -32,12 +26,63 @@ function RegisterPage() {
   const [instructorPassword, setInstructorPassword] = useState("");
   const [instructorConfirmPassword, setInstructorConfirmPassword] = useState("");
   const [instructorProfilePicture, setInstructorProfilePicture] = useState(null);
-  //const [instructorSubjects, setInstructorSubjects] = useState([]);
+  const [instructorErrors, setInstructorErrors] = useState({});
 
-  const handleStudentSubmit = async (event) => {
+  const handlerRegister = (formData, role) => {
+    // role => 1 for Student, 2 for Instructor
+    console.log("Form data:", formData);
+    console.log("Role:", role === 1 ? "Student" : "Instructor");
+  };
+
+  const validateStudentForm = () => {
+    const errors = {};
+    if (!studentName.trim()) {
+      errors.name = "Ime ne smije biti prazno.";
+    }
+    if (!studentSurname.trim()) {
+      errors.surname = "Prezime ne smije biti prazno.";
+    }
+    if (!studentEmail.includes("@")) {
+      errors.email = "Email mora sadržavati '@'.";
+    }
+    if (!studentPassword) {
+      errors.password = "Lozinka ne smije biti prazna.";
+    }
+    if (studentPassword !== studentConfirmPassword) {
+      errors.confirmPassword = "Lozinke se ne poklapaju.";
+    }
+    return errors;
+  };
+
+  const validateInstructorForm = () => {
+    const errors = {};
+    if (!instructorName.trim()) {
+      errors.name = "Ime ne smije biti prazno.";
+    }
+    if (!instructorSurname.trim()) {
+      errors.surname = "Prezime ne smije biti prazno.";
+    }
+    if (!instructorEmail.includes("@")) {
+      errors.email = "Email mora sadržavati '@'.";
+    }
+    if (!instructorPassword) {
+      errors.password = "Lozinka ne smije biti prazna.";
+    }
+    if (instructorPassword !== instructorConfirmPassword) {
+      errors.confirmPassword = "Lozinke se ne poklapaju.";
+    }
+    return errors;
+  };
+
+  const handleStudentSubmit = (event) => {
     event.preventDefault();
+    const errors = validateStudentForm();
+    if (Object.keys(errors).length > 0) {
+      setStudentErrors(errors);
+      return;
+    }
+    setStudentErrors({});
 
-    // Prepare the data to be sent
     const studentData = new FormData();
     studentData.append("name", studentName);
     studentData.append("surname", studentSurname);
@@ -46,14 +91,17 @@ function RegisterPage() {
     studentData.append("confirmPassword", studentConfirmPassword);
     studentData.append("profilePicture", studentProfilePicture);
 
-    console.log(studentData);
-
-    // Send the data to the server
     handlerRegister(studentData, 1);
   };
 
-  const handleInstructorSubmit = async (event) => {
+  const handleInstructorSubmit = (event) => {
     event.preventDefault();
+    const errors = validateInstructorForm();
+    if (Object.keys(errors).length > 0) {
+      setInstructorErrors(errors);
+      return;
+    }
+    setInstructorErrors({});
 
     const instructorData = new FormData();
     instructorData.append("name", instructorName);
@@ -62,297 +110,283 @@ function RegisterPage() {
     instructorData.append("password", instructorPassword);
     instructorData.append("confirmPassword", instructorConfirmPassword);
     instructorData.append("profilePicture", instructorProfilePicture);
-   // instructorSubjects.forEach((subject) => {
-     // instructorData.append("subjects", subject.url);
-    //});
-
-
-    // Assuming instructorData is your FormData object
-    
-
 
     handlerRegister(instructorData, 2);
   };
 
-  const handleStudentImageChange = (event) => {
-    setStudentProfilePicture(event.target.files[0]);
-  };
-
-  const handleInstructorImageChange = (event) => {
-    setInstructorProfilePicture(event.target.files[0]);
-  };
-
-  const [subjects, setSubjects] = useState([]);
-
-  useEffect(() => {
-    getSubjects().then((response) => setSubjects(response.subjects));
-  }, []);
-
-
   return (
-    <>
-      {showStudentForm ? (
-        <div className="register-wrapper">
-          <div className="register-container">
-            <h1>Registracija studenta</h1>
-            <form onSubmit={handleStudentSubmit}>
-              <div className="register-form">
+    <div className={styles["register-wrapper"]}>
+      <div className={styles["register-container"]}>
+        <h1>
+          {showStudentForm ? "Registracija studenta" : "Registracija instruktora"}
+        </h1>
+
+        <form
+          onSubmit={showStudentForm ? handleStudentSubmit : handleInstructorSubmit}
+        >
+          <div className={styles["register-form"]}>
+            {/* Name and Surname Fields */}
+            <div className={styles["name-fields"]}>
+              <div className={styles["form-field"]}>
                 <InputLabel htmlFor="name">Ime</InputLabel>
                 <OutlinedInput
                   id="name"
                   type="text"
-                  value={studentName}
-                  onChange={(e) => setStudentName(e.target.value)}
+                  value={showStudentForm ? studentName : instructorName}
+                  onChange={(e) =>
+                    showStudentForm
+                      ? setStudentName(e.target.value)
+                      : setInstructorName(e.target.value)
+                  }
                   startAdornment={
                     <InputAdornment position="start">
                       <img
                         src="/icons/person-icon.svg"
+                        alt="icon"
                         style={{ height: "15px", width: "15px" }}
                       />
                     </InputAdornment>
                   }
+                  // <-- HERE: Use MUI's `error` prop to highlight red
+                  error={
+                    showStudentForm
+                      ? Boolean(studentErrors.name)
+                      : Boolean(instructorErrors.name)
+                  }
                 />
+                {/* Error message below "Ime" */}
+                {showStudentForm && studentErrors.name && (
+                  <p className={styles["error-text"]}>{studentErrors.name}</p>
+                )}
+                {!showStudentForm && instructorErrors.name && (
+                  <p className={styles["error-text"]}>{instructorErrors.name}</p>
+                )}
+              </div>
 
+              <div className={styles["form-field"]}>
                 <InputLabel htmlFor="surname">Prezime</InputLabel>
                 <OutlinedInput
                   id="surname"
                   type="text"
-                  value={studentSurname}
-                  onChange={(e) => setStudentSurname(e.target.value)}
+                  value={showStudentForm ? studentSurname : instructorSurname}
+                  onChange={(e) =>
+                    showStudentForm
+                      ? setStudentSurname(e.target.value)
+                      : setInstructorSurname(e.target.value)
+                  }
                   startAdornment={
                     <InputAdornment position="start">
                       <img
                         src="/icons/person-icon.svg"
+                        alt="icon"
                         style={{ height: "15px", width: "15px" }}
                       />
                     </InputAdornment>
                   }
-                />
-
-                <InputLabel htmlFor="email">Email</InputLabel>
-                <OutlinedInput
-                  id="email"
-                  type="email"
-                  value={studentEmail}
-                  onChange={(e) => setStudentEmail(e.target.value)}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <img
-                        src="/icons/email-icon.svg"
-                        style={{ height: "15px", width: "15px" }}
-                      />
-                    </InputAdornment>
+                  error={
+                    showStudentForm
+                      ? Boolean(studentErrors.surname)
+                      : Boolean(instructorErrors.surname)
                   }
                 />
-
-                <InputLabel htmlFor="password">Lozinka</InputLabel>
-                <OutlinedInput
-                  id="password"
-                  type="password"
-                  value={studentPassword}
-                  onChange={(e) => setStudentPassword(e.target.value)}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <img
-                        src="/icons/password-icon.svg"
-                        style={{ height: "15px", width: "15px" }}
-                      />
-                    </InputAdornment>
-                  }
-                />
-
-                <InputLabel htmlFor="confirmPassword">
-                  Potvrdi Lozinku
-                </InputLabel>
-                <OutlinedInput
-                  id="confirmPassword"
-                  type="password"
-                  value={studentConfirmPassword}
-                  onChange={(e) => setStudentConfirmPassword(e.target.value)}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <img
-                        src="/icons/password-icon.svg"
-                        style={{ height: "15px", width: "15px" }}
-                      />
-                    </InputAdornment>
-                  }
-                />
-
-                <InputLabel htmlFor="profilePicture">
-                  Profilna fotografija
-                </InputLabel>
-                <OutlinedInput
-                  id="profilePicture"
-                  type="file"
-                  onChange={handleStudentImageChange}
-                />
+                {showStudentForm && studentErrors.surname && (
+                  <p className={styles["error-text"]}>{studentErrors.surname}</p>
+                )}
+                {!showStudentForm && instructorErrors.surname && (
+                  <p className={styles["error-text"]}>{instructorErrors.surname}</p>
+                )}
               </div>
-              <Button
-                type="submit"
-                variant="contained"
-                style={{ marginRight: "1rem" }}
-              >
-                Registriraj se
-              </Button>
-              <Button
-                type="button"
-                variant="contained"
-                onClick={() => {
+            </div>
+
+            {/* Email Field */}
+            <InputLabel htmlFor="email">Email</InputLabel>
+            <OutlinedInput
+              id="email"
+              type="email"
+              value={showStudentForm ? studentEmail : instructorEmail}
+              onChange={(e) =>
+                showStudentForm
+                  ? setStudentEmail(e.target.value)
+                  : setInstructorEmail(e.target.value)
+              }
+              startAdornment={
+                <InputAdornment position="start">
+                  <img
+                    src="/icons/email-icon.svg"
+                    alt="icon"
+                    style={{ height: "15px", width: "15px" }}
+                  />
+                </InputAdornment>
+              }
+              error={
+                showStudentForm
+                  ? Boolean(studentErrors.email)
+                  : Boolean(instructorErrors.email)
+              }
+            />
+            {showStudentForm && studentErrors.email && (
+              <p className={styles["error-text"]}>{studentErrors.email}</p>
+            )}
+            {!showStudentForm && instructorErrors.email && (
+              <p className={styles["error-text"]}>{instructorErrors.email}</p>
+            )}
+
+            {/* Password Field */}
+            <InputLabel htmlFor="password">Lozinka</InputLabel>
+            <OutlinedInput
+              id="password"
+              type="password"
+              value={showStudentForm ? studentPassword : instructorPassword}
+              onChange={(e) =>
+                showStudentForm
+                  ? setStudentPassword(e.target.value)
+                  : setInstructorPassword(e.target.value)
+              }
+              startAdornment={
+                <InputAdornment position="start">
+                  <img
+                    src="/icons/password-icon.svg"
+                    alt="icon"
+                    style={{ height: "15px", width: "15px" }}
+                  />
+                </InputAdornment>
+              }
+              error={
+                showStudentForm
+                  ? Boolean(studentErrors.password)
+                  : Boolean(instructorErrors.password)
+              }
+            />
+            {showStudentForm && studentErrors.password && (
+              <p className={styles["error-text"]}>{studentErrors.password}</p>
+            )}
+            {!showStudentForm && instructorErrors.password && (
+              <p className={styles["error-text"]}>{instructorErrors.password}</p>
+            )}
+
+            <InputLabel htmlFor="confirmPassword">Potvrdi Lozinku</InputLabel>
+            <OutlinedInput
+              id="confirmPassword"
+              type="password"
+              value={
+                showStudentForm
+                  ? studentConfirmPassword
+                  : instructorConfirmPassword
+              }
+              onChange={(e) =>
+                showStudentForm
+                  ? setStudentConfirmPassword(e.target.value)
+                  : setInstructorConfirmPassword(e.target.value)
+              }
+              startAdornment={
+                <InputAdornment position="start">
+                  <img
+                    src="/icons/password-icon.svg"
+                    alt="icon"
+                    style={{ height: "15px", width: "15px" }}
+                  />
+                </InputAdornment>
+              }
+              error={
+                showStudentForm
+                  ? Boolean(studentErrors.confirmPassword)
+                  : Boolean(instructorErrors.confirmPassword)
+              }
+            />
+            {showStudentForm && studentErrors.confirmPassword && (
+              <p className={styles["error-text"]}>{studentErrors.confirmPassword}</p>
+            )}
+            {!showStudentForm && instructorErrors.confirmPassword && (
+              <p className={styles["error-text"]}>{instructorErrors.confirmPassword}</p>
+            )}
+
+            {/* Profile Picture Field */}
+            <InputLabel htmlFor="profilePicture">Profilna fotografija</InputLabel>
+            <FileUpload
+              mode="basic"
+              name="profilePicture"
+              accept="image/*"
+              chooseLabel="Izaberi datoteku"
+              auto={false}
+              onSelect={(e) => {
+                const file = e.files[0];
+                if (showStudentForm) {
+                  setStudentProfilePicture(file);
+                } else {
+                  setInstructorProfilePicture(file);
+                }
+              }}
+              chooseOptions={{
+                style: {
+                  backgroundColor: "#F04D00",
+                  border: "1px solid #F04D00",
+                  color: "white",
+                  fontWeight: "bold",
+                  padding: "10px 16px",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                  textAlign: "center",
+                  transform: "none"
+                },
+              }}
+            />
+          </div>
+
+          {/* Buttons */}
+          <div className={styles["button-container"]}>
+            <Button
+              type="submit"
+              className="bg-blue-500 text-white hover:bg-blue-600"
+            >
+              Registriraj se
+            </Button>
+            <Button
+              type="button"
+              className="bg-blue-500 text-white hover:bg-blue-600"
+              onClick={() => {
+                if (showStudentForm) {
                   setStudentName("");
                   setStudentSurname("");
                   setStudentEmail("");
                   setStudentPassword("");
                   setStudentConfirmPassword("");
                   setStudentProfilePicture(null);
-                }}
-              >
-                Odbaci
-              </Button>
-              <Button
-                variant="contained"
-                onClick={() => setShowStudentForm(!showStudentForm)}
-              >
-                Registriraj se kao {showStudentForm ? "instruktor" : "student"}?
-              </Button>
-            </form>
-          </div>
-        </div>
-      ) : (
-        <div className="login-wrapper">
-          <div className="login-container">
-            <h1>Registracija profesora</h1>
-            <form onSubmit={handleInstructorSubmit}>
-              <div className="register-form">
-                <InputLabel htmlFor="name">Ime</InputLabel>
-                <OutlinedInput
-                  id="name"
-                  type="text"
-                  value={instructorName}
-                  onChange={(e) => setInstructorName(e.target.value)}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <img
-                        src="/icons/person-icon.svg"
-                        style={{ height: "15px", width: "15px" }}
-                      />
-                    </InputAdornment>
-                  }
-                />
-
-                <InputLabel htmlFor="surname">Prezime</InputLabel>
-                <OutlinedInput
-                  id="surname"
-                  type="text"
-                  value={instructorSurname}
-                  onChange={(e) => setInstructorSurname(e.target.value)}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <img
-                        src="/icons/person-icon.svg"
-                        style={{ height: "15px", width: "15px" }}
-                      />
-                    </InputAdornment>
-                  }
-                />
-
-                <InputLabel htmlFor="email">Email</InputLabel>
-                <OutlinedInput
-                  id="email"
-                  type="email"
-                  value={instructorEmail}
-                  onChange={(e) => setInstructorEmail(e.target.value)}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <img
-                        src="/icons/email-icon.svg"
-                        style={{ height: "15px", width: "15px" }}
-                      />
-                    </InputAdornment>
-                  }
-                />
-
-                <InputLabel htmlFor="password">Lozinka</InputLabel>
-                <OutlinedInput
-                  id="password"
-                  type="password"
-                  value={instructorPassword}
-                  onChange={(e) => setInstructorPassword(e.target.value)}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <img
-                        src="/icons/password-icon.svg"
-                        style={{ height: "15px", width: "15px" }}
-                      />
-                    </InputAdornment>
-                  }
-                />
-
-                <InputLabel htmlFor="confirmPassword">
-                  Potvrdi Lozinku
-                </InputLabel>
-                <OutlinedInput
-                  id="confirmPassword"
-                  type="password"
-                  value={instructorConfirmPassword}
-                  onChange={(e) => setInstructorConfirmPassword(e.target.value)}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <img
-                        src="/icons/password-icon.svg"
-                        style={{ height: "15px", width: "15px" }}
-                      />
-                    </InputAdornment>
-                  }
-                />
-
-                <InputLabel htmlFor="profilePicture">
-                  Profilna fotografija
-                </InputLabel>
-                <OutlinedInput
-                  id="profilePicture"
-                  type="file"
-                  onChange={handleInstructorImageChange}
-                />
-              </div>
-
-              <Button
-                type="submit"
-                variant="contained"
-                style={{ marginRight: "1rem" }}
-              >
-                Registriraj se
-              </Button>
-              <Button
-                type="button"
-                variant="contained"
-                onClick={() => {
+                  setStudentErrors({});
+                } else {
                   setInstructorName("");
                   setInstructorSurname("");
                   setInstructorEmail("");
                   setInstructorPassword("");
                   setInstructorConfirmPassword("");
                   setInstructorProfilePicture(null);
-                }}
-              >
-                Odbaci
-              </Button>
-              <Button
-                variant="contained"
-                onClick={() => setShowStudentForm(!showStudentForm)}
-              >
-                Registriraj se kao {showStudentForm ? "instruktor" : "student"}?
-              </Button>
-            </form>
+                  setInstructorErrors({});
+                }
+              }}
+            >
+              Odbaci
+            </Button>
           </div>
-        </div>
-      )}
-      <div className="login-wrapper">
-        <div className="login-container" style={{ flexDirection: "row" }}>
 
-        </div>
+          {/* Toggle Button */}
+          <div className={styles["bottom-buttons-container"]}>
+            <Button
+              className="max-w-[200px] mx-auto mt-5"
+              onClick={() => setShowStudentForm(!showStudentForm)}
+              variant="link"
+            >
+              Registriraj se kao {showStudentForm ? "instruktor" : "student"}?
+            </Button>
+            <Button
+              asChild
+              className="bg-green-500 text-white hover:bg-green-600 mx-auto mt-2 w-full max-w-[200px]"
+            >
+              <Link to="/login">Već imaš račun? Ulogiraj se</Link>
+            </Button>
+          </div>
+
+        </form>
       </div>
-    </>
+    </div>
   );
 }
 

@@ -4,17 +4,18 @@ import App from "./App.jsx";
 
 
 
-// Import PrimeReact stylesheets
-import 'primereact/resources/themes/saga-blue/theme.css'; // Or your chosen theme
-//import 'primereact/resources/primereact.min.css';
-//import 'primeicons/primeicons.css';
+import 'primereact/resources/themes/lara-light-blue/theme.css'; // Theme
+import 'primereact/resources/primereact.min.css'; // Core CSS
+import 'primeicons/primeicons.css'; // PrimeIcons CSS
+
+
 import "./index.css";
 
 // Import Material UI theme setup
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+//import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 // **Import PrimeReactProvider from 'primereact/api'**
-import { PrimeReactProvider } from 'primereact/api';
+//import { PrimeReactProvider } from 'primereact/api';
 
 // Custom MUI theme if needed
 {/*
