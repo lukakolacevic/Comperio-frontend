@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button } from "@/components/shadcn/Button";
 import { useState, useEffect, useRef } from "react";
 import "./InstructorsComponent.css";
 import DateTimeDialog from "../dialog/DateTimeDialog";
