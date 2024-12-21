@@ -51,7 +51,7 @@ Welcome to the frontend part of the Comperio tutoring booking app! This project 
 
 ## License
 
-This project is proprietary and not open-source. Please contact lukakolacevic@gmail.com(mailto:lukakolacevic@gmail.com) for more information regarding usage or collaboration.
+This project is proprietary and not open-source. Please contact [lukakolacevic@gmail.com](mailto:lukakolacevic@gmail.com) for more information regarding usage or collaboration.
 
 ---
 
@@ -59,8 +59,8 @@ This project is proprietary and not open-source. Please contact lukakolacevic@gm
 
 For any questions or suggestions, please feel free to contact:
 
-- **Email**: lukakolacevic@gmail.com(mailto:lukakolacevic@gmail.com)
-- **GitHub**: lukakolacevic(https://github.com/lukakolacevic)
+- **Email**: [lukakolacevic@gmail.com](mailto:lukakolacevic@gmail.com)
+- **GitHub**: [lukakolacevic](https://github.com/lukakolacevic)
 
 ---
 
