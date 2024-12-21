@@ -1,0 +1,141 @@
+/* Center the form both vertically and horizontally */
+.login-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f3f4f6; /* Light gray background */
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+/* Logo styling */
+.logo {
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.logo img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
+/* Login container for the form */
+.login-container {
+    background-color: #ffffff; /* White background */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 32px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* Heading style */
+.login-container h1 {
+    font-size: 1.5rem;
+    color: #111827; /* Dark gray */
+    margin-bottom: 24px;
+    font-weight: bold;
+}
+
+/* Form layout */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.login-form input {
+    padding: 12px 14px;
+    border: 1px solid #d1d5db; /* Light gray border */
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .login-form input:focus {
+    border-color: #2563eb; /* Blue focus border */
+    box-shadow: 0 0 4px rgba(37, 99, 235, 0.4); /* Subtle blue shadow */
+    outline: none;
+  }
+  
+
+/* Button container */
+.button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.button-container button {
+    padding: 12px 0;
+    font-weight: 600;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 150px;
+    color: white;
+    background-color: #00a3f0;
+}
+  
+.button-container button:hover {
+    background-color: #0081bd;
+}
+
+
+.button-container button.secondary {
+    background-color: #6b7280; /* Gray for secondary buttons */
+}
+
+.button-container button.secondary:hover {
+    background-color: #4b5563; /* Darker gray */
+}
+
+/* Bottom buttons container */
+.bottom-buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.bottom-buttons-container button {
+    color: #2563eb;
+    background-color: transparent;
+    border: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.bottom-buttons-container button:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+}
+
+
+
+
+
+.custom-button{
+    max-width: 200px;
+}
+
+/* Error message styling */
+.error-message {
+    color: #dc2626; /* Red */
+    font-size: 0.875rem;
+    margin-top: 16px;
+    text-align: center;
+}
+
+.error-text {
+    color: #dc2626;
+    margin: 0.25rem 0 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
