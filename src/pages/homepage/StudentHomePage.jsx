@@ -72,7 +72,7 @@ function ComboBox() {
   );
 }
 
-function HomePage() {
+function StudentHomePage() {
   const [instructors, setInstructors] = useState([]);
 
   useEffect(() => {
@@ -86,9 +86,7 @@ function HomePage() {
     fetchInstructors();
   }, []);
 
-  if (!localStorage.getItem('token')) {
-    window.location.href = '/login';
-  }
+  
 
   return (
     <>
@@ -96,7 +94,7 @@ function HomePage() {
         <div className="homepage-container">
           <div>
             <div className="title">
-              <img src="/logo/dotGet-logo.svg" alt="" />
+              
               <h2>Instrukcije po mjeri!</h2>
             </div>
 
@@ -120,4 +118,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default StudentHomePage;
