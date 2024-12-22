@@ -56,7 +56,7 @@ function HomePage() {
                     {/* Desktop Menubar - Only visible on large screens */}
                     {!isSmallScreen && (
                         <div className="desktop-navbar">
-                            <Menubar model={items.filter(Boolean)} start={start} />
+                            <Menubar model={items.filter(Boolean)}  />
                         </div>
                     )}
 
