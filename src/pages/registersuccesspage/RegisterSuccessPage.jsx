@@ -1,19 +1,19 @@
 import React from 'react';
-import { Button } from 'primereact/button'; // Replace with your preferred UI library
+import { Button } from "@/components/shadcn/Button"; // Your shadcn Button component
 import { useNavigate } from 'react-router-dom';
-import './RegisterSuccessPage.css'; // Custom styles
+import styles from './RegisterSuccessPage.module.css'; // Custom styles
 
 const RegisterSuccessPage = () => {
   const navigate = useNavigate();
 
   const handleResendEmail = async () => {
     try {
-      const user = JSON.parse(localStorage.getItem("user"));
+      const user = JSON.parse(localStorage.getItem('user'));
       const url = `${import.meta.env.VITE_REACT_BACKEND_URL}/resend-confirmation-email`;
       const response = await fetch(url, {
-        method: "POST",
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user.email)
+        body: JSON.stringify(user?.email),
       });
       const data = await response.json();
       console.log(data.message);
@@ -23,17 +23,22 @@ const RegisterSuccessPage = () => {
   };
 
   return (
-    <div className="confirm-email-wrapper">
-      <div className="confirm-email-container">
-        <h2>Skoro si gotov...</h2>
-        <p>Hvala ti što si se registrirao na našoj platformi. Poslali smo ti link potvrde na email adresu pa ga samo na brzinu potvrdi.</p>
-        
-        <div className="resend-wrapper">
-          <p>Ako nisi dobio email, klikni gumb dolje da bi ti ga ponovno poslali.</p>
-          <Button label="Ponovno pošalji mail potvrde" onClick={handleResendEmail} className="p-button-rounded p-button-outlined resend-button"/>
+    <div className={styles.confirmEmailWrapper}>
+      <div className={styles.confirmEmailContainer}>
+        <h2>Provjeri svoj email</h2>
+        <p>Hvala ti što si se registrirao na našoj platformi! Da bi dovršio registraciju,
+          otvori svoj email i klikni na link za potvrdu. Ako ne vidiš email, provjeri i
+          mapu neželjene pošte (spam).</p>
+        <div className={styles.resendWrapper}>
+          <p>Nisi dobio email? Klikni na gumb ispod kako bismo ga ponovno poslali.</p>
+          <Button onClick={handleResendEmail} className={styles.resendButton}>
+            Ponovno pošalji mail za potvrdu
+          </Button>
         </div>
-        
-        <p className="login-link">Već si potvrđen? <span onClick={() => navigate('/login')}>Prijavi se</span></p>
+        <p className={styles.loginLink}>
+          Već si potvrdio račun?{" "}
+          <span onClick={() => navigate("/login")}>Prijavi se</span>
+        </p>
       </div>
     </div>
   );

@@ -1,0 +1,74 @@
+/* ConfirmEmailPage.module.css */
+
+/* Wrapper for the entire page */
+.confirmEmailWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* Ensure full screen coverage */
+  background-color: #f3f4f6; /* Consistent with your other pages */
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* Main container */
+.confirmEmailContainer {
+  max-width: 480px;
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* Headline styling */
+.confirmEmailContainer h2 {
+  color: #00a3f0;
+  margin-bottom: 16px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Paragraph styling */
+.confirmEmailContainer p {
+  color: #555555;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0.75rem 0; /* Balanced spacing between paragraphs */
+}
+
+/* Resend section */
+.resendWrapper {
+  margin-top: 1.5rem;
+}
+
+/* Resend button */
+.resendButton {
+  margin-top: 0.5rem;
+  border-color: #00a3f0 !important;  /* Force the border color */
+  background-color: #00a3f0 !important; /* Force the background color */
+  color: white !important;            /* Ensure white text */
+}
+
+/* Hover state for the resend button */
+.resendButton:hover {
+  background-color: #0081bd !important;
+  color: white !important;
+}
+
+/* Already confirmed? link styling */
+.loginLink {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #888888;
+}
+.loginLink span {
+  color: #2563eb;
+  cursor: pointer;
+  font-weight: 500;
+}
+.loginLink span:hover {
+  text-decoration: underline;
+  
+}
