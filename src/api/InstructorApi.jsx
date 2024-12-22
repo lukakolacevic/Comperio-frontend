@@ -10,7 +10,7 @@ export async function getInstructors() {
   return makeRequestWithRetry(url, options);
 }
 
-export async function sentInstructionDate(selectedDate, instructorId, subjectId) {
+export async function sentInstructionDate(selectedDate, selectedLength, instructorId, subjectId) {
   const url = `${import.meta.env.VITE_REACT_BACKEND_URL}/sessions`;
   const options = {
     method: "POST",
@@ -18,6 +18,7 @@ export async function sentInstructionDate(selectedDate, instructorId, subjectId)
     credentials: "include",
     body: JSON.stringify({
       dateTime: selectedDate,
+      sessionLength: selectedLength,
       instructorId: instructorId,
       subjectId: subjectId,
     }),
