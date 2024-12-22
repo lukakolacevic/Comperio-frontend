@@ -1,69 +1,57 @@
-/* ConfirmationSuccessPage.css */
-/* CSS */
-.confirmation-success-wrapper {
+/* Wrapper */
+.confirmationSuccessWrapper {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #f4f6f8;
+  background-color: #f4f6f8; /* Light background */
   padding: 20px;
+  box-sizing: border-box;
 }
 
-.confirmation-success-container {
+/* Main Container */
+.confirmationSuccessContainer {
   max-width: 400px;
   padding: 2rem;
-  background-color: #ffffff;
+  background-color: #ffffff; /* White card */
   border-radius: 12px;
   box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
-h1 {
-  color: #4BB543; /* Green for success */
-  font-size: 1.8rem;
+/* Success Header */
+.successHeader {
+  color: #22C55E; /* Green for success */
+  font-size: 2rem; /* Larger for prominence */
   font-weight: bold;
-  margin: 0;
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px; /* Spacing between emoji and text */
+  gap: 8px; /* Spacing between icon and text */
 }
 
-.emoji {
-  font-size: 1.4em;
-  line-height: 1; /* Ensures emoji is aligned */
-  vertical-align: middle; /* Aligns emoji with the text */
-}
-
-p {
-  color: #555555;
+/* Success Message */
+.confirmationSuccessContainer p {
+  color: #555555; /* Neutral text color */
   font-size: 1rem;
-  line-height: 1.5;
-  margin: 15px 0 25px;
+  line-height: 1.6;
+  margin: 16px 0 24px;
 }
 
-.login-button {
-  padding: 0.75rem 1.5rem;
-  font-size: 0.95rem;
+/* Primary Button */
+.primaryButton {
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
   border: none;
   border-radius: 8px;
-  background-color: #007bff;
+  background-color: #00a3f0; /* Primary blue */
   color: white;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.login-button:hover {
-  background-color: #0056b3;
-}
-
-.resend-button {
-  margin-top: 0.5rem;
-  border-color: #4f83cc;
-  color: #4f83cc;
-}
-
-.resend-button:hover {
-  background-color: #4f83cc;
-  color: white;
+.primaryButton:hover {
+  background-color: #0081bd; /* Darker blue on hover */
 }
