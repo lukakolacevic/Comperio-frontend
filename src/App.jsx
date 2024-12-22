@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from './pages/homepage/HomePage';
+import StudentHomePage from './pages/homepage/StudentHomePage.jsx';
 import Navbar from './components/navbar/Navbar.jsx';
 import LoginPage from './pages/loginpage/LoginPage.jsx';
 import RegisterPage from './pages/registerpage/RegisterPage.jsx';
@@ -12,7 +12,7 @@ import InstructorProfilePage from './pages/profilepage/InstructorProfilePage.jsx
 import StudentProfilePage from './pages/profilepage/StudentProfilePage.jsx'
 import RegisterSuccessPage from './pages/registersuccesspage/RegisterSuccessPage.jsx';
 import EmailConfirmationSuccessPage from "./pages/mailconformationsuccesspage/MailConfirmationSuccessPage.jsx"
-
+import InstructorHomePage from './pages/homepage/InstructorHomePage.jsx';
 
 function App() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -25,7 +25,7 @@ function App() {
       <div>
         {isLoggedIn && <Navbar/>}
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={isInstructor ? <InstructorHomePage /> : <StudentHomePage />} />
           <Route path="/subject/:subjectName" element={<SubjectPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
