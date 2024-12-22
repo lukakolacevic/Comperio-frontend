@@ -5,9 +5,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 function SubjectPage() {
-  if (!localStorage.getItem('token')) {
-    window.location.href = '/login';
-  }
+  
 
   let { subjectName } = useParams();
   const [subjectData, setSubjectData] = useState(null);

@@ -8,9 +8,7 @@ import ConfirmSelectionDialog from '../../components/dialog/ConfirmSelectionDial
 import "./SessionPage.css";
 
 function SessionPage() {
-  if (!localStorage.getItem("token")) {
-    window.location.href = '/login';
-  }
+  
 
   const user = JSON.parse(localStorage.getItem('user'));
   const roleId = user.roleId;
