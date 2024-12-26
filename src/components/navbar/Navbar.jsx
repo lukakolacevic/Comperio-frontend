@@ -53,14 +53,14 @@ function HomePage() {
         <div className="navbar-container">
             {loggedIn && (
                 <div className="navbar-wrapper">
-                    {/* Desktop Menubar - Only visible on large screens */}
+                    {/* Desktop Menubar - Centered */}
                     {!isSmallScreen && (
                         <div className="desktop-navbar">
-                            <Menubar model={items.filter(Boolean)}  />
+                            <Menubar model={items.filter(Boolean)} />
                         </div>
                     )}
 
-                    {/* Mobile Sidebar Toggle Button - Only visible on small screens */}
+                    {/* Mobile Sidebar Toggle Button */}
                     {isSmallScreen && (
                         <div className="mobile-navbar">
                             <Button
@@ -71,7 +71,7 @@ function HomePage() {
                         </div>
                     )}
 
-                    {/* Sidebar for Mobile - Opens when the button is clicked on small screens */}
+                    {/* Sidebar for Mobile */}
                     <Sidebar
                         visible={visibleSidebar}
                         onHide={() => setVisibleSidebar(false)}
@@ -90,7 +90,7 @@ function HomePage() {
                                                 className="p-button-link sidebar-button"
                                                 onClick={() => {
                                                     item.command();
-                                                    setVisibleSidebar(false); // Close sidebar after clicking
+                                                    setVisibleSidebar(false);
                                                 }}
                                             />
                                         </li>
@@ -102,6 +102,7 @@ function HomePage() {
                 </div>
             )}
         </div>
+
     );
 }
 

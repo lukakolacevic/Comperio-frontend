@@ -1,31 +1,50 @@
 /* Navbar Container */
 .navbar-container {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
   background-color: var(--surface-ground);
   padding: 0 16px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 10000;
+  height: 64px; /* Consistent height */
 }
 
 /* Logo styling */
 .navbar-logo {
-  margin-right: 8px;
+  margin-right: auto;
 }
 
 /* Desktop Navbar Styling */
+.desktop-navbar {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  width: 100%; /* Full width for centering */
+  background-color: #ffffff; /* Light background for modern look */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
+  padding: 10px 20px; /* Add padding for spacing */
+}
+
 .desktop-navbar .p-menubar {
   border: none;
   box-shadow: none;
-  background: #ffffff; /* Light background for modern look */
+  background: transparent; /* Transparent for clean look */
 }
+
+.desktop-navbar .p-menubar-root-list {
+  display: flex;
+  justify-content: center; /* Center menu items */
+  width: 100%;
+}
+
 .desktop-navbar .p-menubar-root-list > li > .p-menuitem-link {
   color: #343a40;
   font-weight: 500;
   padding: 0.75rem 1rem;
   transition: color 0.3s ease, background-color 0.3s ease;
 }
+
 .desktop-navbar .p-menubar-root-list > li > .p-menuitem-link:hover {
   color: #e63946;
   background-color: rgba(230, 57, 70, 0.05);
@@ -41,6 +60,7 @@
   padding: 8px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease;
+  margin-left: auto;
 }
 .sidebar-toggle-button:hover {
   background-color: #e63946;
@@ -53,6 +73,7 @@
   max-width: 280px;
   color: #343a40;
   padding-top: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .sidebar-content {
@@ -96,13 +117,24 @@
 .navbar-wrapper {
   display: flex;
   width: 100%;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
 }
 
+/* Mobile Navbar Adjustments */
 .mobile-navbar {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   width: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .desktop-navbar {
+    display: none; /* Hide desktop navbar */
+  }
+  .mobile-navbar {
+    display: flex;
+  }
 }
