@@ -8,10 +8,10 @@ import SessionPage from './pages/sessionpage/SessionPage.jsx';
 import PingPage from './pages/pages/PingPage.jsx';
 import SettingsPage from './pages/settings/SettingsPage.jsx';
 import NewSubject from './pages/newsubjectpage/NewSubjectPage.jsx';
-import InstructorProfilePage from './pages/profilepage/InstructorProfilePage.jsx'
-import StudentProfilePage from './pages/profilepage/StudentProfilePage.jsx'
+import InstructorProfilePage from './pages/profilepage/InstructorProfilePage.jsx';
+import StudentProfilePage from './pages/profilepage/StudentProfilePage.jsx';
 import RegisterSuccessPage from './pages/registersuccesspage/RegisterSuccessPage.jsx';
-import EmailConfirmationSuccessPage from "./pages/mailconformationsuccesspage/MailConfirmationSuccessPage.jsx"
+import EmailConfirmationSuccessPage from "./pages/mailconformationsuccesspage/MailConfirmationSuccessPage.jsx";
 import InstructorHomePage from './pages/homepage/InstructorHomePage.jsx';
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
   return (
     <Router>
       <div>
-        {isLoggedIn && <Navbar/>}
+        {isLoggedIn && <Navbar />}
         <Routes>
           <Route path="/" element={isInstructor ? <InstructorHomePage /> : <StudentHomePage />} />
           <Route path="/subject/:subjectName" element={<SubjectPage />} />
@@ -34,8 +34,8 @@ function App() {
           <Route path="/ping" element={<PingPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/new" element={<NewSubject />} />
-          <Route path="/register-success" element={<RegisterSuccessPage/>}/>
-          <Route path="/confirm-email-success" element={<EmailConfirmationSuccessPage/>}/>
+          <Route path="/register-success" element={<RegisterSuccessPage />} />
+          <Route path="/confirm-email-success" element={<EmailConfirmationSuccessPage />} />
         </Routes>
       </div>
     </Router>

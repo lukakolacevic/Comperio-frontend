@@ -1,8 +1,9 @@
+import { GoogleLogin } from "@react-oauth/google";
 import { InputLabel, OutlinedInput, InputAdornment } from "@mui/material";
 import { Button } from "@/components/shadcn/Button";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { handleLogin } from "../../api/AuthApi";
+import { handleLogin, handleGoogleLogin } from "../../api/AuthApi";
 import styles from "./LoginPage.module.css";
 
 function LoginPage() {
@@ -12,6 +13,33 @@ function LoginPage() {
   const [instructorEmail, setInstructorEmail] = useState("");
   const [instructorPassword, setInstructorPassword] = useState("");
   const [errors, setErrors] = useState({ email: "", password: "" });
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      // 'credentialResponse.credential' is the ID token from Google
+      const googleToken = credentialResponse.credential;
+
+      // Optionally, decode it client-side to see what’s inside
+      // console.log("Decoded JWT: ", jwt_decode(googleToken));
+
+      // We send googleToken to the server. For example, if you want role 1 for student:
+      const roleId = showStudentLogIn ? 1 : 2;
+
+      const response = await handleGoogleLogin(googleToken, roleId);
+      console.log("Google login response:", response);
+
+      // Do something with the tokens returned from the server
+      // e.g. store them in localStorage, navigate, etc.
+
+    } catch (error) {
+      console.error("Google Login Error:", error);
+    }
+  };
+
+  // Google Sign-In Error Handler
+  const handleGoogleFailure = () => {
+    console.error("Google login failed");
+  };
 
   function validateForm(email, password) {
     const newErrors = {};
@@ -23,7 +51,7 @@ function LoginPage() {
 
     if (!password) {
       newErrors.password = "Molim te unesi lozinku.";
-    } 
+    }
 
     return newErrors;
   }
@@ -154,7 +182,10 @@ function LoginPage() {
           >
             Prijavi se kao {showStudentLogIn ? "professor" : "student"}
           </Button>
-
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={handleGoogleFailure}
+          />
           <Button
             asChild
             className="bg-green-500 text-white hover:bg-green-600 mx-auto mt-2 w-full max-w-[200px]"

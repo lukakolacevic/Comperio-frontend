@@ -87,3 +87,40 @@ export const logout = async () => {
   }
 
 };
+
+export const handleGoogleLogin = async (token, roleId) => {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_BACKEND_URL}/google-login/${roleId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({token: token}),
+        credentials: "include",
+      }
+    );
+
+    if (response.ok) {
+      const result = await response.json();
+
+      // Clear any old stored data
+      localStorage.removeItem("user");
+
+      // Add role status and store user info
+      const user = { ...result.user, status: roleId === 1 ? "student" : "instructor" };
+
+      localStorage.setItem("user", JSON.stringify(user));
+
+      // Redirect the user
+      window.location.href = "/";
+    } else {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to login with Google");
+    }
+  } catch (error) {
+    console.error("An error occurred in handleGoogleLogin:", error);
+    throw error;
+  }
+};

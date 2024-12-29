@@ -39,13 +39,13 @@ const theme = createTheme({
   },
 });*/}
 
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    {/* Wrap ThemeProvider inside PrimeReactProvider */}
-    {/*<ThemeProvider theme={theme}>*/}
-      {/*<PrimeReactProvider value ={{ripple: true}}>*/}
-        <App />
-      {/*</PrimeReactProvider>*/}
-    {/*</ThemeProvider>*/}
+    {/* Wrap the app in GoogleOAuthProvider */}
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_REACT_APP_GOOGLE_CLIENT_ID}>
+      <App />
+    </GoogleOAuthProvider>
   </React.StrictMode>
 );
