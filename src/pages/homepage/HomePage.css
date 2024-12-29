@@ -3,112 +3,152 @@
     height: 100vh;
     display: flex;
     justify-content: center;
-    background-color: #f9f9f9; /* Light background for better readability */
-  }
-  
-  .homepage-container {
+    background-color: #f9f9f9;
+    /* Light background for better readability */
+}
+
+.homepage-container {
     width: 90%;
     display: flex;
     flex-direction: row;
     gap: 20px;
     margin: 2rem 0;
-  }
-  
-  .left-column {
-    flex: 3; /* Calendar and search take more space */
+}
+
+.left-column {
+    flex: 3;
+    /* Calendar and search take more space */
     display: flex;
     flex-direction: column;
     gap: 20px;
-  }
-  
-  .right-column {
-    flex: 1; /* Smaller section for instructors */
+}
+
+.right-column {
+    flex: 1;
+    /* Smaller section for instructors */
     display: flex;
     flex-direction: column;
     gap: 20px;
-  }
-  
-  .calendar-container {
+}
+
+.calendar-container {
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 16px;
-    width: 100%;
-  }
-  
-  .search-container {
+    padding: 8px;
+    /* Adjust padding to reduce empty space */
+    margin-bottom: 16px;
+    /*width: 100%;*/
+    max-width: 70%;
+}
+
+.rbc-calendar {
+    padding: 0;
+}
+
+.rbc-month-row {
+    height: 2.5rem;
+}
+
+.rbc-header {
+    font-size: 0.95rem;
+}
+
+.rbc-date-cell {
+    font-size: 0.8rem;
+}
+
+.rbc-event {
+    font-size: 0.9rem;
+    padding: 2px 4px;
+}
+
+.rbc-day-bg {
+    border: 1px solid #ddd;
+}
+
+.rbc-time-content {
+    height: 300px;
+}
+
+
+.calendar {
+    height: 800px;
+    /* Adjust height for a more compact layout */
+}
+
+.search-container {
     background: #fff;
     border-radius: 12px;
     padding: 16px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .title {
+}
+
+.title {
     margin-bottom: 16px;
     font-size: 1.5rem;
     font-weight: bold;
     color: #333;
-  }
-  
-  .predmet {
+}
+
+.predmet {
     background-color: #fff;
     border-radius: 12px;
     padding: 16px;
     margin: 8px 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .predmet:hover {
+}
+
+.predmet:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .link-no-style {
+}
+
+.link-no-style {
     text-decoration: none;
     color: inherit;
-  }
-  
-  /* Responsive Styles */
-  @media (max-width: 768px) {
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
     .homepage-container {
-      flex-direction: column;
-      gap: 10px;
+        flex-direction: column;
+        gap: 10px;
     }
-  
+
     .left-column,
     .right-column {
-      flex: 1;
+        flex: 1;
     }
-  
+
     .calendar-container {
-      padding: 12px;
+        padding: 12px;
     }
-  
+
     .search-container {
-      padding: 12px;
+        padding: 12px;
     }
-  
+
     .title {
-      font-size: 1.2rem;
-      margin-bottom: 12px;
+        font-size: 1.2rem;
+        margin-bottom: 12px;
     }
-  }
-  
-  @media (max-width: 480px) {
+}
+
+@media (max-width: 480px) {
     .calendar-container {
-      padding: 8px;
+        padding: 8px;
     }
-  
+
     .search-container {
-      padding: 8px;
+        padding: 8px;
     }
-  
+
     .title {
-      font-size: 1rem;
-      margin-bottom: 8px;
+        font-size: 1rem;
+        margin-bottom: 8px;
     }
-  
+
     .predmet {
-      padding: 12px;
+        padding: 12px;
     }
-  }
-  
+}

@@ -88,6 +88,7 @@ function StudentHomePage() {
           <div className="calendar-container">
             <h3 className="title">Tvoji budući i prošli termini</h3>
             <Calendar
+            className="calendar"
               localizer={localizer}
               events={sessions}
               startAccessor="start"
