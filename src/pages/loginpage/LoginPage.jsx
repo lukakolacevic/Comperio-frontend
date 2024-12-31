@@ -1,6 +1,7 @@
 import { GoogleLogin } from "@react-oauth/google";
 import { InputLabel, OutlinedInput, InputAdornment } from "@mui/material";
 import { Button } from "@/components/shadcn/Button";
+import { Separator } from "@/components/shadcn/Separator";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { handleLogin, handleGoogleLogin } from "../../api/AuthApi";
@@ -182,16 +183,20 @@ function LoginPage() {
           >
             Prijavi se kao {showStudentLogIn ? "professor" : "student"}
           </Button>
-          <GoogleLogin
-            onSuccess={handleGoogleSuccess}
-            onError={handleGoogleFailure}
-          />
           <Button
             asChild
-            className="bg-green-500 text-white hover:bg-green-600 mx-auto mt-2 w-full max-w-[200px]"
+            className="bg-green-500 text-white hover:bg-green-600 mt-2 w-full"
           >
             <Link to="/register">Nemaš račun? Registriraj se</Link>
           </Button>
+          <Separator className="my-4 bg-gray-300 h-[2px]" />
+
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={handleGoogleFailure}
+            text="continue_with"
+          />
+
         </div>
       </div>
     </div>
