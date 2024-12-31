@@ -1,4 +1,6 @@
 import axios from "axios";
+import { googleLogout } from "@react-oauth/google";
+
 
 export const handleLogin = async (data, roleId) => {
   try {
@@ -66,6 +68,7 @@ export const handlerRegister = async (formData, roleId) => {
 export const logout = async () => {
 
   try {
+    googleLogout();
     const response = await fetch(
       import.meta.env.VITE_REACT_BACKEND_URL + "/logout",
       {
@@ -76,11 +79,12 @@ export const logout = async () => {
         credentials: "include"
       }
     );
-    window.location.href = "/login";
+    
     if (!response.ok) {
       throw new Error("Unable to log user out.");
     }
     localStorage.removeItem("user");
+    window.location.href = "/login";
 
   } catch (error) {
     console.error("An error occurred:", error);
