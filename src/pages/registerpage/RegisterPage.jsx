@@ -9,6 +9,7 @@ import styles from "./RegisterPage.module.css";
 import { FileUpload } from "primereact/fileupload";
 import { Link } from "react-router-dom";
 
+
 function RegisterPage() {
   const [showStudentForm, setShowStudentForm] = useState(true);
 
@@ -376,9 +377,12 @@ function RegisterPage() {
             >
               Registriraj se kao {showStudentForm ? "instruktor" : "student"}?
             </Button>
+
+            
+
             <Button
               asChild
-              className="bg-green-500 text-white hover:bg-green-600 mx-auto mt-2 w-full max-w-[200px]"
+              className="bg-green-500 text-white hover:bg-green-600 mt-2 w-full"
             >
               <Link to="/login">Već imaš račun? Ulogiraj se</Link>
             </Button>
