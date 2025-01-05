@@ -1,99 +1,75 @@
 /* Navbar Container */
 .navbar-container {
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  background-color: var(--surface-ground);
-  padding: 0 16px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 10000;
-  height: 64px; /* Consistent height */
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin: 1rem auto; /* Center the navbar with margin */
+  width: 90%; /* Adjust the width to make it not span the entire screen */
+  max-width: 800px; /* Add a max-width for large screens */
+  background: white; /* Set a clean background */
+  border-radius: 20px; /* Make the navbar rounded */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for a modern look */
+  padding: 0.5rem 1rem; /* Add padding inside the navbar */
+  z-index: 1000;
 }
 
-/* Logo styling */
-.navbar-logo {
-  margin-right: auto;
-}
-
-/* Desktop Navbar Styling */
-.desktop-navbar {
+.navbar-wrapper {
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  width: 100%; /* Full width for centering */
-  background-color: #ffffff; /* Light background for modern look */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
-  padding: 10px 20px; /* Add padding for spacing */
+  width: 100%;
+  justify-content: space-between; /* Space out elements */
+  align-items: center;
 }
 
+.navbar-logo {
+  height: 40px;
+}
+
+/* Force Remove Background for PrimeReact Menubar */
 .desktop-navbar .p-menubar {
   border: none;
-  box-shadow: none;
-  background: transparent; /* Transparent for clean look */
+  background: none !important; /* Forcefully remove the background */
+  background-color: transparent !important; /* Ensure no background */
+  box-shadow: none !important; /* Remove shadow if applied */
 }
 
 .desktop-navbar .p-menubar-root-list {
   display: flex;
-  justify-content: center; /* Center menu items */
+  justify-content: space-between;
   width: 100%;
 }
 
+/* Menu Items */
 .desktop-navbar .p-menubar-root-list > li > .p-menuitem-link {
-  color: #343a40;
+  color: #343a40; /* Default text color */
   font-weight: 500;
   padding: 0.75rem 1rem;
   transition: color 0.3s ease, background-color 0.3s ease;
+  background-color: transparent !important; /* Remove background color */
+  border-radius: 4px; /* Optional: Add slight rounding */
 }
 
 .desktop-navbar .p-menubar-root-list > li > .p-menuitem-link:hover {
-  color: #e63946;
-  background-color: rgba(230, 57, 70, 0.05);
-  border-radius: 4px;
+  color: #e63946; /* Highlight text color on hover */
+  background-color: transparent !important; /* Ensure no background on hover */
 }
 
-/* Mobile Sidebar Toggle Button */
+/* Sidebar Toggle Button */
 .sidebar-toggle-button {
   background-color: #343a40;
-  color: #ffffff;
-  border: none;
+  color: white;
   border-radius: 50%;
-  padding: 8px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease;
-  margin-left: auto;
 }
+
 .sidebar-toggle-button:hover {
   background-color: #e63946;
 }
 
-/* Sidebar Custom Styling for Mobile */
-.custom-sidebar {
-  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-  width: 80vw;
-  max-width: 280px;
-  color: #343a40;
-  padding-top: 20px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.sidebar-content {
-  padding: 16px;
-}
-
-/* Sidebar List Styles */
-.sidebar-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.sidebar-item {
-  margin: 12px 0;
-}
-
-/* Sidebar Button Styling */
+/* Sidebar Buttons */
 .sidebar-button {
-  color: #343a40;
+  color: #343a40; /* Default text color */
   font-weight: 500;
   font-size: 1rem;
   padding: 8px 0;
@@ -102,39 +78,10 @@
   align-items: center;
   gap: 12px;
   transition: color 0.3s ease, background-color 0.3s ease;
+  background-color: transparent !important; /* Remove background */
 }
-.sidebar-button i {
-  font-size: 1.2rem;
-}
+
 .sidebar-button:hover {
-  color: #e63946;
-  background-color: rgba(230, 57, 70, 0.1);
-  padding: 8px;
-  border-radius: 6px;
-}
-
-/* Additional Styling for Consistency */
-.navbar-wrapper {
-  display: flex;
-  width: 100%;
-  justify-content: center; /* Center items horizontally */
-  align-items: center; /* Center items vertically */
-}
-
-/* Mobile Navbar Adjustments */
-.mobile-navbar {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  width: 100%;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .desktop-navbar {
-    display: none; /* Hide desktop navbar */
-  }
-  .mobile-navbar {
-    display: flex;
-  }
+  color: #e63946; /* Highlight text color on hover */
+  background-color: transparent !important; /* No background */
 }
