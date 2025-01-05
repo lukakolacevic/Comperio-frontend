@@ -1,62 +1,42 @@
-import "./HomePage.css";
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-import Autocomplete from "@mui/material/Autocomplete";
-import TextField from "@mui/material/TextField";
-import InstructorsComponent from "../../components/instructors/InstructorsComponent";
-import { getSubjects } from "../../api/SubjectApi";
-import { getInstructors, getStudentSessions } from "../../api/InstructorApi";
+import React, { useState, useEffect, useRef } from "react";
+import styles from "./StudentHomePage.module.css"; // <-- CSS module
+
+// PrimeReact components
+import { Card } from "primereact/card";
+import { InputText } from "primereact/inputtext";
+import { Button } from "primereact/button";
+import { Accordion, AccordionTab } from "primereact/accordion";
+import { Toast } from "primereact/toast";
+
+// Big Calendar
 import { Calendar } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { momentLocalizer } from "react-big-calendar";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
-// Calendar localizer
+// API calls
+import { getSubjects } from "../../api/SubjectApi";
+import { getStudentSessions } from "../../api/InstructorApi";
+
+// Localize the calendar with moment
 const localizer = momentLocalizer(moment);
 
-function ComboBox() {
-  const [subjects, setSubjects] = useState([]);
-
-  useEffect(() => {
-    getSubjects().then((response) => setSubjects(response.subjects));
-  }, []);
-
-  const handleSubjectSelect = (event, value) => {
-    if (value) {
-      window.location.href = `/subject/${value.url}`;
-    }
-  };
-
-  return (
-    <div className="search-container">
-      <Autocomplete
-        disablePortal
-        id="combo-box-demo"
-        options={subjects}
-        getOptionLabel={(option) => option.title}
-        onChange={handleSubjectSelect}
-        renderInput={(params) => (
-          <TextField {...params} label="Search Subjects" variant="outlined" />
-        )}
-      />
-    </div>
-  );
-}
-
 function StudentHomePage() {
-  const [instructors, setInstructors] = useState([]);
   const [sessions, setSessions] = useState([]);
-  const user = localStorage.getItem("user");
+  const [allSubjects, setAllSubjects] = useState([]);
+  const [filteredSubjects, setFilteredSubjects] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
+  const navigate = useNavigate();
+  const toast = useRef(null);
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  // Fetch the student’s sessions for the calendar
   useEffect(() => {
-    const fetchInstructors = async () => {
-      const fetchedInstructors = await getInstructors();
-      setInstructors(fetchedInstructors.instructors);
-    };
-
     const fetchSessions = async () => {
       try {
-        const response = await getStudentSessions(JSON.parse(user).id);
+        const response = await getStudentSessions(user.id);
         setSessions([
           ...response.pastSessions.map((session) => ({
             id: session.sessionId,
@@ -76,51 +56,112 @@ function StudentHomePage() {
       }
     };
 
-    fetchInstructors();
-    fetchSessions();
-  }, []);
+    if (user?.id) {
+      fetchSessions();
+    }
+  }, [user.id]);
+
+  // Fetch all subjects for the “Pretraži predmete” card
+  useEffect(() => {
+    const fetchAllSubjects = async () => {
+      try {
+        const fetchedSubjects = await getSubjects();
+        setAllSubjects(fetchedSubjects.subjects);
+        setFilteredSubjects(fetchedSubjects.subjects);
+      } catch (error) {
+        console.error("Error fetching subjects.", error);
+      }
+    };
+
+    if (user?.id) {
+      fetchAllSubjects();
+    }
+  }, [user.id]);
+
+  // Filter subjects by searchTerm
+  useEffect(() => {
+    const filtered = allSubjects.filter((subject) =>
+      subject.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredSubjects(filtered);
+  }, [searchTerm, allSubjects]);
+
+  const goToSubject = (subjectUrl) => {
+    navigate(`/subject/${subjectUrl}`);
+  };
 
   return (
-    <div className="homepage-wrapper">
-      <div className="homepage-container">
-        {/* Left Column */}
-        <div className="left-column">
-          <div className="calendar-container">
-            <h3 className="title">Tvoji budući i prošli termini</h3>
-            <Calendar
-            className="calendar"
-              localizer={localizer}
-              events={sessions}
-              startAccessor="start"
-              endAccessor="end"
-              style={{ height: 500 }}
-              onSelectEvent={(event) =>
-                alert(`You clicked on session: ${event.title}`)
-              }
-              eventPropGetter={() => ({
-                style: {
-                  backgroundColor: "#00a3f0",
-                  color: "white",
-                  borderRadius: "8px",
-                  border: "none",
-                },
-              })}
-            />
-          </div>
-          <h3 className="title">Pretraži predmete</h3>
-          <ComboBox />
-        </div>
+    <div className={styles["profile-page-wrapper"]}>
+      {/* Toast for notifications */}
+      <Toast ref={toast} />
 
-        {/* Right Column */}
-        <div className="right-column">
-          <h4 className="title">Najpopularniji instruktori:</h4>
-          <InstructorsComponent
-            instructors={instructors}
-            sessions={null}
-            showSubject={true}
-            showInstructionsCount={true}
-            isOnProfilePage={false}
-          />
+      <div className={styles["content-wrapper"]}>
+        <div className={styles["content-wrapper"]}>
+          <div className={styles["side-by-side"]}>
+            {/* LEFT CARD: Calendar */}
+            <Card
+              title="Tvoji budući i prošli termini"
+              className={`${styles["subject-card"]} ${styles["my-subjects"]}`}
+            >
+              <div className={styles["scrollable-subject-list"]}>
+                <Calendar
+                  className={styles["calendar"]}
+                  localizer={localizer}
+                  events={sessions}
+                  startAccessor="start"
+                  endAccessor="end"
+                  style={{ height: 500 }}
+                  onSelectEvent={(event) =>
+                    alert(`You clicked on session: ${event.title}`)
+                  }
+                  eventPropGetter={() => ({
+                    style: {
+                      backgroundColor: "#00a3f0",
+                      color: "white",
+                      borderRadius: "8px",
+                      border: "none",
+                    },
+                  })}
+                />
+              </div>
+            </Card>
+
+            {/* RIGHT CARD: “Pretraži predmete” */}
+            <Card
+              title="Pretraži predmete"
+              className={`${styles["subject-card"]} ${styles["join-subject-card"]}`}
+            >
+              <InputText
+                placeholder="Pretraži predmete"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className={styles["subject-search"]}
+              />
+
+              <div className={styles["scrollable-subject-list"]}>
+                <Accordion multiple>
+                  {filteredSubjects.map((subject) => (
+                    <AccordionTab
+                      key={subject.id}
+                      header={<h4>{subject.title}</h4>}
+                    >
+                      <div className={styles["subject-item-content"]}>
+                        <p>
+                          {subject.description || "No description available."}
+                        </p>
+                        <Button
+                          label="Odi na stranicu predmeta"
+                          className="p-button-success"
+                          rounded
+                          onClick={() => goToSubject(subject.url)}
+                        />
+                      </div>
+                    </AccordionTab>
+                  ))}
+                </Accordion>
+              </div>
+            </Card>
+          </div>
         </div>
       </div>
     </div>
