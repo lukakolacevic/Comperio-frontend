@@ -88,3 +88,12 @@
   max-height: 400px; /* Reduce the height of the cards */
   overflow-y: auto;
 }
+
+.p-button-success{
+  background-color: #00a3f0;
+  color: white;
+}
+
+.p-button-success:hover{
+  background-color: #0081bd;
+}

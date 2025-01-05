@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { getSubjects } from "../../api/SubjectApi";
 import { getStudentSessions } from "../../api/InstructorApi";
 
+
 // Localize the calendar with moment
 const localizer = momentLocalizer(moment);
 
@@ -91,6 +92,8 @@ function StudentHomePage() {
   };
 
   return (
+    <>
+    
     <div className={styles["profile-page-wrapper"]}>
       {/* Toast for notifications */}
       <Toast ref={toast} />
@@ -151,10 +154,11 @@ function StudentHomePage() {
                         </p>
                         <Button
                           label="Odi na stranicu predmeta"
-                          className="p-button-success"
+                          className={styles["p-button-success"]}
                           rounded
                           onClick={() => goToSubject(subject.url)}
                         />
+                        
                       </div>
                     </AccordionTab>
                   ))}
@@ -165,6 +169,7 @@ function StudentHomePage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
