@@ -3,6 +3,7 @@ import { TabView, TabPanel } from 'primereact/tabview';
 import InstructorsComponent from "../../components/instructors/InstructorsComponent.jsx";
 import StudentsComponent from "../../components/students/StudentsComponent.jsx";
 import { getStudentSessions, getInstructorSessions, manageSessionRequest } from "../../api/InstructorApi.jsx";
+import { useLocation } from 'react-router-dom'; // Import useLocation
 import { Toast } from 'primereact/toast';
 import ConfirmSelectionDialog from '../../components/dialog/ConfirmSelectionDialog.jsx';
 import "./SessionPage.css";
@@ -12,6 +13,7 @@ function SessionPage() {
 
   const user = JSON.parse(localStorage.getItem('user'));
   const roleId = user.roleId;
+  const id = user.id;
 
   const [pastSessions, setPastSessions] = useState([]);
   const [upcomingSessions, setUpcomingSessions] = useState([]);
@@ -25,6 +27,7 @@ function SessionPage() {
   const [cancelMessage, setCancelMessage] = useState('');
   const [toastMessage, setToastMessage] = useState('');
   const toast = useRef(null);
+  const location = useLocation(); // Hook to detect route changes
 
   useEffect(() => {
     const fetchSessions = async () => {
@@ -49,7 +52,7 @@ function SessionPage() {
     console.log(user);
     fetchSessions();
     
-  }, [roleId]);
+  }, [id, location]);
 
   const handleAccept = (session) => {
     setSelectedSessionId(session.sessionId);

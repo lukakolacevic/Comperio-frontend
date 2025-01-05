@@ -8,7 +8,7 @@ import ConfirmSelectionDialog from '../../components/dialog/ConfirmSelectionDial
 import { Toast } from 'primereact/toast';
 import { Accordion, AccordionTab } from 'primereact/accordion';
 import { removeInstructorFromSubject, joinSubject } from '../../api/InstructorApi';
-
+import { useLocation } from 'react-router-dom';
 function InstructorProfilePage() {
     const [instructorSubjects, setInstructorSubjects] = useState([]);
     const [allSubjects, setAllSubjects] = useState([]);
@@ -19,6 +19,7 @@ function InstructorProfilePage() {
     const [selectedSubjectTitle, setSelectedSubjectTitle] = useState('');
     const toast = useRef(null);
     const [searchTerm, setSearchTerm] = useState("");
+    const location = useLocation();
 
     let user = JSON.parse(localStorage.getItem("user"));
     useEffect(() => {
@@ -47,7 +48,7 @@ function InstructorProfilePage() {
             fetchAllSubjects();
             fetchInstructorSubjects();
         }
-    }, [user.id]);
+    }, [user.id, location]);
 
     useEffect(() => {
         const filtered = allSubjects.filter(subject =>

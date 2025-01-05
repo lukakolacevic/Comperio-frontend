@@ -5,10 +5,12 @@ import { Button } from "primereact/button";
 import { useMediaQuery } from "react-responsive";
 import { logout } from "../../api/AuthApi";
 import "./Navbar.css";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
   const user = JSON.parse(localStorage.getItem("user"));
   const loggedIn = Boolean(user);
+  const navigate = useNavigate();
 
   const [visibleSidebar, setVisibleSidebar] = useState(false);
   const isSmallScreen = useMediaQuery({ maxWidth: 1024 }); // Updated breakpoint to 1024px
@@ -17,22 +19,22 @@ function HomePage() {
     {
       label: "Home",
       icon: "pi pi-home",
-      command: () => (window.location.href = "/"),
+      command: () => (navigate("/")),
     },
     {
       label: "Moje instrukcije",
       icon: "pi pi-book",
-      command: () => (window.location.href = "/my-sessions"),
+      command: () => (navigate("/my-sessions")),
     },
     {
       label: "Postavke",
       icon: "pi pi-cog",
-      command: () => (window.location.href = "/settings"),
+      command: () => (navigate("/settings")),
     },
     {
       label: "Moj profil",
       icon: "pi pi-user",
-      command: () => (window.location.href = "/profile"),
+      command: () => (navigate("/profile")),
     },
     user?.status === "professor" && {
       label: "Novi predmet",
