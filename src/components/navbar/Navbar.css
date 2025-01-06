@@ -1,12 +1,11 @@
 /* Navbar Container */
 .navbar-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  margin: 1rem auto;
-  width: 90%;
-  max-width: 1200px;
+  justify-content: center; /* Center the navbar content horizontally */
+  align-items: center;    /* Center vertically */
+  margin: 1rem auto;      /* Center the container itself */
+  width: 100%;            /* Full width */
+  max-width: 1200px;      /* Optional: limit the max width */
   background: white;
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -14,17 +13,16 @@
   z-index: 1000;
 }
 
-/* Navbar Wrapper */
 .navbar-wrapper {
   display: flex;
-  width: 100%;
-  justify-content: space-between;
+  justify-content: space-between; /* Space out items inside */
   align-items: center;
+  width: 100%;            /* Ensure full width */
 }
 
-/* Navbar Logo */
 .navbar-logo {
   height: 40px;
+  margin-right: auto; /* Prevent the logo from affecting alignment */
 }
 
 /* Desktop Navbar */
