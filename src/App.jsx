@@ -13,6 +13,7 @@ import StudentProfilePage from './pages/profilepage/StudentProfilePage.jsx';
 import RegisterSuccessPage from './pages/registersuccesspage/RegisterSuccessPage.jsx';
 import EmailConfirmationSuccessPage from "./pages/mailconformationsuccesspage/MailConfirmationSuccessPage.jsx";
 import InstructorHomePage from './pages/homepage/InstructorHomePage.jsx';
+import SessionDetailsPage from './pages/sessiondetailspage/SessionDetailsPage.jsx';
 
 function App() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -36,6 +37,7 @@ function App() {
           <Route path="/new" element={<NewSubject />} />
           <Route path="/register-success" element={<RegisterSuccessPage />} />
           <Route path="/confirm-email-success" element={<EmailConfirmationSuccessPage />} />
+          <Route path="/session/:id" element={<SessionDetailsPage />} />
         </Routes>
       </div>
     </Router>
