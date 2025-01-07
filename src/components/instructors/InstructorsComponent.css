@@ -11,6 +11,7 @@
     transition: transform 0.2s ease-in-out;
     max-width: 250px; /* Fixed max width to make cards smaller */
     width: 100%;
+    cursor: pointer;
 }
 
 .instructor:hover {
