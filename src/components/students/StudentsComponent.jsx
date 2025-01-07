@@ -10,14 +10,17 @@ function StudentsComponent({
     onAccept,
     onCancel,
     buttonText,
-    buttonVariant
+    buttonVariant,
+    onCardClick
 }) {
-    
-
     const renderStudentCard = (student, session, index) => {
-        console.log(student);
         return (
-            <div key={`${session.sessionId}-${index}`} className="instructor">
+            <div
+                key={`${session.sessionId}-${index}`}
+                className="instructor"
+                onClick={() => onCardClick(session.sessionId)} // Card click handler
+            >
+
                 <img
                     src={
                         student.profilePicture
@@ -27,7 +30,10 @@ function StudentsComponent({
                     className="instructor-image"
                     alt={student.name}
                 />
+
                 <div className="instructor-info">
+                    {/* Prevent card click propagation on buttons */}
+
                     <h3 className="instructor-text">
                         {student.name} {student.surname}
                     </h3>
@@ -35,7 +41,10 @@ function StudentsComponent({
                     <p>{new Date(session.dateTime).toLocaleString()}</p>
 
                     {isForPendingRequests && (
-                        <div className="button-wrapper">
+                        <div
+                            className="button-wrapper"
+                            onClick={(e) => e.stopPropagation()} // Stop propagation for buttons
+                        >
                             <PrimeButton
                                 label="Prihvati"
                                 severity="success"
@@ -52,12 +61,16 @@ function StudentsComponent({
                     )}
 
                     {isForUpcomingSessions && (
-                        <PrimeButton
-                            label="Otkaži"
-                            severity="danger"
-                            className="p-button-rounded"
-                            onClick={() => onCancel(session)}
-                        />
+                        <div
+                            onClick={(e) => e.stopPropagation()} // Stop propagation for buttons
+                        >
+                            <PrimeButton
+                                label="Otkaži"
+                                severity="danger"
+                                className="p-button-rounded"
+                                onClick={() => onCancel(session)}
+                            />
+                        </div>
                     )}
                 </div>
             </div>
