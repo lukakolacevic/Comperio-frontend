@@ -14,6 +14,7 @@ function InstructorsComponent({
   showTime,        // Flag to show session time
   buttonText,
   buttonVariant,
+  onCardClick
 }) {
   const [selectedInstructorId, setSelectedInstructorId] = useState(null);
   const [subjectId, setSubjectId] = useState(null);
@@ -64,7 +65,7 @@ function InstructorsComponent({
 
   const renderProfessorCard = (instructor, session, index) => (
     
-    <div key={`${instructor.id}-${index}`} className="instructor">
+    <div key={`${instructor.id}-${index}`} className="instructor" onClick={() => onCardClick(session.sessionId)}>
       {console.log(instructor)}
       <img
         src={
