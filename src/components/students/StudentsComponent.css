@@ -7,6 +7,7 @@
     padding: 16px;
     margin-bottom: 16px;
     transition: box-shadow 0.3s ease-in-out;
+    
 }
 
 .card-container:hover {
@@ -107,5 +108,7 @@
   
   
 
-
+.instructor-info-wrapper:hover{
+    cursor: pointer;
+}
 
