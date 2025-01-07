@@ -7,9 +7,11 @@ import { useLocation } from 'react-router-dom'; // Import useLocation
 import { Toast } from 'primereact/toast';
 import ConfirmSelectionDialog from '../../components/dialog/ConfirmSelectionDialog.jsx';
 import "./SessionPage.css";
+import { useNavigate } from "react-router-dom";
+import { getSessionDetails } from '../../api/SessionApi.jsx';
 
 function SessionPage() {
-  
+
 
   const user = JSON.parse(localStorage.getItem('user'));
   const roleId = user.roleId;
@@ -28,7 +30,9 @@ function SessionPage() {
   const [toastMessage, setToastMessage] = useState('');
   const toast = useRef(null);
   const location = useLocation(); // Hook to detect route changes
+  const navigate = useNavigate();
 
+  
   useEffect(() => {
     const fetchSessions = async () => {
       try {
@@ -51,8 +55,12 @@ function SessionPage() {
     };
     console.log(user);
     fetchSessions();
-    
+
   }, [id, location]);
+
+  const handleCardClick = (sessionId) => {
+    navigate(`/session/${sessionId}`); // Navigate to session details page
+  };
 
   const handleAccept = (session) => {
     setSelectedSessionId(session.sessionId);
@@ -160,6 +168,7 @@ function SessionPage() {
                     showSubject={true}
                     buttonText="Promijeni"
                     cardClass="session-card pending"
+                    onCardClick={handleCardClick}
                   />
                 ) : (
                   <StudentsComponent
@@ -168,6 +177,7 @@ function SessionPage() {
                     onCancel={handleCancel}
                     isForPendingRequests={true}
                     cardClass="session-card pending"
+                    onCardClick={handleCardClick}
                   />
                 )}
               </div>
@@ -181,6 +191,7 @@ function SessionPage() {
                     showSubject={true}
                     buttonText="Promijeni"
                     cardClass="session-card upcoming"
+                    onCardClick={handleCardClick}
                   />
                 ) : (
                   <StudentsComponent
@@ -189,6 +200,7 @@ function SessionPage() {
                     onCancel={handleCancel}
                     isForUpcomingSessions={true}
                     cardClass="session-card upcoming"
+                    onCardClick={handleCardClick}
                   />
                 )}
               </div>
@@ -202,11 +214,13 @@ function SessionPage() {
                     showSubject={true}
                     buttonText="Ponovno dogovori"
                     cardClass="session-card past"
+                    onCardClick={handleCardClick}
                   />
                 ) : (
                   <StudentsComponent
                     sessions={pastSessions}
                     cardClass="session-card past"
+                    onCardClick={handleCardClick}
                   />
                 )}
               </div>
@@ -220,11 +234,13 @@ function SessionPage() {
                     showSubject={true}
                     buttonText="Ponovno dogovori"
                     cardClass="session-card cancelled"
+                    onCardClick={handleCardClick}
                   />
                 ) : (
                   <StudentsComponent
                     sessions={cancelledSessions}
                     cardClass="session-card cancelled"
+                    onCardClick={handleCardClick}
                   />
                 )}
               </div>
