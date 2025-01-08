@@ -26,9 +26,9 @@ function App() {
       <div>
         {isLoggedIn && <Navbar />}
         <Routes>
-          <Route path="/" element={isInstructor ? <InstructorHomePage /> : <StudentHomePage />} />
+          <Route path="/" element={<LoginPage/>} />
           <Route path="/subject/:subjectName" element={<SubjectPage />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/home" element={isInstructor ? <InstructorHomePage /> : <StudentHomePage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/my-sessions" element={<SessionPage />} />
           <Route path="/profile" element={isInstructor ? <InstructorProfilePage /> : <StudentProfilePage />} />

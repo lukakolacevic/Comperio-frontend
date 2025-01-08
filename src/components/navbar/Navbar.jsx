@@ -19,7 +19,7 @@ function HomePage() {
     {
       label: "Home",
       icon: "pi pi-home",
-      command: () => (navigate("/")),
+      command: () => (navigate("/home")),
     },
     {
       label: "Moje instrukcije",
@@ -35,11 +35,6 @@ function HomePage() {
       label: "Moj profil",
       icon: "pi pi-user",
       command: () => (navigate("/profile")),
-    },
-    user?.status === "professor" && {
-      label: "Novi predmet",
-      icon: "pi pi-plus",
-      command: () => (window.location.href = "/new"),
     },
     {
       label: "Odjavi se",

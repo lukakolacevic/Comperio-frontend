@@ -28,7 +28,7 @@ export const handleLogin = async (data, roleId) => {
       localStorage.setItem("user", JSON.stringify(user));
 
       // Redirect the user
-      window.location.href = "/";
+      window.location.href = "/home";
     } else {
       const errorData = await response.json();
       throw new Error(errorData.message || "Failed to login");
@@ -84,7 +84,7 @@ export const logout = async () => {
       throw new Error("Unable to log user out.");
     }
     localStorage.removeItem("user");
-    window.location.href = "/login";
+    window.location.href = "/";
 
   } catch (error) {
     console.error("An error occurred:", error);
@@ -118,7 +118,7 @@ export const handleGoogleLogin = async (token, roleId) => {
       localStorage.setItem("user", JSON.stringify(user));
 
       // Redirect the user
-      window.location.href = "/";
+      window.location.href = "/home";
     } else {
       const errorData = await response.json();
       throw new Error(errorData.message || "Failed to login with Google");
