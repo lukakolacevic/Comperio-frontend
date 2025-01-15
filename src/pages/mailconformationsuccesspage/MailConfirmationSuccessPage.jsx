@@ -16,7 +16,7 @@ const MailConfirmationSuccessPage = () => {
         </p>
         <button
           className="primaryButton"
-          onClick={() => navigate("/login")}
+          onClick={() => navigate("/")}
         >
           Prijavi se
         </button>

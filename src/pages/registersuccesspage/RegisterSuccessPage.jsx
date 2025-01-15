@@ -8,12 +8,12 @@ const RegisterSuccessPage = () => {
 
   const handleResendEmail = async () => {
     try {
-      const user = JSON.parse(localStorage.getItem('user'));
+      const email = JSON.parse(localStorage.getItem('email'));
       const url = `${import.meta.env.VITE_REACT_BACKEND_URL}/resend-confirmation-email`;
       const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user?.email),
+        body: JSON.stringify(email),
       });
       const data = await response.json();
       console.log(data.message);
@@ -37,7 +37,7 @@ const RegisterSuccessPage = () => {
         </div>
         <p className={styles.loginLink}>
           Već si potvrdio račun?{" "}
-          <span onClick={() => navigate("/login")}>Prijavi se</span>
+          <span onClick={() => navigate("/")}>Prijavi se</span>
         </p>
       </div>
     </div>

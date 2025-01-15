@@ -48,19 +48,27 @@ export const handlerRegister = async (formData, roleId) => {
       formData,
       {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          'Content-Type': 'multipart/form-data',
+        },
       }
     );
 
     if (response.status === 201) {
-      console.log(user + " registered successfully");
-      window.location.href = "/register-success";
+      console.log('User registered successfully');
+
+      // Extract email from FormData
+      const email = formData.get('email');
+
+      // Save email to localStorage
+      // Registration code
+      localStorage.setItem('email', JSON.stringify(email));
+
+      window.location.href = '/register-success';
     } else {
-      console.error(response.status + " " + response.statusText);
+      console.error(response.status + ' ' + response.statusText);
     }
   } catch (error) {
-    console.error("An error occurred:", error);
+    console.error('An error occurred:', error);
   }
 };
 
@@ -79,7 +87,7 @@ export const logout = async () => {
         credentials: "include"
       }
     );
-    
+
     if (!response.ok) {
       throw new Error("Unable to log user out.");
     }
@@ -101,7 +109,7 @@ export const handleGoogleLogin = async (token, roleId) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({token: token}),
+        body: JSON.stringify({ token: token }),
         credentials: "include",
       }
     );

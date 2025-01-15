@@ -8,6 +8,7 @@ import { Button } from "@/components/shadcn/Button";
 import styles from "./RegisterPage.module.css";
 import { FileUpload } from "primereact/fileupload";
 import { Link } from "react-router-dom";
+import { handlerRegister } from "../../api/AuthApi";
 
 
 function RegisterPage() {
@@ -29,11 +30,11 @@ function RegisterPage() {
   const [instructorProfilePicture, setInstructorProfilePicture] = useState(null);
   const [instructorErrors, setInstructorErrors] = useState({});
 
-  const handlerRegister = (formData, role) => {
+  //const handlerRegister = (formData, role) => {
     // role => 1 for Student, 2 for Instructor
-    console.log("Form data:", formData);
-    console.log("Role:", role === 1 ? "Student" : "Instructor");
-  };
+    //console.log("Form data:", formData);
+    //console.log("Role:", role === 1 ? "Student" : "Instructor");
+  //};
 
   const validateStudentForm = () => {
     const errors = {};
