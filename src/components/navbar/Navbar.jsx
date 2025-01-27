@@ -24,17 +24,17 @@ function HomePage() {
     {
       label: "Moje instrukcije",
       icon: "pi pi-book",
-      command: () => (navigate("/my-sessions")),
+      command: () => (navigate("/home")),
     },
     {
       label: "Postavke",
       icon: "pi pi-cog",
-      command: () => (navigate("/settings")),
+      command: () => (navigate("/home")),
     },
     {
       label: "Moj profil",
       icon: "pi pi-user",
-      command: () => (navigate("/profile")),
+      command: () => (navigate("/home")),
     },
     {
       label: "Odjavi se",
