@@ -6,9 +6,11 @@ import { useMediaQuery } from "react-responsive";
 import { logout } from "../../api/AuthApi";
 import "./Navbar.css";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+
 
 function HomePage() {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const { user } = useAuth();
   const loggedIn = Boolean(user);
   const navigate = useNavigate();
 
@@ -24,17 +26,17 @@ function HomePage() {
     {
       label: "Moje instrukcije",
       icon: "pi pi-book",
-      command: () => (navigate("/home")),
+      command: () => (navigate("/my-sessions")),
     },
     {
       label: "Postavke",
       icon: "pi pi-cog",
-      command: () => (navigate("/home")),
+      command: () => (navigate("/settings")),
     },
     {
       label: "Moj profil",
       icon: "pi pi-user",
-      command: () => (navigate("/home")),
+      command: () => (navigate("/profile")),
     },
     {
       label: "Odjavi se",
