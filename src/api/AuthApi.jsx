@@ -1,8 +1,9 @@
 import axios from "axios";
 import { googleLogout } from "@react-oauth/google";
+import { useAuth } from "../context/AuthContext";
 
 
-export const handleLogin = async (data, roleId) => {
+export const handleLogin = async (data, roleId, setUser) => { // ✅ Accept setUser as a parameter
   try {
     const response = await fetch(
       `${import.meta.env.VITE_REACT_BACKEND_URL}/login/${roleId}`,
@@ -12,32 +13,38 @@ export const handleLogin = async (data, roleId) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
-        credentials: "include", // Include cookies
+        credentials: "include", // Ensures the authentication cookie is sent
       }
     );
 
-    if (response.ok) {
-      const result = await response.json();
-
-      // Clear any old stored data
-      localStorage.removeItem("user");
-
-      // Add role status and store user info
-      const user = { ...result.user, status: roleId === 1 ? "student" : "instructor" };
-
-      localStorage.setItem("user", JSON.stringify(user));
-
-      // Redirect the user
-      window.location.href = "/home";
-    } else {
+    if (!response.ok) {
       const errorData = await response.json();
       throw new Error(errorData.message || "Failed to login");
     }
+
+    const userResponse = await fetch(
+      `${import.meta.env.VITE_REACT_BACKEND_URL}/current-user`,
+      {
+        method: "GET",
+        credentials: "include", // Ensures cookies are sent
+      }
+    );
+
+    if (!userResponse.ok) {
+      throw new Error("Failed to fetch user data after login");
+    }
+
+    const { user } = await userResponse.json();
+
+    setUser(user); // ✅ Use the passed-in setUser function
+
+    window.location.href = "/home";
   } catch (error) {
-    console.error("An error occurred in handleLogin:", error);
-    throw error; // Propagate error
+    console.error("Login error:", error);
+    throw error;
   }
 };
+
 
 
 

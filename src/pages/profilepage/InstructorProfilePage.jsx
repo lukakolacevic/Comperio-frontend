@@ -9,6 +9,7 @@ import { Toast } from 'primereact/toast';
 import { Accordion, AccordionTab } from 'primereact/accordion';
 import { removeInstructorFromSubject, joinSubject } from '../../api/InstructorApi';
 import { useLocation } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 function InstructorProfilePage() {
     const [instructorSubjects, setInstructorSubjects] = useState([]);
     const [allSubjects, setAllSubjects] = useState([]);
@@ -21,7 +22,7 @@ function InstructorProfilePage() {
     const [searchTerm, setSearchTerm] = useState("");
     const location = useLocation();
 
-    let user = JSON.parse(localStorage.getItem("user"));
+    let {user} = useAuth();
     useEffect(() => {
 
         if (user.id) {

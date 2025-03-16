@@ -5,6 +5,7 @@ import { InputText } from "primereact/inputtext";
 import { Toast } from "primereact/toast";
 import { getSessionDetails, editSessionNote } from "../../api/SessionApi"; // Adjust path as needed
 import styles from "./SessionDetailsPage.module.css";
+import { useAuth } from "../../context/AuthContext";
 
 function SessionDetailsPage() {
   const { id } = useParams();
@@ -12,7 +13,7 @@ function SessionDetailsPage() {
   const [notes, setNotes] = useState("");
   const [editing, setEditing] = useState(false);
   const toast = useRef(null);
-  const user = JSON.parse(localStorage.getItem("user"));
+  const { user } = useAuth();
   const roleId = user?.roleId; // Parse roleId from localStorage
 
   useEffect(() => {

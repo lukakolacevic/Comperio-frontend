@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { getTopSubjectsForStudent, getTopInstructorsForStudent } from "../../api/SubjectApi";
 import BarChart from "../../components/chart/BarChart.jsx";
 import "./StudentProfilePage.css";
+import { useAuth } from "../../context/AuthContext";
 
 function StudentProfilePage() {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const {user} = useAuth();
     const [topStudentSubjects, setTopStudentSubjects] = useState([]);
     const [topStudentInstructors, setTopStudentInstructors] = useState([]);
     
@@ -33,7 +34,7 @@ function StudentProfilePage() {
         };
         fetchTopSubjectsAndInstructors();
         
-    }, [user.studentId]);
+    }, [user.id]);
 
     return (
         <div className="profile-page-wrapper">

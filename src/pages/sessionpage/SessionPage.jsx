@@ -9,11 +9,12 @@ import ConfirmSelectionDialog from '../../components/dialog/ConfirmSelectionDial
 import "./SessionPage.css";
 import { useNavigate } from "react-router-dom";
 import { getSessionDetails } from '../../api/SessionApi.jsx';
+import { useAuth } from "../../context/AuthContext"; 
 
 function SessionPage() {
 
 
-  const user = JSON.parse(localStorage.getItem('user'));
+  const { user } = useAuth();
   const roleId = user.roleId;
   const id = user.id;
 

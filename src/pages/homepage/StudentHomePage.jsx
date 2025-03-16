@@ -7,6 +7,7 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import { Toast } from "primereact/toast";
+import { useAuth } from "../../context/AuthContext"; // ✅ Import useAuth
 
 // Big Calendar
 import { Calendar } from "react-big-calendar";
@@ -32,7 +33,7 @@ function StudentHomePage() {
   const navigate = useNavigate();
   const location = useLocation();
   const toast = useRef(null);
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const { user } = useAuth();
 
   // Fetch the student’s sessions for the calendar
   useEffect(() => {
@@ -80,12 +81,14 @@ function StudentHomePage() {
     };
 
     if (user?.id) {
+      
       fetchAllSubjects();
     }
   }, [user.id]);
 
   // Filter subjects by searchTerm
   useEffect(() => {
+    console.log("User: ", user);
     const filtered = allSubjects.filter((subject) =>
       subject.title.toLowerCase().includes(searchTerm.toLowerCase())
     );

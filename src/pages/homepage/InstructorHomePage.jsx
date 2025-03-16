@@ -14,6 +14,7 @@ import { useLocation } from "react-router-dom";
 
 // API calls
 import { getInstructorSessions } from "../../api/InstructorApi";
+import { useAuth } from "../../context/AuthContext";
 
 // Localize the calendar with moment
 const localizer = momentLocalizer(moment);
@@ -22,7 +23,7 @@ export default function InstructorHomePage() {
   const [sessions, setSessions] = useState([]);
   const toast = useRef(null);
   const location = useLocation();
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const { user } = useAuth();
 
   // Fetch the instructor's sessions for the calendar
   useEffect(() => {
