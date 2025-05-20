@@ -16,12 +16,29 @@ Welcome to the frontend part of the Comperio tutoring booking app! This project 
 
 ---
 
+## Screenshots
+
+### Login Page
+![Login Page](./images/login-page.png)
+
+### Home Page
+![Home Page](./images/home-page.png)
+
+### Session Page
+![Session Page](./images/session-page.png)
+
+### Stats Page
+![Stats Page](./images/stats-page.png)
+
+---
+
 ## Technology Stack
 
 - **Frontend Framework**: React.js
 - **Styling**: Shadcn UI, Tailwind CSS
 - **API Integration**: Communication with the backend for data and session management.
-- **Deployment**: Vercel(TBD)
+- **Deployment**: Vercel (TBD)
+
 ---
 
 ## Usage
@@ -36,16 +53,16 @@ Welcome to the frontend part of the Comperio tutoring booking app! This project 
    - Manage your booked sessions, view upcoming ones, or make changes if needed.
 
 4. **Enrolling and cancelling enrollment into a subject**
-    -As an instructor, enroll into a subject and start waiting for requests. Accept or reject pending requests.
+   - As an instructor, enroll into a subject and start waiting for requests. Accept or reject pending requests.
 
 5. **Give feedback**
-    -Rate the instructor based on his tutoring ability. Give a grade and insight into any given session.
+   - Rate the instructor based on his tutoring ability. Give a grade and insight into any given session.
 
 6. **View session history**
-    -As a student/instructor, review past sessions, including feedback provided by instructors, for future reference.
+   - As a student/instructor, review past sessions, including feedback provided by instructors, for future reference.
 
 7. **Track favourite subjects/instructors**
-    -As a student, keep track of most booked instructors/subjects.
+   - As a student, keep track of most booked instructors/subjects.
 
 ---
 
@@ -63,6 +80,3 @@ For any questions or suggestions, please feel free to contact:
 - **GitHub**: [lukakolacevic](https://github.com/lukakolacevic)
 
 ---
-
-
-
